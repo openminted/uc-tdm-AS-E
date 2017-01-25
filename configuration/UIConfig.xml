@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AlvisIR UI configuration file -->
+<alvisir-ui-config>
+  <alvisir-search filepath="/bibdev/travail/arabidopsis/alvisir2/configuration/search.xml" />
+  <!--<alvisir-search filepath="/bibdev/travail/biotopes/OntoBiotope/corpus/test_alvisir/search.xml" /> -->
+
+  <display-params>
+    <param name="title" value="AlvisIR SeeDev Search"/>
+    <param name="copyright-owner" value="INRA"/>
+    <param name="copyright-years" value="2017" />
+    
+    <!-- no "value" attribute to keep default value -->
+    <param name="search-button-text"/>
+    
+    <param name="subpaths-header" value="Sub-concepts"/>
+    <param name="synonyms-header" value="Synonyms"/>
+    
+    <param name="title-field" value="title"/>
+    <param name="title-url-field" value="pmid"/>
+    <param name="title-url-prefix" value="https://www.doi.org/"/>
+    
+    
+    <param name="outlink_1-image"/>
+    <param name="outlink_1-hint" />
+    <param name="outlink_1-url-field" />
+    <param name="outlink_1-url-prefix" />
+    
+    
+    <param name="doc-field_1" value="author"/>
+    <param name="doc-field_1-header" value="Authors"/>
+    <param name="doc-field_2" value="year"/>
+    <param name="doc-field_2-header" value=""/>
+    <param name="doc-field_3" value="journal"/>
+    <param name="doc-field_3-header" value=""/>
+    <param name="doc-field_4" value="abstract"/>
+    <param name="doc-field_4-header" value="Abstract"/>
+    <param name="doc-field_5" value="" />
+ <!--   <param name="doc-field_5" value="alltext" />-->
+    <param name="doc-field_5-header" value=""/>
+    <param name="doc-score-header" value=""/>
+    
+  </display-params>
+  
+  
+  
+  <!-- path to the resources used by the UI -->
+ <!-- <resources> 
+    <ontology name="biotopes" filepath="/bibdev/travail/biotopes/OntoBiotope/corpus/test_alvisir/resources/OntoBiotope_BioNLP-ST13.json" /> -->
+    <!--<ontology name="biotopes" expander-key="ontology.OntoBiotope.json" /> -->
+  <!--  <ontology name="biotopes" filepath="/bibdev/travail/biotopes/PubMed2015/resources/OntoBiotope_BioNLP-ST-2016.json" /> 
+
+  </resources>-->
+  
+    
+</alvisir-ui-config>
