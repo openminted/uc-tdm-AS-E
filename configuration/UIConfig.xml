@@ -1,8 +1,20 @@
+<!--
+Copyright 2017 Institut National de la Recherche Agronomique
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- AlvisIR UI configuration file -->
 <alvisir-ui-config>
   <alvisir-search filepath="/bibdev/travail/arabidopsis/alvisir2/configuration/search.xml" />
-  <!--<alvisir-search filepath="/bibdev/travail/biotopes/OntoBiotope/corpus/test_alvisir/search.xml" /> -->
 
   <display-params>
     <param name="title" value="AlvisIR SeeDev Search"/>
@@ -40,16 +52,5 @@
     <param name="doc-score-header" value=""/>
     
   </display-params>
-  
-  
-  
-  <!-- path to the resources used by the UI -->
- <!-- <resources> 
-    <ontology name="biotopes" filepath="/bibdev/travail/biotopes/OntoBiotope/corpus/test_alvisir/resources/OntoBiotope_BioNLP-ST13.json" /> -->
-    <!--<ontology name="biotopes" expander-key="ontology.OntoBiotope.json" /> -->
-  <!--  <ontology name="biotopes" filepath="/bibdev/travail/biotopes/PubMed2015/resources/OntoBiotope_BioNLP-ST-2016.json" /> 
-
-  </resources>-->
-  
     
 </alvisir-ui-config>
