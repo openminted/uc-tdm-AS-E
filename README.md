@@ -3,3 +3,8 @@ Execution.sh is the initial script of this use-case application. It allows first
 
 The web application AlvisIR Search Engine is available : http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search 
 The configuration of this tool need the configuration/UIConfig.xml 	and configuration/search.xml files 
+
+Prerequisites
+
+    AlvisNLP : https://github.com/Bibliome/alvisnlp
+    AlvisIR : https://github.com/Bibliome/alvisir 
