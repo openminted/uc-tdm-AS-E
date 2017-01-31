@@ -13,13 +13,93 @@ limitations under the License. -->
 <alvisnlp-plan id="entities">
 
 <sequence id="read">
+<!--Lecture corpus Pubmed
+<module id="read" class="XMLReader2">
+    <sourcePath>corpus/pubmed_result-2.xml</sourcePath>
+    <xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
+  </module> 
+
+	<module id="renametitlehtml" class="Action">
+		<target>documents.sections:title</target>
+		<action>set:feat:sectionname("title")</action>
+		<setFeatures/>
+	</module>
+
+	<module id="renameabstracthtml" class="Action">
+		<target>documents.sections:abstract</target>
+		<action>set:feat:sectionname("abstract")</action>
+		<setFeatures/>
+	</module>
+
+	<module id="renamecontenthtml" class="Action">
+		<target>documents.sections:alltext</target>
+		<action>set:feat:sectionname("alltext")</action>
+		<setFeatures/>
+	</module> -->
+
+<!-- Lecture du corpus Web of knowledge --> 
+<module id="readWoK" class="WebOfKnowledgeReader">
+	<source>corpus/corpus2000_12012017.txt</source>
+		<constantDocumentFeatures>source=wok,url=https://www.doi.org/</constantDocumentFeatures>
+ </module>
+	<module id="renamedocumentWOK" class="Action">
+		<target>documents</target>
+		<action>set:feat:ID(@DI)</action>
+		<setFeatures/>
+	</module>
+
+	<module id="renameDIWOK" class="Action">
+		<target>documents</target>
+		<action>set:feat:doi(@DI)</action>
+		<setFeatures/>
+	</module>
+
+	<module id="renametitleWOK" class="Action">
+		<target>documents.sections:TI</target>
+		<action>set:feat:sectionname("title")</action>
+		<setFeatures/>
+	</module>
+	<module id="renamejournalWOK" class="Action">
+		<target>documents.sections:JI</target>
+		<action>set:feat:sectionname("journal")</action>
+		<setFeatures/>
+	</module>
+	<module id="renameyearWOK" class="Action">
+		<target>documents.sections:PY</target>
+		<action>set:feat:sectionname("year")</action>
+		<setFeatures/>
+	</module>
+	<module id="renamedoiWOK" class="Action">
+		<target>documents.sections:DI</target>
+		<action>set:feat:sectionname("doi")</action>
+		<setFeatures/>
+	</module>
+
+	<module id="completeurlwok" class="Action">
+		<target>documents[@source == "wok"]</target>
+		<action>set:feat:url(@url ^ @doi)</action>
+		<setFeatures/>
+	</module>
+	<module id="renameabstractWOK" class="Action">
+		<target>documents.sections:AB</target>
+		<action>set:feat:sectionname("abstract")</action>
+		<setFeatures/>
+	</module>
+
 
 
 <!-- Lecture du corpus html packs annotés manuellement -->
 	<module id="readhtmlannotated" class="XMLReader2">
 		<sourcePath>corpus/fulltext/html</sourcePath>
-		<xslTransform>configuration/html2alvisnlp.xslt</xslTransform> 
-	</module> 
+		<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
+		<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
+	</module>
+
+	<module id="completeurlhtml" class="Action">
+		<target>documents[@source == "html"]</target>
+		<action>set:feat:url(@url ^ @id)</action>
+		<setFeatures/>
+	</module>
 
 	<module id="renametitlehtml" class="Action">
 		<target>documents.sections:title</target>
@@ -39,18 +119,24 @@ limitations under the License. -->
 		<setFeatures/>
 	</module>
 
+	<module id="renamedocumenthtml" class="Action">
+		<target>documents</target>
+		<action>set:feat:ID(@id)</action>
+		<setFeatures/>
+	</module>
+
 
 <module id="sections" class="TabularExport">
     <outDir>corpus/output</outDir>
     <files>$</files>
     <fileName>"sections.txt"</fileName>
     <lines>documents.sections</lines>
-    <columns>	document.@id, 
-		contents,
-		@sectionname</columns>
+    <columns>	document.@ID, 
+		@sectionname,
+		contents</columns>
 </module>
 </sequence>
-<!--**************************************************************************************-->
+
   <!-- Etape 2 : Traitement des noms-->
 <sequence id="stanford">
 	<module id="stanford" class="StanfordNER">
@@ -67,6 +153,39 @@ limitations under the License. -->
 
 </sequence> 
 
+<!--**************************************************************************************-->
+<!-- Etape 4 : Segmenter en mot, insertion des différents tirets -->
+ <module id="words" class="WoSMig">
+	<balancedPunctuations>()[]{}""</balancedPunctuations>
+	<punctuations>?.!;,:-&#x2014;&#x2013;&#x2012;&#x002D;&#x2010;&#x2011;&#x00AD;&#x2015;&#x2043;&#x2212;&#x02D7;&#x207B;&#x208B;</punctuations>	
+	<targetLayerName>words</targetLayerName>
+	<fixedFormLayerName>fixed</fixedFormLayerName>
+ </module>
+
+<!--**************************************************************************************-->
+  <!-- Etape 5 : Segmenter en phrases -->
+
+ <module id="sentences" class="SeSMig">
+	<strongPunctuations>?.!</strongPunctuations>
+	<targetLayerName>sentences</targetLayerName>
+ </module>
+
+   <module id="SentencePattern" class="PatternMatcher">
+                <layerName>sentences</layerName>
+                <pattern>
+	[true]
+	[true]? 
+	[true]?       
+                </pattern>
+ 		<actions>
+			<createAnnotation layer="threesent"/>
+			<setFeatures ne-type="threesent"/>
+		</actions>
+		<!--<actions>
+                        <addToLayer layer="threesent"/>
+			<setFeatures ne-type="threesent"/>
+                </actions>-->
+        </module>
 <!--**************************************************************************************-->
 
 <!-- Etape 3 projection de mots du lexique sur le texte -->
@@ -123,7 +242,7 @@ limitations under the License. -->
 		<valueFeatures>Protein_family_name</valueFeatures>
 		<keyIndex>0</keyIndex>
 		<skipEmpty>true</skipEmpty>
-		<constantAnnotationFeatures>ne-type=Protein_Family</constantAnnotationFeatures>
+		<constantAnnotationFeatures>ne-type=Protein_family</constantAnnotationFeatures>
 	</module>
 	<module id="overlapsprotein-family" class="RemoveOverlaps">
 		<layerName>Protein_family</layerName>
@@ -131,11 +250,11 @@ limitations under the License. -->
 		
 	<module id="Gene_family" class="Action">
 		<target>documents.sections.layer:Protein_family[outside:html[@tag == "em" or @tag == "i"]]</target>
-		<action>remove:Protein_family | add:Gene_family | set:feat:ne-type("Gene_Family")|set:feat:Gene_family_name(@Protein_family_name)</action>
+		<action>remove:Protein_family | add:Gene_family | set:feat:ne-type("Gene_family")|set:feat:Gene_family_name(@Protein_family_name)</action>
 		<removeFromLayer/>
 		<addToLayer/>
 		<setFeatures/>
-		<constantAnnotationFeatures>ne-type=Gene_Family</constantAnnotationFeatures>
+		<constantAnnotationFeatures>ne-type=Gene_family</constantAnnotationFeatures>
 	</module>
 
 
@@ -191,6 +310,12 @@ limitations under the License. -->
 		<deleteElements/>
 	</module>
 
+	<module id="standfordwords" class="Action">
+		<target>documents.sections.layer:Protein[span:persons] | documents.sections.layer:Gene[span:persons] | documents.sections.layer:Gene_family[span:persons] | documents.sections.layer:Protein_family[span:persons] | documents.sections.layer:RNA[span:persons] </target>
+		<action>delete</action>
+		<deleteElements/>
+	</module>
+
 	<module id="refbiblio" class="RegExp"> <!--type (ABD ., et al 2000)-->
 <pattern>\(([\p{L}-\s\u00a0\.,]+[\s\u00a0]\d{4}[a-zA-Z]?[\u00a0\s;]*)+?\)</pattern>
 <!--		<pattern>\(\w[^\)&lt;&gt;=\/\\]*?\s\d{4}[^\)&lt;&gt;=\/\\]*?\)</pattern> -->
@@ -234,40 +359,6 @@ limitations under the License. -->
 
 
 <!--**************************************************************************************-->
-
-<!-- Etape 4 : Segmenter en mot, insertion des différents tirets -->
- <module id="words" class="WoSMig">
-	<balancedPunctuations>()[]{}""</balancedPunctuations>
-	<punctuations>?.!;,:-&#x2014;&#x2013;&#x2012;&#x002D;&#x2010;&#x2011;&#x00AD;&#x2015;&#x2043;&#x2212;&#x02D7;&#x207B;&#x208B;</punctuations>	
-	<targetLayerName>words</targetLayerName>
-	<fixedFormLayerName>fixed</fixedFormLayerName>
- </module>
-
-<!--**************************************************************************************-->
-  <!-- Etape 5 : Segmenter en phrases -->
-
- <module id="sentences" class="SeSMig">
-	<strongPunctuations>?.!</strongPunctuations>
-	<targetLayerName>sentences</targetLayerName>
- </module>
-
-   <module id="SentencePattern" class="PatternMatcher">
-                <layerName>sentences</layerName>
-                <pattern>
-	[true]
-	[true]? 
-	[true]?       
-                </pattern>
- 		<actions>
-			<createAnnotation layer="threesent"/>
-			<setFeatures ne-type="threesent"/>
-		</actions>
-		<!--<actions>
-                        <addToLayer layer="threesent"/>
-			<setFeatures ne-type="threesent"/>
-                </actions>-->
-        </module>
-<!--**************************************************************************************-->
 <sequence id="liste des tirets"> 
 	<module id="Tirets" class="PatternMatcher">
 		<layerName>words</layerName>
@@ -298,6 +389,7 @@ limitations under the License. -->
 		<layerName>Tiret</layerName>
 	</module>
 </sequence>
+
 
 <!--**************************************************************************************-->
   <!-- Etape 7 : Tagger -->
@@ -443,16 +535,18 @@ limitations under the License. -->
 		<fileName>"entities.txt"</fileName>
 			<lines>documents.sections.layer:Gene</lines>
 		<columns separator=";">
-			<element>section.document.@id</element>
-		<element>@ne-type</element>
+			<element>section.document.@ID</element>
+			<element>@ne-type</element>
 			<element>@form</element>
 			<element>start ^ "-" ^ end</element>
+			<element>section.@sectionname</element>
 		</columns>
 		<headers>
 			"DOCID",
 			"EntityType",
 			"Form",
-			"Offset"
+			"Offset",
+			"Section name"
 		</headers>
 	</module>
 
@@ -464,10 +558,11 @@ limitations under the License. -->
 		<append/>
 		<lines>documents.sections.layer:Protein</lines>
 		<columns separator=";">
-			<element>section.document.@id</element>
+			<element>section.document.@ID</element>
 			<element>@ne-type</element>
 			<element>@form</element>
 			<element>start ^ "-" ^ end</element>
+			<element>section.@sectionname</element>
 		</columns>
 		<append>true</append>
 	</module> 
@@ -479,11 +574,12 @@ limitations under the License. -->
 		<append/>
 		<lines>documents.sections.layer:Protein_family</lines>
 		<columns separator=";">
-			<element>section.document.@id</element>
+			<element>section.document.@ID</element>
 			<element>@ne-type</element>
 			<element>@form</element>
 			<element>@Protein_family_name</element>
 			<element>start ^ "-" ^ end</element>
+			<element>section.@sectionname</element>
 		</columns>
 		<append>true</append>
 	</module>
@@ -495,11 +591,12 @@ limitations under the License. -->
 		<append/>
 		<lines>documents.sections.layer:Gene_family</lines>
 		<columns separator=";">
-			<element>section.document.@id</element>
+			<element>section.document.@ID</element>
 			<element>@ne-type</element>
 			<element>@form</element>
 			<element>@Gene_family_name</element>
 			<element>start ^ "-" ^ end</element>
+			<element>section.@sectionname</element>
 		</columns>
 		<append>true</append>
 	</module>
@@ -511,10 +608,11 @@ limitations under the License. -->
 		<append/>
 		<lines>documents.sections.layer:RNA</lines>
 		<columns separator=";">
-			<element>section.document.@id</element>
+			<element>section.document.@ID</element>
 			<element>@ne-type</element>
 			<element>@form</element>
 			<element>start ^ "-" ^ end</element>
+			<element>section.@sectionname</element>
 		</columns>
 		<append>true</append>
 	</module>
@@ -627,16 +725,16 @@ limitations under the License. -->
 	<indexDir>configuration/index</indexDir> 
 
     <tokenPositionGap>128</tokenPositionGap>
-    <fieldNames>title,abstract,alltext,author,full-author,pmid,year,journal,mesh</fieldNames>
+    <fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
     <relations>
       <loc>Gene,Protein</loc>
     </relations>
     <propertyKeys/>
     <documents>
-      <fields>
-	<instances>sections[@sectionname=="title"] | sections[@sectionname=="abstract"]| sections[@sectionname=="alltext"]</instances>
+<fields normalization="ascii,lower">
+	<instances>sections[@sectionname=="title"] | sections[@sectionname=="abstract"]| sections[@sectionname=="alltext"]| sections[@sectionname=="journal"]| sections[@sectionname=="year"]| sections[@sectionname=="doi"]</instances>
 	<field-name>@sectionname</field-name>
-	
+
 	<annotations>
 	  <instances>layer:threesent</instances>
 	  <text>"{threesent}"</text>
@@ -678,12 +776,22 @@ limitations under the License. -->
 	<keyword>contents</keyword>
       </fields>
       <fields>
-	<instances>$</instances>
+	<instances>$[document.@url]</instances>
+	<field-name>"url"</field-name>
+	<keyword>document.@url</keyword>
+      </fields>
+      <fields>
+	<instances>$[@pmid]</instances>
 	<field-name>"pmid"</field-name>
 	<keyword>@id</keyword>
       </fields>
       <fields>
-	<instances>$[@PY]</instances>
+  	<instances>$[@doi]</instances>
+  	<field-name>"doi"</field-name>
+  	<keyword>@doi</keyword>
+      </fields>
+      <fields>
+	<instances>$[@year]</instances>
 	<field-name>"year"</field-name>
 	<keyword>@PY</keyword>
       </fields>
@@ -695,6 +803,44 @@ limitations under the License. -->
     </documents>
   </module>
 
+	<module id="exportsentandthreesent" class="TabularExport">
+		<outDir>output</outDir>
+		<files>$</files>
+		<fileName>"sentencesandthreesentences.txt"</fileName>
+		<append/>
+		<lines>documents.sections.layer:sentences</lines>
+		<columns separator=";">
+			<element>section.document.@id</element>
+			<element>@ne-type</element>
+			<element>@form</element>
+			<element>start ^ "-" ^ end</element>
+			<element>section.@sectionname</element>
+		</columns>
+		<headers>
+			"DOCID",
+			"EntityType",
+			"Form",
+			"Offset",
+			"Section name"
+		</headers>
+		<append>true</append>
+	</module>
+
+	<module id="exportsentandthreesent2" class="TabularExport">
+		<outDir>output</outDir>
+		<files>$</files>
+		<fileName>"sentencesandthreesentences.txt"</fileName>
+		<append/>
+		<lines>documents.sections.layer:sentences</lines>
+		<columns separator=";">
+			<element>section.document.@id</element>
+			<element>@ne-type</element>
+			<element>@form</element>
+			<element>start ^ "-" ^ end</element>
+			<element>section.@sectionname</element>
+		</columns>
+		<append>true</append>
+	</module>
 	<module id="mergeAllEntities" class="MergeLayers">
 		<sourceLayerNames>
 			Gene,
@@ -730,6 +876,6 @@ limitations under the License. -->
     <files>$</files>
     <fileName>"success.txt"</fileName>
     <lines>documents</lines>
-    <columns>@id</columns>
+    <columns>@ID</columns>
   </module>
 </alvisnlp-plan>
