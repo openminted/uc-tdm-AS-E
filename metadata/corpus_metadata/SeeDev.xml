@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<corpusInfo xmlns="http://www.meta-share.org/OMTD-SHARE_XMLSchema"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.meta-share.org/OMTD-SHARE_XMLSchema">
+    <!-- 
+        Complete all values by replacing the X_.DATA
+        X_ is an example of value
+        Don't hesite to check #HelDoc to understand the elements
+    -->
+    <resourceType>corpus</resourceType>
+    <identificationInfo>
+        <resourceNames> <!-- contient les noms du corpus, un corpus peut avoir plusieurs noms. ne pas oublier derenseigner la langue de la description dans l'attribut @lang -->
+            <resourceName lang="en-US">SeeDev 2016</resourceName>
+        </resourceNames>
+        <descriptions> <!-- contient les descriptions du corpus, un corpus peut avoir plusieurs descriptions. ne pas oublier de renseigner la langue de la description dans l'attribut @lang-->
+            <description lang="en-US">
+                  The SeeDev corpus is a set of 86 paragraphs from 20 full articles on seed development of Arabidopsis thaliana, that have been manually selected by domain experts. The annotation was provided by the IJPB and Bibliome team at the Institut National de la Recharche Agronomique (INRA). The annotation guidelines are provided at the bottom of this page. 
+            </description>
+        <identifiers> <!-- contient les identifiers du corpus, un corpus peut avoir plusieurs identitifiers. ne pas oublier de renseigner le schema de l'identifier dans l'attribut @resourceIdentifierSchemeName -->
+            <identifier resourceIdentifierSchemeName="doi.DATA" schemeURI="http://www.oxygenxml.com/.DATA">identifier1.DATA</identifier>
+        </identifiers>
+    </identificationInfo>
+    <contactInfo> 
+        <contactEmail>robert.bossy@inra.fr</contactEmail><!-- contient l'email d'un contact -->
+    </contactInfo>
+    <distributionInfos>
+        <datasetDistributionInfo> <!-- un corpus peut avoir plusieurs datasetDistributionInfo -->
+            <distributionMediums>
+                <distributionMedium>downloadable</distributionMedium> <!-- medium de distribution de la ressource, valeur à choisir dans une liste voir #helpdoc -->
+                <!--distributionMedium>other.DATA</distributionMedium--> <!--plusieurs mediums peuvent etre specifiés -->
+            </distributionMediums>
+            <rightsInfo>
+                <licenceInfos>
+                    <licenceInfo>
+                        <licence>CC-BY-ND</licence> <!--Licence à choisir dans une liste prédéfinies de licences, voir #helpDoc. -->
+                    </licenceInfo>
+                    <!--licenceInfo-->
+                        <!--licence>CC-BY.DATA</licence--> <!-- une licence additionnelles, si c'est le cas -->
+                    <!--/licenceInfo-->
+                </licenceInfos>
+            </rightsInfo>
+        </datasetDistributionInfo>
+        <datasetDistributionInfo> <!-- mediums de distribution de la ressource -->
+            <distributionMediums>
+                <distributionMedium>downloadable</distributionMedium>
+                <!--distributionMedium>webExecutable.DATA</distributionMedium-->
+            </distributionMediums>
+            <rightsInfo>
+                <rightsStatementInfo> <!-- dans le cas où la licence n'est pas répertoriées, utiliser ces elements pour spécifier la licence -->
+                    <rightsStmtName>CC-BY-ND</rightsStmtName> <!-- Valeur à choisir dans une liste prédéfinies de licences, voir #healDoc --> 
+                    <rightsStmtURL>ToBeChanged</rightsStmtURL>
+                </rightsStatementInfo>
+            </rightsInfo>
+        </datasetDistributionInfo>
+    </distributionInfos>
+    <corpusSubtypeSpecificInfo>
+        <annotationsInfo>
+            <rawCorpus> <!-- reference vers les corpus de base utilisés pour obtenir ce corpus -->
+                <resourceNames>
+                    <resourceName lang="en-US.DATA">SeeDev</resourceName> <!-- le nom du corpus de base suffira pour le moment -->
+                    <!--resourceName lang="en-US.DATA">resourceName3.DATA</resourceName--> <!-- ajouter s'il y a d'autre corpus de base  --> 
+                </resourceNames>
+            </rawCorpus>
+            <annotationInfo> <!-- information sur l'annotation : niveau d'annotation -->
+                <annotationLevel>semanticAnnotation-namedEntities</annotationLevel> 
+                <annotationLevel>semanticAnnotation-event</annotationLevel> <!-- niveau d'annotation à choisir dans une liste predéfinies, voir le #helpDoc -->
+            </annotationInfo>
+        </annotationsInfo>
+    </corpusSubtypeSpecificInfo>
+</corpusInfo>
