@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:componentMetadataRecord xmlns:ns1="http://www.meta-share.org/OMTD-SHARE_XMLSchema">
+    <ns1:metadataHeaderInfo>
+        <ns1:metadataRecordIdentifier metadataIdentifierSchemeName="other">3066af88-0340-437e-b80d-555cd1488758</ns1:metadataRecordIdentifier>
+        <ns1:metadataCreationDate>2016-12-09+01:00</ns1:metadataCreationDate>
+        <ns1:metadataCreators>
+            <ns1:metadataCreator>
+                <ns1:personNames>
+                    <ns1:personName>Mouhamadou Ba</ns1:personName>
+                </ns1:personNames>
+            </ns1:metadataCreator>
+        </ns1:metadataCreators>
+        <ns1:metadataLanguages>
+            <ns1:metadataLanguage>
+                <ns1:languageTag>En</ns1:languageTag>
+            </ns1:metadataLanguage>
+        </ns1:metadataLanguages>
+        <ns1:metadataLastDateUpdated>2016-12-09+01:00</ns1:metadataLastDateUpdated>
+    </ns1:metadataHeaderInfo>
+    <ns1:componentInfo>
+        <ns1:resourceType>component</ns1:resourceType>
+        <ns1:identificationInfo>
+            <ns1:resourceNames>
+                <ns1:resourceName>XMLReader2</ns1:resourceName>
+            </ns1:resourceNames>
+            <ns1:descriptions>
+                <ns1:description>&lt;p&gt;&lt;this/&gt; reads its input from &lt;param name=&quot;sourcePath&quot;/&gt; as XML and creates documents, sections, annotations, relations or tuples. The structure of the input XML is handled through the &lt;param name=&quot;xlsTransform&quot;/&gt; XSLT stylesheet.&lt;/p&gt;&lt;p&gt;&lt;this/&gt; also provides XSLT function and element extensions. The namespace for all extensions is &lt;xverb&gt;xalan://org.bibliome.alvisnlp.modules.xml.XMLReader2&lt;/xverb&gt;.&lt;/p&gt;&lt;h3&gt;Element extensions&lt;/h3&gt;&lt;p&gt;&lt;ul&gt;&lt;li&gt;&lt;xverb&gt;document&lt;/xverb&gt;: creates a document in the current corpus. The identifier is either a string specified by the attribute id, or an XPath expression specified by the xpath-id attribute. The expression is evaluated as a string.&lt;/li&gt;&lt;li&gt;&lt;xverb&gt;section&lt;/xverb&gt;: creates a section in the current document; this element should occur inside a document element. The name of the section is either specified as a string in the name attribute, or as an XPath expression in the xpath-name attribute. The contents of the section is either specified as a string in the contents attribute, or as an XPath expression in the xpath-contents attribute.&lt;/li&gt;&lt;li&gt;&lt;xverb&gt;annotation&lt;/xverb&gt;: creates an annotation in the current section; this element should occur inside a section element. The start and end positions are specified by the start and end attributes respectively. The value of these attributes are XPath expressions evaluated as integers. The layers in which the annotation should be added are either specified as a string by the layers attribute, or as an XPath expression by the xpath-layers attribute. The layers should be a space spearated list of layer names, the annotation will be added in each named layer. If the layers list is empty, then no annotation is created at all. Moreover an identifier for the created annotation may be specified either as a string by the ref attribute, or as an XPath expression by the xpath-ref attribute. This identifier can be referenced later to set tuple arguments.&lt;/li&gt;&lt;li&gt;&lt;xverb&gt;relation&lt;/xverb&gt;: creates a relation in the current section; this element should occur inside a section element. The name of the relation is specified either as a string by the name attribute, or as an XPath expression by the xpath-name attribute.&lt;/li&gt;&lt;li&gt;&lt;xverb&gt;tuple&lt;/xverb&gt;: creates a tuple inside the current relation; this element should occur inside a relation element.&lt;/li&gt;&lt;li&gt;&lt;xverb&gt;arg&lt;/xverb&gt;: sets an argument of the current tuple; this element should occur inside a tuple element. The role of the argument is specified either as a string by the role attribute, or as an XPath expression by the xpath-role attribute. The identifier of the argument is specified either as a string by the ref attribute, or as an XPath expression by the xpath-ref attribute. The value must have been set previously in an annotation element.&lt;/li&gt;&lt;li&gt;&lt;xverb&gt;feature&lt;/xverb&gt;: adds a feature to the current element; this element should occur inside a document, section, annotation, relation or tuple element. The name of the feature is set either as a string by the name attribute, or as an XPath expression by the xpath-name attribute. The value of the feature is set either as a string by the value attribute, or as an XPath expression by the xpath-value attribute.&lt;/li&gt;
+	&lt;/ul&gt;
+      &lt;/p&gt;&lt;h3&gt;Function extensions&lt;/h3&gt;&lt;p&gt;&lt;ul&gt;&lt;li&gt;&lt;xverb&gt;inline&lt;/xverb&gt;: this function evaluates as a node set containing a copy of each element inside the current node. The elements will have two additional attributes start and end that indicate the character positions of the start and end tags. These attributes have the namespace http://bibliome.jouy.inra.fr/alvisnlp/bibliome-module-factory/inline. This function is useful to read in-text annotations.
+Note: the inline() function also process comment and processing instruction nodes. These nodes are then wrapped within an extra element named wrapper (in the namespace http://bibliome.jouy.inra.fr/alvisnlp/bibliome-module-factory/inline), which will have the two attributes start and end to indicate the character position where the comment or the processiçng instruction is inserted.
+          &lt;/li&gt;
+	&lt;/ul&gt;
+      &lt;/p&gt;
+    </ns1:description>
+            </ns1:descriptions>
+            <ns1:identifiers>
+                <ns1:identifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/api/modules/XMLReader2</ns1:identifier>
+            </ns1:identifiers>
+        </ns1:identificationInfo>
+        <ns1:contactInfo>
+            <ns1:contactEmail>robert.bossy@inra.fr</ns1:contactEmail>
+            <ns1:contactPersons>
+                <ns1:contactPerson>
+                    <ns1:personNames>
+                        <ns1:personName lang="fr">Mouhamadou Ba</ns1:personName>
+                    </ns1:personNames>
+                </ns1:contactPerson>
+                <ns1:contactPerson>
+                    <ns1:personNames>
+                        <ns1:personName lang="fr">Robert Bossy</ns1:personName>
+                    </ns1:personNames>
+                </ns1:contactPerson>
+            </ns1:contactPersons>
+            <ns1:contactGroups>
+                <ns1:contactGroup>
+                    <ns1:groupNames>
+                        <ns1:groupName lang="fr">Bibliome</ns1:groupName>
+                    </ns1:groupNames>
+                    <ns1:relatedOrganization>
+                        <ns1:organizationNames>
+                            <ns1:organizationName lang="fr">_INRA</ns1:organizationName>
+                        </ns1:organizationNames>
+                    </ns1:relatedOrganization>
+                </ns1:contactGroup>
+            </ns1:contactGroups>
+        </ns1:contactInfo>
+        <ns1:componentTypes>
+            <ns1:componentType>reader</ns1:componentType>
+            <ns1:componentType>other</ns1:componentType>
+        </ns1:componentTypes>
+        <ns1:distributionInfos>
+            <ns1:componentDistributionInfo>
+                <ns1:componentDistributionMedium>executableCode</ns1:componentDistributionMedium>
+                <ns1:rightsInfo>
+                    <ns1:licenceInfos>
+                        <ns1:licenceInfo>
+                            <ns1:licence>ApacheLicence_2.0</ns1:licence>
+                        </ns1:licenceInfo>
+                    </ns1:licenceInfos>
+                </ns1:rightsInfo>
+            </ns1:componentDistributionInfo>
+        </ns1:distributionInfos>
+        <ns1:parameterInfos>
+            <ns1:parameterInfo>
+                <ns1:parameterName>active</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Expression</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>xslTransform</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>SourceStream</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>constantAnnotationFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>constantDocumentFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>constantRelationFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>stringParams</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>constantSectionFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>sourcePath</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>SourceStream</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>constantTupleFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>html</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>rawTagNames</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>userFunctions</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>This expression is evaluated as a boolean with the corpus as the context element. If the value is false, then the module is not executed.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>UserFunction[]</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+        </ns1:parameterInfos>
+        <ns1:inputContentResourceInfo>
+            <ns1:processingResourceTypes>
+                <ns1:processingResourceType>corpus</ns1:processingResourceType>
+            </ns1:processingResourceTypes>
+            <ns1:mediaType>text</ns1:mediaType>
+            <ns1:characterEncodings>
+                <ns1:characterEncoding>UTF-8</ns1:characterEncoding>
+            </ns1:characterEncodings>
+            <ns1:typesystem>
+                <ns1:resourceIdentifiers>
+                    <ns1:resourceIdentifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/ATS000#</ns1:resourceIdentifier>
+                </ns1:resourceIdentifiers>
+            </ns1:typesystem>
+        </ns1:inputContentResourceInfo>
+        <ns1:outputResourceInfo>
+            <ns1:processingResourceTypes>
+                <ns1:processingResourceType>corpus</ns1:processingResourceType>
+            </ns1:processingResourceTypes>
+            <ns1:mediaType>text</ns1:mediaType>
+            <ns1:characterEncodings>
+                <ns1:characterEncoding>UTF-8</ns1:characterEncoding>
+            </ns1:characterEncodings>
+        </ns1:outputResourceInfo>
+        <ns1:componentDependencies>
+            <ns1:typesystem>
+                <ns1:resourceIdentifiers>
+                    <ns1:resourceIdentifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/ATS000#</ns1:resourceIdentifier>
+                </ns1:resourceIdentifiers>
+            </ns1:typesystem>
+        </ns1:componentDependencies>
+        <ns1:componentCreationInfo>
+            <ns1:framework>AlvisNLP</ns1:framework>
+        </ns1:componentCreationInfo>
+        <ns1:componentDocumentationInfo>
+            <ns1:onLineHelpURL>http://bibliome.jouy.inra.fr/redmine/projects/alvisnlp</ns1:onLineHelpURL>
+        </ns1:componentDocumentationInfo>
+    </ns1:componentInfo>
+</ns1:componentMetadataRecord>
