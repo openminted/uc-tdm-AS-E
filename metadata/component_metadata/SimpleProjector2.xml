@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:componentMetadataRecord xmlns:ns1="http://www.meta-share.org/OMTD-SHARE_XMLSchema">
+    <ns1:metadataHeaderInfo>
+        <ns1:metadataRecordIdentifier metadataIdentifierSchemeName="other">cdaed25f-166d-4c5c-bdb1-59dee91b99ca</ns1:metadataRecordIdentifier>
+        <ns1:metadataCreationDate>2016-12-09+01:00</ns1:metadataCreationDate>
+        <ns1:metadataCreators>
+            <ns1:metadataCreator>
+                <ns1:personNames>
+                    <ns1:personName>Mouhamadou Ba</ns1:personName>
+                </ns1:personNames>
+            </ns1:metadataCreator>
+        </ns1:metadataCreators>
+        <ns1:metadataLanguages>
+            <ns1:metadataLanguage>
+                <ns1:languageTag>En</ns1:languageTag>
+            </ns1:metadataLanguage>
+        </ns1:metadataLanguages>
+        <ns1:metadataLastDateUpdated>2016-12-09+01:00</ns1:metadataLastDateUpdated>
+    </ns1:metadataHeaderInfo>
+    <ns1:componentInfo>
+        <ns1:resourceType>component</ns1:resourceType>
+        <ns1:identificationInfo>
+            <ns1:resourceNames>
+                <ns1:resourceName>SimpleProjector2</ns1:resourceName>
+            </ns1:resourceNames>
+            <ns1:descriptions>
+                <ns1:description>&lt;p&gt;&lt;this/&gt; reads a list of entries from &lt;param name=&quot;dictFile&quot;/&gt; and searches for these entries in sections. The format of the dictionary is one entry per line. Each line is split into columns separated by tab characters, or whichever character defined by &lt;param name=&quot;separator&quot;/&gt;. The column specified by &lt;param name=&quot;keyIndex&quot;/&gt; will be the entry to be searched and the other columns are data associated to the entry.&lt;/p&gt;&lt;p&gt;The parameters &lt;param name=&quot;skipBlank&quot;/&gt;, &lt;param name=&quot;skipEmpty&quot;/&gt;, &lt;param name=&quot;strictColumnNumber&quot;/&gt;, &lt;param name=&quot;trimColumns&quot;/&gt;, &lt;param name=&quot;separator&quot;/&gt;, &lt;param name=&quot;multipleEntryBehaviour&quot;/&gt; control the loading of the dictionary file.&lt;/p&gt;&lt;p&gt;The parameters &lt;param name=&quot;allowJoined&quot;/&gt;, &lt;param name=&quot;allUpperCaseInsensitive&quot;/&gt;, &lt;param name=&quot;caseInsensitive&quot;/&gt;, &lt;param name=&quot;ignoreDiacritics&quot;/&gt;, &lt;param name=&quot;joinDash&quot;/&gt;, &lt;param name=&quot;matchStartCaseInsensitive&quot;/&gt;, &lt;param name=&quot;skipConsecutiveWhitespaces&quot;/&gt;, &lt;param name=&quot;skipWhitespace&quot;/&gt; and &lt;param name=&quot;wordStartCaseInsensitive&quot;/&gt; control the matching between the section and the entry keys.&lt;/p&gt;&lt;p&gt;The &lt;param name=&quot;subject&quot;/&gt; parameter specifies which text of the section should be matched. There are two options:
+      &lt;ul&gt;&lt;li&gt;the entries are matched on the contents of the section, &lt;param name=&quot;subject&quot;/&gt; can also control if matches boundaries coincide with word delimiters;&lt;/li&gt;&lt;li&gt;the entries are matched on the feature value of annotations of a given layer separated by a whitespace, in this way entries can be searched against word lemmas for instance.&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;/p&gt;&lt;p&gt;&lt;this/&gt; creates an annotation for each matched entry and adds these annotations to the layer named &lt;param name=&quot;targetLayerName&quot;/&gt;. The created annotations will have features whose keys correspond to &lt;param name=&quot;entryFeatureNames&quot;/&gt; and values to the data associated to the matched entry (columns in the dictionary file). For instance if &lt;param name=&quot;entryFeatureNames&quot;/&gt; is &lt;em&gt;[a,b,c]&lt;/em&gt;, then each annotation will have three features named &lt;em&gt;a&lt;/em&gt;, &lt;em&gt;b&lt;/em&gt; and &lt;em&gt;c&lt;/em&gt; with the respective values of the entry's second, third and fourth columns. A feature name left blank in &lt;param name=&quot;entryFeatureNames&quot;/&gt; will not create a feature. Thus, in order not to keep the entry in the &lt;em&gt;a&lt;/em&gt; feature, &lt;param name=&quot;entryFeatureNames&quot;/&gt; should be &lt;em&gt;[,b,c]&lt;/em&gt;.&lt;nl/&gt;In addition, the created annotations will have the feature keys and values defined in &lt;param name=&quot;constantAnnotationFeatures&quot;/&gt;.&lt;/p&gt;&lt;p&gt;If specified, then &lt;this/&gt; assumes that &lt;param name=&quot;trieSource&quot;/&gt; contains a compiled version of the dictionary. &lt;param name=&quot;dictFile&quot;/&gt; is not read. If specified, &lt;this/&gt; writes a compiled version of the dictionary in &lt;param name=&quot;trieSink&quot;/&gt;. The use of compiled dictionaries may accelerate the processing for large dictionaries.&lt;/p&gt;
+    </ns1:description>
+            </ns1:descriptions>
+            <ns1:identifiers>
+                <ns1:identifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/api/modules/SimpleProjector2</ns1:identifier>
+            </ns1:identifiers>
+        </ns1:identificationInfo>
+        <ns1:contactInfo>
+            <ns1:contactEmail>robert.bossy@inra.fr</ns1:contactEmail>
+            <ns1:contactPersons>
+                <ns1:contactPerson>
+                    <ns1:personNames>
+                        <ns1:personName lang="fr">Mouhamadou Ba</ns1:personName>
+                    </ns1:personNames>
+                </ns1:contactPerson>
+                <ns1:contactPerson>
+                    <ns1:personNames>
+                        <ns1:personName lang="fr">Robert Bossy</ns1:personName>
+                    </ns1:personNames>
+                </ns1:contactPerson>
+            </ns1:contactPersons>
+            <ns1:contactGroups>
+                <ns1:contactGroup>
+                    <ns1:groupNames>
+                        <ns1:groupName lang="fr">Bibliome</ns1:groupName>
+                    </ns1:groupNames>
+                    <ns1:relatedOrganization>
+                        <ns1:organizationNames>
+                            <ns1:organizationName lang="fr">_INRA</ns1:organizationName>
+                        </ns1:organizationNames>
+                    </ns1:relatedOrganization>
+                </ns1:contactGroup>
+            </ns1:contactGroups>
+        </ns1:contactInfo>
+        <ns1:componentTypes>
+            <ns1:componentType>namedEntityRecognizer</ns1:componentType>
+            <ns1:componentType>other</ns1:componentType>
+        </ns1:componentTypes>
+        <ns1:distributionInfos>
+            <ns1:componentDistributionInfo>
+                <ns1:componentDistributionMedium>executableCode</ns1:componentDistributionMedium>
+                <ns1:rightsInfo>
+                    <ns1:licenceInfos>
+                        <ns1:licenceInfo>
+                            <ns1:licence>ApacheLicence_2.0</ns1:licence>
+                        </ns1:licenceInfo>
+                    </ns1:licenceInfos>
+                </ns1:rightsInfo>
+            </ns1:componentDistributionInfo>
+        </ns1:distributionInfos>
+        <ns1:parameterInfos>
+            <ns1:parameterInfo>
+                <ns1:parameterName>skipWhitespace</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>strictColumnNumber</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>skipBlank</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>constantAnnotationFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>subject</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Subject</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>trieSink</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>OutputFile</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>wordStartCaseInsensitive</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>caseInsensitive</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>allowJoined</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>trimColumns</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>targetLayerName</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>dictFile</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>SourceStream</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>active</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Expression</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>skipEmpty</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>trieSource</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>InputFile</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>skipConsecutiveWhitespaces</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>separator</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Character</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>documentFilter</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Expression</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>valueFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String[]</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>joinDash</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>multipleEntryBehaviour</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>MultipleEntryBehaviour</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>allUpperCaseInsensitive</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>sectionFilter</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Expression</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>ignoreDiacritics</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>matchStartCaseInsensitive</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>keyIndex</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Integer[]</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>userFunctions</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Either the match allows arbitrary insertion of whitespace characters in the subject. For instance, the contents &lt;em&gt;amino acid&lt;/em&gt; matches the entry &lt;em&gt;aminoacid&lt;/em&gt;.</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>UserFunction[]</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+        </ns1:parameterInfos>
+        <ns1:inputContentResourceInfo>
+            <ns1:processingResourceTypes>
+                <ns1:processingResourceType>corpus</ns1:processingResourceType>
+            </ns1:processingResourceTypes>
+            <ns1:mediaType>text</ns1:mediaType>
+            <ns1:characterEncodings>
+                <ns1:characterEncoding>UTF-8</ns1:characterEncoding>
+            </ns1:characterEncodings>
+            <ns1:typesystem>
+                <ns1:resourceIdentifiers>
+                    <ns1:resourceIdentifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/ATS000#</ns1:resourceIdentifier>
+                </ns1:resourceIdentifiers>
+            </ns1:typesystem>
+        </ns1:inputContentResourceInfo>
+        <ns1:outputResourceInfo>
+            <ns1:processingResourceTypes>
+                <ns1:processingResourceType>corpus</ns1:processingResourceType>
+            </ns1:processingResourceTypes>
+            <ns1:mediaType>text</ns1:mediaType>
+            <ns1:characterEncodings>
+                <ns1:characterEncoding>UTF-8</ns1:characterEncoding>
+            </ns1:characterEncodings>
+        </ns1:outputResourceInfo>
+        <ns1:componentDependencies>
+            <ns1:typesystem>
+                <ns1:resourceIdentifiers>
+                    <ns1:resourceIdentifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/ATS000#</ns1:resourceIdentifier>
+                </ns1:resourceIdentifiers>
+            </ns1:typesystem>
+        </ns1:componentDependencies>
+        <ns1:componentCreationInfo>
+            <ns1:framework>AlvisNLP</ns1:framework>
+        </ns1:componentCreationInfo>
+        <ns1:componentDocumentationInfo>
+            <ns1:onLineHelpURL>http://bibliome.jouy.inra.fr/redmine/projects/alvisnlp</ns1:onLineHelpURL>
+        </ns1:componentDocumentationInfo>
+    </ns1:componentInfo>
+</ns1:componentMetadataRecord>

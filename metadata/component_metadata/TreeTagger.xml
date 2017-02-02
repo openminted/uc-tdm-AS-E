@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:componentMetadataRecord xmlns:ns1="http://www.meta-share.org/OMTD-SHARE_XMLSchema">
+    <ns1:metadataHeaderInfo>
+        <ns1:metadataRecordIdentifier metadataIdentifierSchemeName="other">e3408c2f-8a38-4916-b718-11843dbc57a9</ns1:metadataRecordIdentifier>
+        <ns1:metadataCreationDate>2016-12-09+01:00</ns1:metadataCreationDate>
+        <ns1:metadataCreators>
+            <ns1:metadataCreator>
+                <ns1:personNames>
+                    <ns1:personName>Mouhamadou Ba</ns1:personName>
+                </ns1:personNames>
+            </ns1:metadataCreator>
+        </ns1:metadataCreators>
+        <ns1:metadataLanguages>
+            <ns1:metadataLanguage>
+                <ns1:languageTag>En</ns1:languageTag>
+            </ns1:metadataLanguage>
+        </ns1:metadataLanguages>
+        <ns1:metadataLastDateUpdated>2016-12-09+01:00</ns1:metadataLastDateUpdated>
+    </ns1:metadataHeaderInfo>
+    <ns1:componentInfo>
+        <ns1:resourceType>component</ns1:resourceType>
+        <ns1:identificationInfo>
+            <ns1:resourceNames>
+                <ns1:resourceName>TreeTagger</ns1:resourceName>
+            </ns1:resourceNames>
+            <ns1:descriptions>
+                <ns1:description>&lt;p&gt;&lt;this/&gt; applies &lt;em&gt;tree-tagger&lt;/em&gt; on annotations in &lt;param name=&quot;wordLayerName&quot;/&gt; by generating an appropriate input file. This file will contain one line for each annotation. The first column, the token surface form, is the value of the &lt;param name=&quot;formFeature&quot;/&gt; feature. The second column, the token predefined POS tag, is the value &lt;param name=&quot;posFeature&quot;/&gt; feature. The third column, the token predefined lemma, is the value of &lt;param name=&quot;lemmaFeature&quot;/&gt; feature. If &lt;param name=&quot;posFeature&quot;/&gt; or &lt;param name=&quot;lemmaFeature&quot;/&gt; are not defined, then the second and third column are left blank.&lt;/p&gt;&lt;p&gt;The &lt;em&gt;tree-tagger&lt;/em&gt; binary is specified by &lt;param name=&quot;treeTaggerExecutable&quot;/&gt; and the language model to use is specified by &lt;param name=&quot;parFile&quot;/&gt;. Additionally a lexicon file can be given through &lt;param name=&quot;lexiconFile&quot;/&gt;.&lt;/p&gt;&lt;p&gt;If &lt;param name=&quot;sentenceLayerName&quot;/&gt; is defined, then &lt;this/&gt; considers annotations in this layer as sentences. Sentence boundaries are reinforced by providing &lt;em&gt;tree-tagger&lt;/em&gt; an additional end-of-sentence marker.&lt;/p&gt;&lt;p&gt;Once &lt;em&gt;tree-tagger&lt;/em&gt; has processed the corpus, &lt;this/&gt; adds the predicted POS tag and lemma to the respective &lt;param name=&quot;posFeature&quot;/&gt; and &lt;param name=&quot;lemmaFeature&quot;/&gt; features of the corresponding annotations.&lt;/p&gt;&lt;p&gt;If &lt;param name=&quot;recordDir&quot;/&gt; and &lt;param name=&quot;recordFeatures&quot;/&gt; are both defined, then &lt;em&gt;tree-tagger&lt;/em&gt; predictions are written into files in one file per section in the &lt;param name=&quot;recordDir&quot;/&gt; directory. &lt;param name=&quot;recordFeatures&quot;/&gt; is an array of feature names to record. An additional feature &lt;em&gt;n&lt;/em&gt; is recognized as the annotation ordinal in the section.&lt;/p&gt;
+    </ns1:description>
+            </ns1:descriptions>
+            <ns1:identifiers>
+                <ns1:identifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/api/modules/TreeTagger</ns1:identifier>
+            </ns1:identifiers>
+        </ns1:identificationInfo>
+        <ns1:contactInfo>
+            <ns1:contactEmail>robert.bossy@inra.fr</ns1:contactEmail>
+            <ns1:contactPersons>
+                <ns1:contactPerson>
+                    <ns1:personNames>
+                        <ns1:personName lang="fr">Mouhamadou Ba</ns1:personName>
+                    </ns1:personNames>
+                </ns1:contactPerson>
+                <ns1:contactPerson>
+                    <ns1:personNames>
+                        <ns1:personName lang="fr">Robert Bossy</ns1:personName>
+                    </ns1:personNames>
+                </ns1:contactPerson>
+            </ns1:contactPersons>
+            <ns1:contactGroups>
+                <ns1:contactGroup>
+                    <ns1:groupNames>
+                        <ns1:groupName lang="fr">Bibliome</ns1:groupName>
+                    </ns1:groupNames>
+                    <ns1:relatedOrganization>
+                        <ns1:organizationNames>
+                            <ns1:organizationName lang="fr">_INRA</ns1:organizationName>
+                        </ns1:organizationNames>
+                    </ns1:relatedOrganization>
+                </ns1:contactGroup>
+            </ns1:contactGroups>
+        </ns1:contactInfo>
+        <ns1:componentTypes>
+            <ns1:componentType>processor</ns1:componentType>
+            <ns1:componentType>other</ns1:componentType>
+        </ns1:componentTypes>
+        <ns1:distributionInfos>
+            <ns1:componentDistributionInfo>
+                <ns1:componentDistributionMedium>executableCode</ns1:componentDistributionMedium>
+                <ns1:rightsInfo>
+                    <ns1:licenceInfos>
+                        <ns1:licenceInfo>
+                            <ns1:licence>ApacheLicence_2.0</ns1:licence>
+                        </ns1:licenceInfo>
+                    </ns1:licenceInfos>
+                </ns1:rightsInfo>
+            </ns1:componentDistributionInfo>
+        </ns1:distributionInfos>
+        <ns1:parameterInfos>
+            <ns1:parameterInfo>
+                <ns1:parameterName>recordDir</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>OutputDirectory</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>sentenceLayerName</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>active</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Expression</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>inputCharset</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>recordFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String[]</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>recordCharset</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>constantAnnotationFeatures</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Mapping</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>outputCharset</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>lexiconFile</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>SourceStream</ns1:parameterType>
+                <ns1:mandatory>false</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>noUnknownLemma</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Boolean</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>wordLayerName</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>lemmaFeature</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>documentFilter</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Expression</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>sectionFilter</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>Expression</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>treeTaggerExecutable</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>ExecutableFile</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>parFile</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>InputFile</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>formFeature</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>posFeature</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>String</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+            <ns1:parameterInfo>
+                <ns1:parameterName>userFunctions</ns1:parameterName>
+                <ns1:descriptions>
+                    <ns1:description>Path to the directory where to write tree-tagger result files (one file per section).</ns1:description>
+                </ns1:descriptions>
+                <ns1:parameterType>UserFunction[]</ns1:parameterType>
+                <ns1:mandatory>true</ns1:mandatory>
+                <ns1:multiValue>false</ns1:multiValue>
+            </ns1:parameterInfo>
+        </ns1:parameterInfos>
+        <ns1:inputContentResourceInfo>
+            <ns1:processingResourceTypes>
+                <ns1:processingResourceType>corpus</ns1:processingResourceType>
+            </ns1:processingResourceTypes>
+            <ns1:mediaType>text</ns1:mediaType>
+            <ns1:characterEncodings>
+                <ns1:characterEncoding>UTF-8</ns1:characterEncoding>
+            </ns1:characterEncodings>
+            <ns1:typesystem>
+                <ns1:resourceIdentifiers>
+                    <ns1:resourceIdentifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/ATS000#</ns1:resourceIdentifier>
+                </ns1:resourceIdentifiers>
+            </ns1:typesystem>
+        </ns1:inputContentResourceInfo>
+        <ns1:outputResourceInfo>
+            <ns1:processingResourceTypes>
+                <ns1:processingResourceType>corpus</ns1:processingResourceType>
+            </ns1:processingResourceTypes>
+            <ns1:mediaType>text</ns1:mediaType>
+            <ns1:characterEncodings>
+                <ns1:characterEncoding>UTF-8</ns1:characterEncoding>
+            </ns1:characterEncodings>
+        </ns1:outputResourceInfo>
+        <ns1:componentDependencies>
+            <ns1:typesystem>
+                <ns1:resourceIdentifiers>
+                    <ns1:resourceIdentifier resourceIdentifierSchemeName="url">http://bibliome.jouy.inra.fr/demo/AlvisNLP/ATS000#</ns1:resourceIdentifier>
+                </ns1:resourceIdentifiers>
+            </ns1:typesystem>
+        </ns1:componentDependencies>
+        <ns1:componentCreationInfo>
+            <ns1:framework>AlvisNLP</ns1:framework>
+        </ns1:componentCreationInfo>
+        <ns1:componentDocumentationInfo>
+            <ns1:onLineHelpURL>http://bibliome.jouy.inra.fr/redmine/projects/alvisnlp</ns1:onLineHelpURL>
+        </ns1:componentDocumentationInfo>
+    </ns1:componentInfo>
+</ns1:componentMetadataRecord>
