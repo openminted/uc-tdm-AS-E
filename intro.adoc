@@ -1,0 +1,15 @@
+= AS-E User Documentation
+
+== Introduction
+
+At the first release of this application, we have developed a text-mining pipeline using the AlvisNLP/ML platform, as well as a web application (semantic search engine) which makes use of the text-mining results and allows the user to search information about wheat phenotypes (available at http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search).
+
+== Data Processing Scenarios
+
+In AS-E, we have outlined the following data processing scenarios:
+
+* link:application_design.adoc[Application design] (corpus building, resources gathering, etc.)
+* link:production_processing.adoc[Production processing] (automatic annotion of a corpus by a text-mining pipeline and integration of the results into a host application)
+* link:resource_update.adoc[Resource update] (corpus increment, external resource update)
+
+The web application of this first release is part of the "Production processing" scenario and is fully documented link:AS-E_applicationDoc.adoc[here]. As the results of the text-mining pipeline could not be integrated into the host application targeted by this use case at the time of the first release, we integrated them into the above-mentioned web application instead. This semantic search engine is close to what will be available in the final application since it provides an easier access to information about wheat phenotypes from the scientific literature. 
