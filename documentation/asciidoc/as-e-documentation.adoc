@@ -34,6 +34,7 @@ A click on the i at the left of the query field display the query language.
 [[img-sunset]]
 //.A click//
 image::images/alvisIR_home_Aclick.png[]
+
 === Query
 The query is typed in the query field.
 
