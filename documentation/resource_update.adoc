@@ -1,3 +1,0 @@
-= Resource Update
-
-This data processing scenario is yet to be addressed in the current AS-E application.
