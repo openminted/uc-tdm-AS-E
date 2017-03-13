@@ -184,7 +184,36 @@
                         </configuration>
                     </execution>
 
+                    <execution>
+                        <id>wep_application</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html5</backend>
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <sourceDocumentName>web_app_doc.adoc</sourceDocumentName>
+                            <imagesDir>.</imagesDir>
+                            <doctype>book</doctype>
+                            <attributes>
+                                <imagesdir>./</imagesdir>
+                                <toc>left</toc>
+                                <docinfo1>true</docinfo1>
+                                <toclevels>5</toclevels>
+                                <icons>font</icons>
+                                <sectanchors>true</sectanchors>
+                                set the idprefix to blank
+                                <idprefix />
+                                <idseparator>-</idseparator>
+                                <docinfo1>true</docinfo1>
 
+                                <include-dir>${project.basedir}/src/main/asciidoc/</include-dir>
+                                <source-dir>${project.basedir}/../</source-dir>
+                                <generated-dir>${project.basedir}/target/generated-adoc/</generated-dir>
+                            </attributes>
+                        </configuration>
+                    </execution>
 
 
 
