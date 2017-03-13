@@ -1,0 +1,137 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.openminted.uc-tdm-AS-E</groupId>
+	<artifactId>AS-E</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Application Software for Linking Wheat Data With Literature </name>
+	<description>This package contains code for text mining in...</description>
+	<url>https://github.com/openminted/uc-tdm-AS-E</url>
+	<organization>
+		<name>OpenMinTeD</name>
+		<url>http://openminted.eu/</url>
+	</organization>
+	<inceptionYear>2016</inceptionYear>
+	<prerequisites>
+		<maven>3.3.3</maven>
+	</prerequisites>
+
+	<modules>
+		<module>documentation</module>
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>bibliome</id>
+			<name> bibliome repo </name>
+			<url>http://bibliome.jouy.inra.fr/maven-repository</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+	</pluginRepositories>
+
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>https://builds.openminted.eu/</url>
+	</ciManagement>
+
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/openminted/uc-tdm-AS-D/issues</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:git://github.com/openminted/uc-tdm-AS-E</connection>
+		<developerConnection>scm:git:git@github.com:openminted/uc-tdm-AS-E.git</developerConnection>
+		<url>https://github.com/openminted/uc-tdm-AS-E</url>
+	  <tag>HEAD</tag>
+  	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>omtd</id>
+			<url>https://repo.openminted.eu/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>omtd</id>
+			<url>https://repo.openminted.eu/content/repositories/releases</url>
+		</repository>
+	</distributionManagement>
+	<properties>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<uima.version>2.9.0</uima.version>
+		<uimafit.version>2.2.0</uimafit.version>
+		<uimafit.plugin.version>2.2.0</uimafit.plugin.version>
+		<dkpro.core.version>1.8.0</dkpro.core.version>
+		<log4j.version>2.7</log4j.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- submodules -->
+			<dependency>
+				<groupId>eu.openminted.uc-tdm-AS-E</groupId>
+				<artifactId>documentation</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+	 <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.4</version>
+					<executions>
+						<execution>
+							<id>default</id>
+							<phase>none</phase>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+			</plugins>
+		</pluginManagement>
+	</build>
+	<dependencies>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.github.Bibliome</groupId> -->
+<!-- 			<artifactId>alvisnlp</artifactId> -->
+<!-- 			<version>0.5rc-SNAPSHOT</version> -->
+<!-- 		</dependency> -->
+	</dependencies>
+</project>
