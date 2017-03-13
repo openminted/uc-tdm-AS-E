@@ -4,7 +4,7 @@
 	<artifactId>AS-E</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Application Software for Linking Wheat Data With Literature </name>
+	<name> Application Software for Extraction of Mechanisms Involved in Plant Development </name>
 	<description>This package contains code for text mining in...</description>
 	<url>https://github.com/openminted/uc-tdm-AS-E</url>
 	<organization>
