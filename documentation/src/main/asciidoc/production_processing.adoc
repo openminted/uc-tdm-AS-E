@@ -2,8 +2,18 @@
 
 == Automatic annotation of a corpus
 
+The AS-E text-mining pipeline automatically extracts the following entities:
+
+* Genes
+* Proteins
+* RNA
+* Gene families
+* Protein families
+
 All configuration files, AlvisNLP workflow plans, scripts, and resources used to create the AS-E text-mining pipeline are provided in the uc-tdm-AS-E repository in the openminted github (https://github.com/openminted/uc-tdm-AS-E). Documentation for running the pipeline to annotate and index a corpus is also included in the repository.
 
 == Integration into a parent application
 
-As the results of the text-mining pipeline could not be integrated into the parent application targeted by this use case at the time of the first release, we integrated them into the semantic search engine instead. This semantic search engine is close to what will be available in the final application since it provides an easier access to information about seed development from the scientific literature. It is a web application, available at : http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search. Detailed documentation on how to use the search engine can be found <<web_app_doc.adoc#, here>>.
+As the results of the text-mining pipeline could not be integrated into the parent application targeted by this use case at the time of the first release, we integrated them into the semantic search engine instead. This semantic search engine is close to what will be available in the final application since it provides an easier access to information about seed development from the scientific literature. It is a web application, available at : http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search.
+
+Detailed documentation on how to use the search engine can be found in the <<web_app_doc.adoc#, AS-E web application documentation>>.
