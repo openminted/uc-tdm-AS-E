@@ -14,6 +14,7 @@
         <asciidoctor.pdf.version>1.5.0-alpha.11</asciidoctor.pdf.version>
         <asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
         <asciidoctor.version>1.5.4.1</asciidoctor.version>
+        <main.basedir>${project.parent.basedir}</main.basedir>
     </properties>
 
 

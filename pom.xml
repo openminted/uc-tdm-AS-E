@@ -60,12 +60,13 @@
 	</distributionManagement>
 	<properties>
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-		<uima.version>2.9.0</uima.version>
-		<uimafit.version>2.2.0</uimafit.version>
-		<uimafit.plugin.version>2.2.0</uimafit.plugin.version>
-		<dkpro.core.version>1.8.0</dkpro.core.version>
+<!-- 		<uima.version>2.9.0</uima.version> -->
+<!-- 		<uimafit.version>2.2.0</uimafit.version> -->
+<!-- 		<uimafit.plugin.version>2.2.0</uimafit.plugin.version> -->
+<!-- 		<dkpro.core.version>1.8.0</dkpro.core.version> -->
 		<log4j.version>2.7</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<main.basedir>${project.basedir}</main.basedir>
 	</properties>
 
 	<dependencyManagement>
@@ -81,6 +82,26 @@
 
 	<build>
 	 <plugins>
+	 		<!-- add scm to clone alvisnlp -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.9.4</version>
+				<executions>
+					<execution>
+						<id>alvisnlp</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<connectionUrl>scm:git:git://github.com/Bibliome/alvisnlp</connectionUrl>
+							<checkoutDirectory>${main.basedir}/alvisnlp</checkoutDirectory>
+						</configuration>
+						<goals>
+							<goal>checkout</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- end add scm to clone alvisnlp -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
