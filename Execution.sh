@@ -27,10 +27,11 @@ ssconvert -O 'separator="	" eol=unix quote=' resources/ath_MTI.xls resources/ath
 cat resources/ath_MTI.txt | awk -F"\t" '{print$1"\t"$2"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9;}' | awk -F"\t" '{gsub("ath-","",$3);print$1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$10;}' | sort | head -n -1 > resources/ath_MTI_extended.txt 
 #***********************
 #Expander
-bash alvisir-index-expander configuration/expander /bibdev/travail/arabidopsis/alvisir2/configuration/expander.xml
+bash alvisir-index-expander configuration/expander configuration/expander.xml
+#/bibdev/install/alvisir/bin/alvisir-index-expander configuration/expander configuration/expander.xml
 #***********************
 #Entities plan
-/bibdev/install/alvisnlp/devel/bin/alvisnlp -log plan/alvisnlp.log plan/entities.plan
+/bibdev/install/alvisnlp/devel/bin/alvisnlp -inputDir /bibdev/travail/arabidopsis/alvisir2_devel -log plan/alvisnlp.log plan/entities.plan
 
 
 

@@ -1,6 +1,6 @@
 <alvisir-search
-    index="/bibdev/travail/arabidopsis/alvisir2/configuration/index"
-    expander-index="/bibdev/travail/arabidopsis/alvisir2/configuration/expander"
+    index="/bibdev/travail/arabidopsis/alvisir2_devel/configuration/index"
+    expander-index="/bibdev/travail/arabidopsis/alvisir2_devel/configuration/expander"
     default-field="contents"
     >
 

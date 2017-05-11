@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- AlvisIR UI configuration file -->
 <alvisir-ui-config>
-  <alvisir-search filepath="/bibdev/travail/arabidopsis/alvisir2/configuration/search.xml" />
+  <alvisir-search filepath="/bibdev/travail/arabidopsis/alvisir2_devel/configuration/search.xml" />
 
   <display-params>
-    <param name="title" value="AlvisIR SeeDev Search"/>
+    <param name="title" value="AlvisIR SeeDev Devel Search"/>
     <param name="copyright-owner" value="INRA"/>
     <param name="copyright-years" value="2017" />
     

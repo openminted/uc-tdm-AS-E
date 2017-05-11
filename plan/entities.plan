@@ -39,8 +39,8 @@ limitations under the License. -->
 
 <!-- Lecture du corpus Web of knowledge --> 
 <module id="readWoK" class="WebOfKnowledgeReader">
-	<source>corpus/corpus2000_12012017.txt</source>
-		<constantDocumentFeatures>source=wok,url=https://www.doi.org/</constantDocumentFeatures>
+	<source>../alvisir2_corpus/corpus2000_12012017.txt</source>
+		<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
  </module>
 	<module id="renamedocumentWOK" class="Action">
 		<target>documents</target>
@@ -90,7 +90,7 @@ limitations under the License. -->
 
 <!-- Lecture du corpus html packs annotés manuellement -->
 	<module id="readhtmlannotated" class="XMLReader2">
-		<sourcePath>corpus/fulltext/html</sourcePath>
+		<sourcePath>../alvisir2_corpus/fulltext/html</sourcePath>
 		<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
 		<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
 	</module>
@@ -668,14 +668,16 @@ limitations under the License. -->
 	  section.@name;
 	  @threesentence-index;
 	  start ^ "-" ^ end;
-	  str:replace(@form, "\n", " ")
+	  str:replace(@form, "\n", " ");
+	section.document.@url
 	</columns>
 	<headers>
 	  "DOCUMENT",
 	  "SECTION",
 	  "SENTENCE",
 	  "OFFSET",
-	  "FORM"
+	  "FORM",
+		"url"
 	</headers>
       </module>
 
@@ -724,7 +726,7 @@ limitations under the License. -->
 <module id="index" class="AlvisIRIndexer">
 	<indexDir>configuration/index</indexDir> 
 
-    <tokenPositionGap>128</tokenPositionGap>
+    <tokenPositionGap>1024</tokenPositionGap>
     <fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
     <relations>
       <loc>Gene,Protein</loc>
