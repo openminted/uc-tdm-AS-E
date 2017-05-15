@@ -6,7 +6,9 @@
 #Gene
 #***********************
 #Ajout en synonymes de la première colonne de TAIR dans la seconde 
-cat resources/gene_aliases_20130831_TAIR.txt | awk -F"\t" '{print$0"\n"$1"\t"$2"\t"$2;}'|sort -u > resources/gene_aliases_20130831_TAIR_synonymes.txt
+cat resources/gene_aliases_20130831_TAIR.txt | awk -F"\t" '{print$0"\n"$1"\t"$2"\t"$2;}'|sort -u > resources/gene_aliases_20130831_TAIR_synonymesfirst.txt
+#Ajout en synonymes de la première colonne de TAIR dans la troisième 
+cat resources/gene_aliases_20130831_TAIR_synonymesfirst.txt | awk -F"\t" '{print$0"\n"$1"\t"$2"\t"$1;}'|sort -u > resources/gene_aliases_20130831_TAIR_synonymes.txt
 #tous les tirets remplacés par des espaces : apetala-2-3 => apetala 2 3
 cat resources/gene_aliases_20130831_TAIR_synonymes.txt | perl -npe '$line=$_; $line=~s/-/ /g; print $line;' |sort -u > resources/gene_aliases_20130831_TAIR_tiret.txt
 #fichier étendu tiret et espace on imprime toutes les lignes qu'on lit, + on créé si espace entre quoique ce soit non fini par chifrre espace chiffre (APETELA 2), on colle (APETALA2) ou tiret (APETALA-2) ou underscore (APETALA_2) / si quoi que ce soit terminé par lettre + chiffre (+ d'autre chiifre hypothétique) (APETALA2) on décolle (APETALA2) ou tiret (APETALA-2) ou underscore (APETALA_2)

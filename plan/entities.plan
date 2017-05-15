@@ -234,7 +234,7 @@ limitations under the License. -->
 	</module>
 
 <!--**************************************************************************************-->
-  	<!-- Etape 4 projection des familles de proteine et de gène du lexique sur le texte -->
+  	<!-- Etape 4 projection des familles de proteines et de gènes du lexique sur le texte -->
 <!--**************************************************************************************-->
 	<module id="Protein_family" class="SimpleProjector2">
    		<dictFile>resources/gene_families_lexicon.txt</dictFile>
@@ -528,6 +528,11 @@ limitations under the License. -->
  
 </sequence>
 <!--**************************************************************************************-->
+
+<sequence id="Relation Prediction">
+
+
+</sequence>
   <sequence id="output">
     <module id="gene" class="TabularExport">
 		<outDir>output</outDir>
@@ -538,15 +543,19 @@ limitations under the License. -->
 			<element>section.document.@ID</element>
 			<element>@ne-type</element>
 			<element>@form</element>
+			<element>@locus_name</element>
 			<element>start ^ "-" ^ end</element>
 			<element>section.@sectionname</element>
+			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
 		</columns>
 		<headers>
 			"DOCID",
 			"EntityType",
 			"Form",
+			"Normalisation",
 			"Offset",
-			"Section name"
+			"Section name",
+			"URL"
 		</headers>
 	</module>
 
@@ -561,8 +570,10 @@ limitations under the License. -->
 			<element>section.document.@ID</element>
 			<element>@ne-type</element>
 			<element>@form</element>
+			<element>@locus_name</element>		
 			<element>start ^ "-" ^ end</element>
 			<element>section.@sectionname</element>
+			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
 		</columns>
 		<append>true</append>
 	</module> 
@@ -580,6 +591,7 @@ limitations under the License. -->
 			<element>@Protein_family_name</element>
 			<element>start ^ "-" ^ end</element>
 			<element>section.@sectionname</element>
+			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Protein_family_name</element>
 		</columns>
 		<append>true</append>
 	</module>
@@ -597,6 +609,7 @@ limitations under the License. -->
 			<element>@Gene_family_name</element>
 			<element>start ^ "-" ^ end</element>
 			<element>section.@sectionname</element>
+			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Gene_family_name</element>
 		</columns>
 		<append>true</append>
 	</module>
@@ -611,8 +624,10 @@ limitations under the License. -->
 			<element>section.document.@ID</element>
 			<element>@ne-type</element>
 			<element>@form</element>
+			<element>@miRTarBaseID</element>
 			<element>start ^ "-" ^ end</element>
 			<element>section.@sectionname</element>
+			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@miRTarBaseID</element>
 		</columns>
 		<append>true</append>
 	</module>
@@ -637,48 +652,25 @@ limitations under the License. -->
 	<setFeatures/>
       </module>
 
-      <module id="sentences" class="TabularExport">
-	<outDir>corpus/output</outDir>
-	<files>$</files>
-	<fileName>"sentences.txt"</fileName>
-	<lines>documents.sections.layer:sentences[@name != "author"]</lines>
-	<columns separator=";">
-	  section.document.@id;
-	  section.@name;
-	  @sentence-index;
-	  start ^ "-" ^ end;
-	  str:replace(@form, "\n", " ")
-	</columns>
-	<headers>
-	  "DOCUMENT",
-	  "SECTION",
-	  "SENTENCE",
-	  "OFFSET",
-	  "FORM"
-	</headers>
-      </module>
-
-      <module id="threesentencesexport" class="TabularExport">
-	<outDir>output</outDir>
-	<files>$</files>
-	<fileName>"threesentences.txt"</fileName>
-	<lines>documents.sections.layer:threesent</lines>
-	<columns separator=";">
-	  section.document.@id;
-	  section.@name;
-	  @threesentence-index;
-	  start ^ "-" ^ end;
-	  str:replace(@form, "\n", " ");
-	section.document.@url
-	</columns>
-	<headers>
-	  "DOCUMENT",
-	  "SECTION",
-	  "SENTENCE",
-	  "OFFSET",
-	  "FORM",
-		"url"
-	</headers>
+    <module id="sentences" class="TabularExport">
+		<outDir>corpus/output</outDir>
+		<files>$</files>
+		<fileName>"sentences.txt"</fileName>
+		<lines>documents.sections.layer:sentences[@name != "author"]</lines>
+		<columns separator=";">
+		  section.document.@id;
+		  section.@name;
+		  @sentence-index;
+		  start ^ "-" ^ end;
+		  str:replace(@form, "\n", " ")
+		</columns>
+		<headers>
+		  "DOCUMENT",
+		  "SECTION",
+		  "SENTENCE",
+		  "OFFSET",
+		  "FORM"
+		</headers>
       </module>
 
  
@@ -722,127 +714,89 @@ limitations under the License. -->
       </module>
 </sequence>
 </sequence>
-
-<module id="index" class="AlvisIRIndexer">
-	<indexDir>configuration/index</indexDir> 
-
-    <tokenPositionGap>1024</tokenPositionGap>
-    <fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
-    <relations>
-      <loc>Gene,Protein</loc>
-    </relations>
-    <propertyKeys/>
-    <documents>
-<fields normalization="ascii,lower">
-	<instances>sections[@sectionname=="title"] | sections[@sectionname=="abstract"]| sections[@sectionname=="alltext"]| sections[@sectionname=="journal"]| sections[@sectionname=="year"]| sections[@sectionname=="doi"]</instances>
-	<field-name>@sectionname</field-name>
-
-	<annotations>
-	  <instances>layer:threesent</instances>
-	  <text>"{threesent}"</text>
-	</annotations>
-
-	<annotations>
-	  <instances>layer:sentences</instances>
-	  <text>"{sent}"</text>
-	</annotations>
-
-	<annotations>
-	  <instances>layer:Protein</instances>
-	  <text>"{protein}" ^ @locus_name ^ "/"</text>
-	</annotations>
-        <annotations>
-          <instances>layer:Gene</instances>
-          <text>"{gene}" ^ @locus_name ^ "/"</text>
-        </annotations>
-        <annotations>
-          <instances>layer:Gene_family</instances>
-          <text>"{gene_family}" ^ @Gene_family_name ^ "/"</text>
-        </annotations>
-        <annotations>
-          <instances>layer:Protein_family</instances>
-          <text>"{protein_family}" ^ @Protein_family_name ^ "/"</text>
-        </annotations>
-
-        <annotations>
-          <instances>layer:RNA</instances>
-          <text>"{rna}" ^ @miRTarBaseID ^ "/"</text>
-        </annotations>
-      </fields>
-      <fields>
-	<instances>sections:author</instances>
-      </fields>
-      <fields>
-	<instances>sections:author</instances>
-	<field-name>"full-author"</field-name>
-	<keyword>contents</keyword>
-      </fields>
-      <fields>
-	<instances>$[document.@url]</instances>
-	<field-name>"url"</field-name>
-	<keyword>document.@url</keyword>
-      </fields>
-      <fields>
-	<instances>$[@pmid]</instances>
-	<field-name>"pmid"</field-name>
-	<keyword>@id</keyword>
-      </fields>
-      <fields>
-  	<instances>$[@doi]</instances>
-  	<field-name>"doi"</field-name>
-  	<keyword>@doi</keyword>
-      </fields>
-      <fields>
-	<instances>$[@year]</instances>
-	<field-name>"year"</field-name>
-	<keyword>@PY</keyword>
-      </fields>
-      <fields>
-	<instances>$[@journal]</instances>
-	<field-name>"journal"</field-name>
-	<keyword>@journal</keyword>
-      </fields>
-    </documents>
-  </module>
-
-	<module id="exportsentandthreesent" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"sentencesandthreesentences.txt"</fileName>
-		<append/>
-		<lines>documents.sections.layer:sentences</lines>
-		<columns separator=";">
-			<element>section.document.@id</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-		</columns>
-		<headers>
-			"DOCID",
-			"EntityType",
-			"Form",
-			"Offset",
-			"Section name"
-		</headers>
-		<append>true</append>
-	</module>
-
-	<module id="exportsentandthreesent2" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"sentencesandthreesentences.txt"</fileName>
-		<append/>
-		<lines>documents.sections.layer:sentences</lines>
-		<columns separator=";">
-			<element>section.document.@id</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-		</columns>
-		<append>true</append>
-	</module>
+<sequence id="AlvisIRIndexer">
+	<module id="AlvisIRindex" class="AlvisIRIndexer">
+		<indexDir>configuration/index</indexDir> 
+	    <tokenPositionGap>1024</tokenPositionGap>
+	    <fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
+	    <relations>
+	      <loc>Gene,Protein</loc>
+	    </relations>
+	    <propertyKeys/>
+		<documents>
+			<fields normalization="ascii,lower">
+				<instances>sections[@sectionname=="title"] | sections[@sectionname=="abstract"]| sections[@sectionname=="alltext"]| sections[@sectionname=="journal"]| sections[@sectionname=="year"]| sections[@sectionname=="doi"]</instances>
+				<field-name>@sectionname</field-name>
+			
+				<annotations>
+				  <instances>layer:threesent</instances>
+				  <text>"{threesent}"</text>
+				</annotations>
+			
+				<annotations>
+				  <instances>layer:sentences</instances>
+				  <text>"{sent}"</text>
+				</annotations>
+			
+				<annotations>
+				  <instances>layer:Protein</instances>
+				  <text>"{protein}" ^ @locus_name ^ "/"</text>
+				</annotations>
+			        <annotations>
+			          <instances>layer:Gene</instances>
+			          <text>"{gene}" ^ @locus_name ^ "/"</text>
+			        </annotations>
+			        <annotations>
+			          <instances>layer:Gene_family</instances>
+			          <text>"{gene_family}" ^ @Gene_family_name ^ "/"</text>
+			        </annotations>
+			        <annotations>
+			          <instances>layer:Protein_family</instances>
+			          <text>"{protein_family}" ^ @Protein_family_name ^ "/"</text>
+			        </annotations>
+			
+			        <annotations>
+			          <instances>layer:RNA</instances>
+			          <text>"{rna}" ^ @miRTarBaseID ^ "/"</text>
+			        </annotations>
+			     </fields>
+				<fields>
+					<instances>sections:author</instances>
+			     </fields>
+			    <fields>
+					<instances>sections:author</instances>
+					<field-name>"full-author"</field-name>
+					<keyword>contents</keyword>
+			    </fields>
+			    <fields>
+					<instances>$[document.@url]</instances>
+					<field-name>"url"</field-name>
+					<keyword>document.@url</keyword>
+			    </fields>
+			    <fields>
+					<instances>$[@pmid]</instances>
+					<field-name>"pmid"</field-name>
+					<keyword>@id</keyword>
+			    </fields>
+			    <fields>
+			  		<instances>$[@doi]</instances>
+			  		<field-name>"doi"</field-name>
+			  		<keyword>@doi</keyword>
+			    </fields>
+			    <fields>
+					<instances>$[@year]</instances>
+					<field-name>"year"</field-name>
+					<keyword>@PY</keyword>
+			    </fields>
+			    <fields>
+					<instances>$[@journal]</instances>
+					<field-name>"journal"</field-name>
+					<keyword>@journal</keyword>
+			</fields>
+		  </documents>
+  	</module>
+  </sequence>
+	
 	<module id="mergeAllEntities" class="MergeLayers">
 		<sourceLayerNames>
 			Gene,
@@ -850,17 +804,6 @@ limitations under the License. -->
 			Protein_family,
 			Gene_family,
 			RNA,
-			<!--Pathway,
-			Tissue,
-			Developmentalphase,
-			Box,
-			Genotype,
-			Environmentalfactor,
-			Hormone,
-			Promoter,
-			Protein_complex,
-			Protein_domain,
-			Regulatorynetwork,-->
 		</sourceLayerNames>
 		<targetLayerName>AllEntities</targetLayerName>		
 	</module>
