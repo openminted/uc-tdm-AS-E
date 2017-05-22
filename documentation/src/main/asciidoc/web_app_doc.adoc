@@ -34,7 +34,7 @@ http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search
 // .AlvisIR search engine//
 image::images/alvisIR_home.png[]
 
-A click on the i at the left of the query field display the query language. 
+A click on the i at the left of the query field display a cheat sheet on the query language. 
 
 [[img-sunset]]
 //.A click//
