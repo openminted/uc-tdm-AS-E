@@ -1,0 +1,450 @@
+<!--
+Copyright 2016 Institut National de la Recherche Agronomique
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+<alvisnlp-plan id="entities">
+
+<sequence id="read">
+
+  <module id="read" class="BioNLPSTReader">
+    <a1Dir>&italic-dir;</a1Dir>
+    <textDir>&txtdir;</textDir>
+    <textBoundAsAnnotations>true</textBoundAsAnnotations>
+  </module>
+
+</sequence>
+
+  <!-- Etape 2 : Traitement des noms-->
+<sequence id="stanford">
+	<module id="stanford" class="StanfordNER">
+		<labelFeatureName>Namelabel</labelFeatureName>
+		<targetLayerName>stanford</targetLayerName>
+		<searchInContents/>
+	</module>
+
+	<module id="persons" class="Action">
+		<target>documents.sections.layer:stanford[@Namelabel == "PERSON"]</target>
+		<action>add:persons</action>
+		<addToLayer/>
+	</module>
+
+</sequence> 
+
+<!--**************************************************************************************-->
+<!-- Etape 4 : Segmenter en mot, insertion des différents tirets -->
+ <module id="words" class="WoSMig">
+	<balancedPunctuations>()[]{}""</balancedPunctuations>
+	<punctuations>?.!;,:-&#x2014;&#x2013;&#x2012;&#x002D;&#x2010;&#x2011;&#x00AD;&#x2015;&#x2043;&#x2212;&#x02D7;&#x207B;&#x208B;</punctuations>	
+	<targetLayerName>words</targetLayerName>
+	<fixedFormLayerName>fixed</fixedFormLayerName>
+ </module>
+
+<!--**************************************************************************************-->
+  <!-- Etape 5 : Segmenter en phrases -->
+
+ <module id="sentences" class="SeSMig">
+	<strongPunctuations>?.!</strongPunctuations>
+	<targetLayerName>sentences</targetLayerName>
+ </module>
+
+   <module id="SentencePattern" class="PatternMatcher">
+                <layerName>sentences</layerName>
+                <pattern>
+	[true]
+	[true]? 
+	[true]?       
+                </pattern>
+ 		<actions>
+			<createAnnotation layer="threesent"/>
+			<setFeatures ne-type="threesent"/>
+		</actions>
+		<!--<actions>
+                        <addToLayer layer="threesent"/>
+			<setFeatures ne-type="threesent"/>
+                </actions>-->
+        </module>
+<!--**************************************************************************************-->
+
+<!-- Etape 3 projection de mots du lexique sur le texte -->
+ <sequence id="named-entities">
+
+  	<!-- Etape 3a projection de proteines et des gènes du lexique sur le texte -->
+	<module id="protein" class="SimpleProjector2"> 
+<!-- /bibdev/travail/arabidopsis/resources/genes.txt -->
+		<dictFile>resources/gene_aliases_20130831_TAIR_extended.txt</dictFile>
+   		<targetLayerName>protein1</targetLayerName>
+  		<valueFeatures>locus_name,symbol,full_name</valueFeatures>
+		<caseInsensitive>true</caseInsensitive>
+		<keyIndex>0,1,2</keyIndex>
+		<!-- <allowJoined>true</allowJoined> -->
+		<!-- <joinDash>true</joinDash> -->
+		<constantAnnotationFeatures>ne-type=Protein</constantAnnotationFeatures>
+		<!-- <skipConsecutiveWhitespaces>true</skipConsecutiveWhitespaces> -->
+    	</module>
+
+	<module id="merge_protein" class="MergeLayers">
+		<sourceLayerNames>protein1,protein2,protein3</sourceLayerNames>
+		<targetLayerName>Protein</targetLayerName>
+	</module>
+
+	<module id="overlapsprotein" class="RemoveOverlaps">
+		<layerName>Protein</layerName>
+	</module>
+
+
+	<module id="gene" class="Action">
+		<target>documents.sections.layer:Protein[outside:html[@tag == "em" or @tag == "i"]]</target>
+		<action>remove:Protein | add:gene1 | set:feat:ne-type("Gene")</action>
+		<removeFromLayer/>
+		<addToLayer/>
+		<setFeatures/>
+		<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
+	</module>
+
+	<module id="gene-italic" class="Action">
+		<target>documents.sections.layer:Protein[span:Italic]</target>
+		<action>remove:Protein | add:gene1 | set:feat:ne-type("Gene")</action>
+		<removeFromLayer/>
+		<addToLayer/>
+		<setFeatures/>
+		<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
+	</module>
+
+<!--**************************************************************************************-->
+  	<!-- Etape 4 projection des familles de proteines et de gènes du lexique sur le texte -->
+<!--**************************************************************************************-->
+	<module id="Protein_Family" class="SimpleProjector2">
+   		<dictFile>resources/gene_families_lexicon.txt</dictFile>
+		<targetLayerName>Protein_Family</targetLayerName>
+		<valueFeatures>Protein_Family_name</valueFeatures>
+		<keyIndex>0</keyIndex>
+		<skipEmpty>true</skipEmpty>
+		<constantAnnotationFeatures>ne-type=Protein_Family</constantAnnotationFeatures>
+	</module>
+	<module id="overlapsprotein-family" class="RemoveOverlaps">
+		<layerName>Protein_Family</layerName>
+	</module>
+		
+	<module id="Gene_Family" class="Action">
+		<target>documents.sections.layer:Protein_Family[outside:html[@tag == "em" or @tag == "i"]]</target>
+		<action>remove:Protein_Family | add:Gene_Family | set:feat:ne-type("Gene_Family")|set:feat:Gene_Family_name(@Protein_Family_name)</action>
+		<removeFromLayer/>
+		<addToLayer/>
+		<setFeatures/>
+		<constantAnnotationFeatures>ne-type=Gene_Family</constantAnnotationFeatures>
+	</module>
+
+
+	<module id="overlapsgene-family" class="RemoveOverlaps">
+		<layerName>Gene_Family</layerName>
+	</module>
+
+<!--**************************************************************************************-->
+  	<!-- Etape 5 projection de RNA lexique sur le texte -->
+<!--**************************************************************************************-->
+
+	<module id="RNAmiRTarBase" class="SimpleProjector2"> 
+		<dictFile>resources/ath_MTI_extended.txt</dictFile>
+   		<targetLayerName>rna1</targetLayerName>
+  		<valueFeatures>miRTarBaseID,miRNA,miRNAcut,Species(miRNA),TargetGene,TargetGene(EntrezID),Species(TargetGene),Experiments,SupportType,References(PMID)</valueFeatures>
+		<caseInsensitive>true</caseInsensitive>
+		<keyIndex>0,1,2</keyIndex>
+		<constantAnnotationFeatures>ne-type=RNA</constantAnnotationFeatures>
+    	</module>
+
+
+	<module id="mergerna" class="MergeLayers">
+		<sourceLayerNames>rna1,rna2,rna3</sourceLayerNames>
+		<targetLayerName>RNA</targetLayerName>		
+	</module>
+
+	<module id="renamerna" class="Action">
+	    	<target>documents.sections.layer:RNA</target>
+	   	<action>set:feat:ne-type("RNA")</action>
+	    	<setFeatures/>
+	</module>
+
+	<module id="overlapsrna" class="RemoveOverlaps">
+		<layerName>RNA</layerName>
+	</module>
+
+
+
+<!--**************************************************************************************-->
+<!--  	Etape 6 projection des mots inutiles et suppresions dans les layers-->
+<!--**************************************************************************************-->
+	<module id="stopwordsprojector" class="SimpleProjector2">
+   		<dictFile>resources/stopwords_EN.txt</dictFile>
+		<targetLayerName>stopwords</targetLayerName>
+		<valueFeatures>stopwords</valueFeatures>
+		<constantAnnotationFeatures>ne-type=stopwords</constantAnnotationFeatures>
+		<caseInsensitive>true</caseInsensitive>
+	</module>
+
+	<module id="stopwords" class="Action">
+		<target>documents.sections.layer:Protein[span:stopwords] | documents.sections.layer:Gene[span:stopwords] | documents.sections.layer:Gene_Family[span:stopwords] | documents.sections.layer:Protein_Family[span:stopwords] | documents.sections.layer:RNA[span:stopwords] </target>
+		<action>delete</action>
+		<deleteElements/>
+	</module>
+
+	<module id="standfordwords" class="Action">
+		<target>documents.sections.layer:Protein[span:persons] | documents.sections.layer:Gene[span:persons] | documents.sections.layer:Gene_Family[span:persons] | documents.sections.layer:Protein_Family[span:persons] | documents.sections.layer:RNA[span:persons] </target>
+		<action>delete</action>
+		<deleteElements/>
+	</module>
+
+	<module id="refbiblio" class="RegExp"> <!--type (ABD ., et al 2000)-->
+<pattern>\(([\p{L}-\s\u00a0\.,]+[\s\u00a0]\d{4}[a-zA-Z]?[\u00a0\s;]*)+?\)</pattern>
+<!--		<pattern>\(\w[^\)&lt;&gt;=\/\\]*?\s\d{4}[^\)&lt;&gt;=\/\\]*?\)</pattern> -->
+		<targetLayerName>refbiblio</targetLayerName>
+		<constantAnnotationFeatures>ne-type=refbiblio</constantAnnotationFeatures>
+	</module>
+
+  	<!-- Etape 3d Fusion des layers-->
+
+	<module id="merge" class="MergeLayers">
+		<sourceLayerNames>Gene,Gene_Family,Protein,Protein_Family,RNA</sourceLayerNames>
+		<targetLayerName>fixed</targetLayerName>
+	</module>
+
+	<module id="overlapsfixed" class="RemoveOverlaps">
+		<layerName>fixed</layerName>
+	</module>
+
+	<module id="renamefixed" class="Action">
+    		<target>documents.sections.layer:fixed</target>
+   		 <action>set:feat:pos("NN")</action>
+    		<setFeatures/>
+	</module>
+
+	<module id="mergeundesirable" class="MergeLayers">
+		<sourceLayerNames>persons,refbiblio,stopwords</sourceLayerNames>
+		<targetLayerName>fixedundesirable</targetLayerName>
+	</module>
+
+
+	<module id="mergeAllfixed" class="MergeLayers">
+		<sourceLayerNames>fixed,fixedundesirable</sourceLayerNames>
+		<targetLayerName>fixedAll</targetLayerName>
+	</module>
+
+	<module id="overlaps" class="RemoveOverlaps">
+		<layerName>fixedAll</layerName>
+<!--		<removeIncluded>false</removeIncluded>-->
+	</module>
+ </sequence>
+
+
+<!--**************************************************************************************-->
+<sequence id="liste des tirets"> 
+	<module id="Tirets" class="PatternMatcher">
+		<layerName>words</layerName>
+		<pattern> 
+			[@form=~"^\\u2014$"]? <!-- tiret long-->
+			[@form=~"^\\u2013$"]? <!-- tiret moyen-->
+			[@form=~"^\\u2012$"]? <!-- tiret numérique-->
+			[@form=~"^\\u002D$"]? <!-- tiret union signe moins-->
+			[@form=~"^\\u2010$"]? <!-- trait d'union-->
+			[@form=~"^\\u2011$"]? <!-- trait d'union insécable-->
+			[@form=~"^\\u00AD$"]? <!-- trait d'union conditionel-->
+			[@form=~"^\\u2015$"]? <!-- barre horizontale-->
+			[@form=~"^\\u2043$"]? <!-- puce trait d'union-->
+			[@form=~"^\\u2212$"]? <!-- signe moins-->
+			[@form=~"^\\u02D7$"]? <!-- Lettre modificative signe moins-->
+			[@form=~"^\\u207B$"]? <!-- exposant signe moins-->
+			[@form=~"^\\u208B$"]? <!-- indice signe moins -->
+		</pattern>
+		<actions>
+			<createAnnotation layer="Tiret"/>
+			<setFeatures ne-type="Tiret"/>
+		</actions>
+		<constantAnnotationFeatures>ne-type=Tiret</constantAnnotationFeatures>
+	</module> 
+
+
+	<module id="overlapstiret" class="RemoveOverlaps">
+		<layerName>Tiret</layerName>
+	</module>
+</sequence>
+
+
+<!--**************************************************************************************-->
+  <!-- Etape 7 : Tagger -->
+
+ <module id="tt-pos-tag" class="TreeTagger">
+ <noUnknownLemma/>
+ </module>
+
+<!--**************************************************************************************-->
+<sequence>
+        <module id="GenePattern" class="PatternMatcher">
+                <layerName>words</layerName>
+                <pattern>
+        (Groupe1:[@ne-type=="Protein"])
+	[true]?
+	[true]? 
+	[true]? 
+	[true]?       
+        [@lemma=="gene"]
+                </pattern>
+                <actions>
+                        <addToLayer group="Groupe1" layer="gene2"/>
+			<removeAnnotations group="Groupe1" layer="Protein"/>
+                </actions>
+        </module>
+
+        <module id="GenePattern2" class="PatternMatcher">
+                <layerName>words</layerName>
+                <pattern>
+        [@lemma=="gene"]
+	[true]?
+	[true]? 
+	[true]? 
+	[true]?       
+        (Groupe2:[@ne-type=="Protein"])
+                </pattern>
+                <actions>
+                        <addToLayer group="Groupe2" layer="gene3"/>
+			<removeAnnotations group="Groupe2" layer="Protein"/>
+                </actions>
+        </module>
+
+        <module id="mergeGene" class="MergeLayers">
+                <sourceLayerNames>gene1,gene2,gene3</sourceLayerNames>
+                <targetLayerName>Gene</targetLayerName>
+        </module>
+
+	<module id="overlapsgene" class="RemoveOverlaps">
+		<layerName>Gene</layerName>
+	</module>
+
+<!-- ENLEVE TOUS LES Overlaps entre Gene et Protein -->
+
+	<module id="generename" class="Action">
+		<target>documents.sections.layer:Gene</target>
+		<action>set:feat:ne-type("Gene")</action>
+		<setFeatures/>
+
+	</module>
+
+	<module id="proteinrename" class="Action">
+		<target>documents.sections.layer:Protein</target>
+		<action>set:feat:ne-type("Protein")</action>
+		<setFeatures/>
+	</module>
+
+	<module id="overlapsprotein2" class="RemoveOverlaps">
+		<layerName>Protein</layerName>
+	</module>
+
+
+        <module id="geneandproteinoverlaps" class="Action">
+                <target>documents.sections.layer:Protein[overlapping:Gene]</target>
+                <action>delete</action>
+                <deleteElements/>
+        </module>
+
+
+        <module id="geneandproteinoverlaps2" class="Action">
+                <target>documents.sections.layer:Gene[overlapping:Protein]</target>
+                <action>delete</action>
+                <deleteElements/>
+        </module>
+
+</sequence>
+<!--**************************************************************************************-->
+
+<sequence id="Proteinfamilypatterns">
+        <module id="ProteinfamPattern" class="PatternMatcher">
+                <layerName>words</layerName>
+                <pattern>
+	[@ne-type=="Protein"]
+	[true]?
+	[true]?      
+        ([@lemma=="like"]|[@lemma=="family"])
+                </pattern>
+                <actions>
+                        <!--<addToLayer layer="Protein_Family"/>-->
+			<createAnnotation layer="Protein_Family" />
+                        <setFeatures ne-type="Protein_Family"/>
+                </actions>
+                <constantAnnotationFeatures>ne-type=Protein_Family</constantAnnotationFeatures>
+        </module>
+
+        <module id="Proteinfamilylocusname" class="Action">
+                <target>documents.sections.layer:Protein_Family[inside:Protein]</target>
+                <action>set:feat:Protein_Family_name(inside:Protein.@symbol ^ "_family")</action>
+                <setFeatures/>
+        </module>
+
+ 
+</sequence>
+
+<sequence id="Genefamilypatterns">
+        <module id="GenefamPattern" class="PatternMatcher">
+                <layerName>words</layerName>
+                <pattern>
+	[@ne-type=="Gene"]
+	[true]?
+	[true]?      
+        ([@lemma=="like"]|[@lemma=="family"])
+                </pattern>
+                <actions>
+			<createAnnotation layer="Gene_Family" />
+                        <setFeatures ne-type="Gene_Family"/>
+                </actions>
+                <constantAnnotationFeatures>ne-type=Gene_Family</constantAnnotationFeatures>
+        </module>
+
+        <module id="Genefamilylocusname" class="Action">
+                <target>documents.sections.layer:Gene_Family[inside:Gene]</target>
+                <action>set:feat:Gene_Family_name(inside:Gene.@symbol ^ "_family")</action>
+                <setFeatures/>
+        </module>
+
+ 
+</sequence>
+
+<module id="mergeAllEntities" class="MergeLayers">
+  <sourceLayerNames>
+    Gene,
+    Protein,
+    Protein_Family,
+    Gene_Family,
+    RNA
+  </sourceLayerNames>
+  <targetLayerName>AllEntities</targetLayerName>		
+</module>
+
+ <!-- Enumerate entities -->
+  <module id="id-ent" class="Action">
+      <target>documents.sections</target>
+      <action>id:enumerate:tid(layer:AllEntities)</action>
+    <setFeatures/>
+    </module>
+
+  <!-- BioNLP-ST format -->
+  <module id="ExportInFiles2" class="TabularExport">
+		<outDir>&outdir;/a1dir</outDir>
+		<files>documents</files>
+		<fileName>str:basename(@id) ^ ".a1"</fileName>
+			<lines>document.sections.layer:AllEntities</lines>
+		<columns separator=";">
+			<element>"T" ^ @tid</element>
+			<element>@ne-type ^ " " ^ start ^ " " ^ end</element>
+			<element>str:seds(@form,"\\s+"," ")</element>
+		</columns>
+
+  </module>
+
+  <import file="plan/compareAnnotationsNE.plan"/>
+ 
+</alvisnlp-plan>
