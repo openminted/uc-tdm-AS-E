@@ -1,0 +1,154 @@
+<alvisnlp-plan id="compare_entities">
+
+  <module id="read-reference" class="BioNLPSTReader">
+    <a1Dir>&refdir;</a1Dir>
+    <textDir>&txtdir;</textDir>
+    <textBoundAsAnnotations>true</textBoundAsAnnotations>
+    <constantAnnotationFeatures>ref=true</constantAnnotationFeatures>
+  </module>
+
+  <module id="rename-gene" class="Action">
+    <target>documents.sections.layer:Gene[@ref == "true"]</target>
+    <action>add:Ref-gene |remove:Gene</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-protein" class="Action">
+    <target>documents.sections.layer:Protein[@ref == "true"]</target>
+    <action>add:Ref-protein |remove:Protein</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-Protein_Complex" class="Action">
+    <target>documents.sections.layer:Protein_Complex[@ref == "true"]</target>
+    <action>add:Ref-Protein_Complex |remove:Protein_Complex</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-Protein_Domain" class="Action">
+    <target>documents.sections.layer:Protein_Domain[@ref == "true"]</target>
+    <action>add:Ref-Protein_Domain |remove:Protein_Domain</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-box" class="Action">
+    <target>documents.sections.layer:Box[@ref == "true"]</target>
+    <action>add:Ref-box |remove:Box</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-promoter" class="Action">
+    <target>documents.sections.layer:Promoter[@ref == "true"]</target>
+    <action>add:Ref-Promoter |remove:Promoter</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-protein-family" class="Action">
+    <target>documents.sections.layer:Protein_Family[@ref == "true"]</target>
+    <action>add:Ref-protein-family |remove:Protein_Family</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-gene-family" class="Action">
+    <target>documents.sections.layer:Gene_Family[@ref == "true"]</target>
+    <action>add:Ref-gene-family |remove:Gene_Family</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-hormone" class="Action">
+    <target>documents.sections.layer:Hormone[@ref == "true"]</target>
+    <action>add:Ref-Hormone |remove:Hormone</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-RNA" class="Action">
+    <target>documents.sections.layer:RNA[@ref == "true"]</target>
+    <action>add:Ref-RNA |remove:RNA</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-pathway" class="Action">
+    <target>documents.sections.layer:Pathway[@ref == "true"]</target>
+    <action>add:Ref-Pathway |remove:Pathway</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-Regulatory_Network" class="Action">
+    <target>documents.sections.layer:Regulatory_Network[@ref == "true"]</target>
+    <action>add:Ref-Regulatory_Network |remove:Regulatory_Network</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-tissue" class="Action">
+    <target>documents.sections.layer:Tissue[@ref == "true"]</target>
+    <action>add:Ref-tissue |remove:Tissue</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-genotype" class="Action">
+    <target>documents.sections.layer:Genotype[@ref == "true"]</target>
+    <action>add:Ref-Genotype |remove:Genotype</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-dev-phase" class="Action">
+    <target>documents.sections.layer:Development_Phase[@ref == "true"]</target>
+    <action>add:Ref-Development_Phase |remove:Development_Phase</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+  <module id="rename-Environmental_Factor" class="Action">
+    <target>documents.sections.layer:Environmental_Factor[@ref == "true"]</target>
+    <action>add:Ref-Environmental_Factor |remove:Environmental_Factor</action>
+    <addToLayer/>
+    <removeFromLayer/>
+  </module>
+
+<!-- Compare annotations -->
+
+  <module id="compareRNA" class="LayerComparator">
+    <outFile>&outdir;/compare_rna.txt</outFile>
+    <param name="referenceLayerName" value="Ref-RNA"/>
+    <param name="predictedLayerName" value="RNA"/>
+  </module>
+
+  <module id="compareProteinFamily" class="LayerComparator">
+    <outFile>&outdir;/compare_protein_fam.txt</outFile>
+    <param name="referenceLayerName" value="Ref-protein-family"/>
+    <param name="predictedLayerName" value="Protein_Family"/>
+  </module>
+
+  <module id="compareGeneFamily" class="LayerComparator">
+    <outFile>&outdir;/compare_gene_fam.txt</outFile>
+    <param name="referenceLayerName" value="Ref-gene-family"/>
+    <param name="predictedLayerName" value="Gene_Family"/>
+  </module>
+
+  <module id="compareGene" class="LayerComparator">
+    <outFile>&outdir;/compare_gene.txt</outFile>
+    <param name="referenceLayerName" value="Ref-gene"/>
+    <param name="predictedLayerName" value="Gene"/>
+  </module>
+
+  <module id="compareProtein" class="LayerComparator">
+    <outFile>&outdir;/compare_protein.txt</outFile>
+    <param name="referenceLayerName" value="Ref-protein"/>
+    <param name="predictedLayerName" value="Protein"/>
+  </module>
+
+</alvisnlp-plan>
