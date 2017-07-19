@@ -6,22 +6,24 @@
                 >
 
   <xsl:template match="/">
-    <xsl:apply-templates select="PubmedArticleSet/PubmedArticle/MedlineCitation"/>
+    <xsl:apply-templates select="PubmedArticleSet/PubmedArticle"/>
   </xsl:template>
 
-  <xsl:template match="MedlineCitation">
-    <a:document xpath-id="PMID">
-      <a:feature name="issn" xpath-value="Article/Journal/ISSN"/>
-      <a:feature name="journal" xpath-value="Article/Journal/Title"/>
-      <a:feature name="abbrev" xpath-value="Article/Journal/ISOAbbreviation"/>
-      <a:feature name="year" xpath-value="Article/Journal/JournalIssue/PubDate/Year"/>
-      <a:section name="title" xpath-contents="Article/ArticleTitle"/>
-      <xsl:for-each select="Article/Abstract/AbstractText">
+
+  <xsl:template match="PubmedArticle">
+    <a:document xpath-id="MedlineCitation/PMID">
+      <a:feature name="issn" xpath-value="MedlineCitation/Article/Journal/ISSN"/>
+      <a:feature name="doi" xpath-value="PubmedData/ArticleIdList/ArticleId[@IdType='doi']"/>
+      <a:feature name="journal" xpath-value="MedlineCitation/Article/Journal/Title"/>
+      <a:feature name="abbrev" xpath-value="MedlineCitation/Article/Journal/ISOAbbreviation"/>
+      <a:feature name="year" xpath-value="MedlineCitation/Article/Journal/JournalIssue/PubDate/Year"/>
+      <a:section name="title" xpath-contents="MedlineCitation/Article/ArticleTitle"/>
+      <xsl:for-each select="MedlineCitation/Article/Abstract/AbstractText">
 	<a:section name="abstract" xpath-contents=".">
 	  <a:feature key="label" xpath-value="@Label"/>
 	</a:section>
       </xsl:for-each>
-      <xsl:for-each select="Article/AuthorList/Author">
+      <xsl:for-each select="MedlineCitation/Article/AuthorList/Author">
 	<xsl:variable name="fore-name" select="ForeName"/>
 	<xsl:variable name="last-name" select="LastName"/>
 	<xsl:choose>
@@ -44,7 +46,7 @@
 	  </xsl:otherwise>
 	</xsl:choose>
       </xsl:for-each>
-      <xsl:for-each select="ChemicalList/Chemical/NameOfSubstance|MeshHeadingList/MeshHeading/DescriptorName">
+      <xsl:for-each select="MedlineCitation/ChemicalList/Chemical/NameOfSubstance|MeshHeadingList/MeshHeading/DescriptorName">
 	<a:feature name="mesh-name" xpath-value="."/>
 	<a:feature name="mesh-id" xpath-value="@UI"/>
       </xsl:for-each>

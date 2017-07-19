@@ -529,10 +529,7 @@ limitations under the License. -->
 </sequence>
 <!--**************************************************************************************-->
 
-<sequence id="Relation Prediction">
 
-
-</sequence>
   <sequence id="output">
     <module id="gene" class="TabularExport">
 		<outDir>output</outDir>
@@ -632,6 +629,61 @@ limitations under the License. -->
 		<append>true</append>
 	</module>
 
+<!--
+
+RELATION PREDICTION CO OCCURENCE
+
+-->
+<!-- *******
+<sequence id="RelationPrediction">
+
+<sequence id="geneandprot">
+	<module id="layeraddgene" class="Action">
+	      <target>documents.sections.layer:Gene</target>
+	      <action>add:geneandprot</action>
+	      <addToLayer/>
+	</module>
+
+	<module id="layeraddprot" class="Action">
+	      <target>documents.sections.layer:Protein</target>
+	      <action>add:geneandprot</action>
+	      <addToLayer/>
+	</module>
+
+</sequence>
+    <sequence id="interaction-relations">
+      <module id="triggers" class="Action">
+	<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode)"]</target>
+	<action>add:triggers</action>
+	<addToLayer/>
+      </module>
+
+      <module id="create-relation" class="Action">
+	<target>documents.sections</target>
+	<action>new:relation:CooccurrenceInteraction</action>
+	<createRelations/>
+      </module>
+
+      <module id="create-tuples" class="Action">
+	<target>documents.sections.layer:sentences[inside:triggers]</target>
+	<action>
+	  inside:geneandprot as R.
+	  target.inside:geneandprot as L.
+	  section.relations:CooccurrenceInteraction.new:tuple.(set:arg:geneandprot(R)|set:arg:geneandprot(L))
+	</action>
+	<createTuples/>
+	<setArguments/>
+      </module>
+
+      </sequence>
+  </sequence>
+
+
+
+
+************
+************
+-->
 
 <sequence id="dependencies">
       <module id="index-words" class="Action">
@@ -714,6 +766,7 @@ limitations under the License. -->
       </module>
 </sequence>
 </sequence>
+
 <sequence id="AlvisIRIndexer">
 	<module id="AlvisIRindex" class="AlvisIRIndexer">
 		<indexDir>configuration/index</indexDir> 
@@ -815,6 +868,22 @@ limitations under the License. -->
 		<layers>Gene_family</layers>
 		<colors>#d7d7d7, #ff9966</colors>
 	</module>
+
+    <module id="relations" class="TabularExport">
+      <outDir>output</outDir>
+      <files>$</files>
+      <fileName>"relations.txt"</fileName>
+      <lines>documents.sections.relations:CooccurrenceInteraction.tuples</lines>
+      <columns separator=";">
+	section.document.@id;
+	section.@name;
+	args:geneandprot.@form;
+	<!--args:DNA.@canonical-name;-->
+	args:geneandprot.@form;
+	section.layer:sentences
+	<!--args:DNA.@concept-name;-->
+      </columns>
+    </module>
 
   <module id="success" class="TabularExport">
     <outDir>output</outDir>
