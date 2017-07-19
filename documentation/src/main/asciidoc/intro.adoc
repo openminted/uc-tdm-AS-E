@@ -2,7 +2,7 @@
 
 == Introduction
 
-At the first release of this application, we have developed a text-mining pipeline using the AlvisNLP/ML platform, as well as a web application (semantic search engine) which makes use of the text-mining results and allows the user to search information about seed development (available at http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search).
+Building on the first release of this use-case, named-entity recognition has been applied on a corpus about __Arabidopsis thaliana__ and the resulting data has been integrated into the FLAGdb++ client application. These annotations can be queried using a __beta__ version of the FLAGdb++ application. The semantic search engine provided in the first release indexes the same data and can be both accessed from FLAGAdb++ — in which annotations link to the context of the document, as well as a standalone search engine.
 
 == Data Processing Scenarios
 
