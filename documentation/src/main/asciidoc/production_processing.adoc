@@ -16,7 +16,7 @@ All configuration files, AlvisNLP workflow plans, scripts, and resources used to
 
 A set of predicted relations have been integrated into the FLAGdb++ database and a text mining visualisation has been developped, enabling a FLAGdb++ user to access text mining annotations in a similar way s.he would access bioinformatics informations. The subset of entity types and relations that have been integrated correspond to the two main ways of accessing further data from the FLAGdb++ genome browser, __i.e.__ genes and proteins.
 
-FLAGdb++ is a genomics exploration software that provides combined small and genome scale genome browsing and enables the user to access additional genomic information. These data come from various genomic databases, including TAIR, NCBI (full list here: http://tools.ips2.u-psud.fr/projects/FLAGdb++/HTML/data.shtml#ara).
+FLAGdb++ is a genomics exploration software that provides combined small and genome scale genome browsing and enables the user to access additional genomic information. Six taxa are represented in the database, including __Arabidopsis thaliana__. The data about __Arabidopsis thaliana__ comes from various genomic databases, including TAIR and NCBI (a full list is available <<http://tools.ips2.u-psud.fr/projects/FLAGdb++/HTML/data.shtml#ara, on the FLAGdb++ website>>).
 
 Relations between the predicted genes and proteins of the __Arabidopsis thaliana__ corpus may be accessed by a FLAGdb++ user from the genome browser. When clicking on a gene or a protein, the contextual menu entry __Bibliography__ opens a window displaying a table of all the relations in which the selected gene or protein is a subject. The reciprocal relation for each transitive relation has been infered to enable their visualisation in this table.
 
