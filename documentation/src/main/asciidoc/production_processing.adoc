@@ -20,4 +20,4 @@ FLAGdb++ is a genomics exploration software that provides combined small and gen
 
 Relations between the predicted genes and proteins of the __Arabidopsis thaliana__ corpus may be accessed by a FLAGdb++ user from the genome browser. When clicking on a gene or a protein, the contextual menu entry __Bibliography__ opens a window displaying a table of all the relations in which the selected gene or protein is a subject. The reciprocal relation for each transitive relation has been infered to enable their visualisation in this table.
 
-In order to guide a user accessing the text mining annotations in FLAGdb++ a <<tutorial.adoc#, tutorial>> is available.
+A more extensive description of FLAGdb++, including a tutorial guiding the user accessing text mining annotations is available in the <<flagdb++_doc.adoc, parent application documentation>>.
