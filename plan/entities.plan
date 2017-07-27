@@ -1,5 +1,5 @@
 <!--
-Copyright 2016 Institut National de la Recherche Agronomique
+Copyright 2017 Institut National de la Recherche Agronomique
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -9,400 +9,384 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
-
 <alvisnlp-plan id="entities">
+	<sequence id="read">
+		<!--Lecture corpus Pubmed -->
+		<module id="readPubMed" class="XMLReader2">
+			<sourcePath>../alvisir2_corpus/pubmed_result-2.xml</sourcePath>
+			<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
+		</module>
+		<module id="renametitlehtmlPubMed" class="Action">
+			<target>documents.sections:title</target>
+			<action>set:feat:sectionname("title")</action>
+			<setFeatures/>
+		</module>
+		<module id="renameabstracthtmlPubMed" class="Action">
+			<target>documents.sections:abstract</target>
+			<action>set:feat:sectionname("abstract")</action>
+			<setFeatures/>
+		</module>
+		<module id="renamecontenthtmlPubMed" class="Action">
+			<target>documents.sections:alltext</target>
+			<action>set:feat:sectionname("alltext")</action>
+			<setFeatures/>
+		</module>
+		<module id="renamedocumentPubmed" class="Action">
+			<target>documents</target>
+			<action>set:feat:identifiant(@id)</action>
+			<setFeatures/>
+		</module>
+		<!-- Lecture du corpus Web of knowledge -->
+		<module id="readWoK" class="WebOfKnowledgeReader">
+			<source>../alvisir2_corpus/corpus2000_12012017.txt</source>
+			<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
+		</module>
+		<module id="renamedocumentWOK" class="Action">
+			<target>documents</target>
+			<action>set:feat:identifiant(@id)</action>
+			<setFeatures/>
+		</module>
+		<module id="renameDIWOK" class="Action">
+			<target>documents[@source == "wok"]</target>
+			<action>set:feat:doi(@DI)</action>
+			<setFeatures/>
+		</module>
+		<module id="renametitleWOK" class="Action">
+			<target>documents.sections:TI</target>
+			<action>set:feat:sectionname("title")</action>
+			<setFeatures/>
+		</module>
+		<module id="renamejournalWOK" class="Action">
+			<target>documents.sections:JI</target>
+			<action>set:feat:sectionname("journal")</action>
+			<setFeatures/>
+		</module>
+		<module id="renameyearWOK" class="Action">
+			<target>documents.sections:PY</target>
+			<action>set:feat:sectionname("year")</action>
+			<setFeatures/>
+		</module>
+		<module id="renamedoiWOK" class="Action">
+			<target>documents.sections:DI</target>
+			<action>set:feat:sectionname("doi")</action>
+			<setFeatures/>
+		</module>
+		<module id="completeurlwok" class="Action">
+			<target>documents[@source == "wok"]</target>
+			<action>set:feat:url(@url ^ @doi)</action>
+			<setFeatures/>
+		</module>
+		<module id="renameabstractWOK" class="Action">
+			<target>documents.sections:AB</target>
+			<action>set:feat:sectionname("abstract")</action>
+			<setFeatures/>
+		</module>
+		<!-- Lecture du corpus html packs annotés manuellement -->
+		<module id="readhtmlannotated" class="XMLReader2">
+			<sourcePath>../alvisir2_corpus/fulltext/html</sourcePath>
+			<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
+			<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
+		</module>
+		<module id="completeurlhtml" class="Action">
+			<target>documents[@source == "html"]</target>
+			<action>set:feat:url(@url ^ @id)</action>
+			<setFeatures/>
+		</module>
+		<module id="renametitlehtml" class="Action">
+			<target>documents.sections:title</target>
+			<action>set:feat:sectionname("title")</action>
+			<setFeatures/>
+		</module>
+		<module id="renameabstracthtml" class="Action">
+			<target>documents.sections:abstract</target>
+			<action>set:feat:sectionname("abstract")</action>
+			<setFeatures/>
+		</module>
+		<module id="renamecontenthtml" class="Action">
+			<target>documents.sections:alltext</target>
+			<action>set:feat:sectionname("alltext")</action>
+			<setFeatures/>
+		</module>
+		<module id="renamedocumenthtml" class="Action">
+			<target>documents</target>
+			<action>set:feat:ID(@id)</action>
+			<setFeatures/>
+		</module>
+		<module id="sections" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"sectionsWOK+PubMed.txt"</fileName>
+			<lines>documents</lines>
+			<columns>	@identifiant, 
+				
+				<!-- @sectionname,contents -->
+		str:diacritics(str:normalizeSpace(document.sections[@sectionname == "title"].contents)),
+				
+				<!-- document.sections:abstract.contents,-->
+		document.@doi
+			
+			</columns>
+		</module>
+	</sequence>
+	<!-- Etape 2 : Traitement des noms-->
+	<sequence id="stanford">
+		<module id="stanford" class="StanfordNER">
+			<classifierFile>/bibdev/install/stanford-ner-3.4/classifiers/english.all.3class.distsim.crf.ser.gz</classifierFile>
+			<labelFeatureName>Namelabel</labelFeatureName>
+			<targetLayerName>stanford</targetLayerName>
+			<searchInContents/>
+		</module>
+		<module id="persons" class="Action">
+			<target>documents.sections.layer:stanford[@Namelabel == "PERSON"]</target>
+			<action>add:persons</action>
+			<addToLayer/>
+		</module>
+	</sequence>
 
-<sequence id="read">
-<!--Lecture corpus Pubmed
-<module id="read" class="XMLReader2">
-    <sourcePath>corpus/pubmed_result-2.xml</sourcePath>
-    <xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
-  </module> 
+	<!--**************************************************************************************-->
+	<!-- Etape 3 projection de mots du lexique sur le texte -->
+	<sequence id="named-entities">
+		<!-- Etape 3a projection de proteines et des gènes du lexique sur le texte -->
+		<module id="protein" class="SimpleProjector2">
+			<!-- /bibdev/travail/arabidopsis/resources/genes.txt -->
+			<dictFile>resources/gene_aliases_20130831_TAIR_extended.txt</dictFile>
+			<targetLayerName>protein1</targetLayerName>
+			<valueFeatures>locus_name,symbol,full_name</valueFeatures>
+			<caseInsensitive>true</caseInsensitive>
+			<keyIndex>0,1,2</keyIndex>
+			<!-- <allowJoined>true</allowJoined> -->
+			<!-- <joinDash>true</joinDash> -->
+			<constantAnnotationFeatures>ne-type=Protein</constantAnnotationFeatures>
+			<!-- <skipConsecutiveWhitespaces>true</skipConsecutiveWhitespaces> -->
+		</module>
+		<module id="merge_protein" class="MergeLayers">
+			<sourceLayerNames>protein1,protein2,protein3</sourceLayerNames>
+			<targetLayerName>Protein</targetLayerName>
+		</module>
+		<module id="overlapsprotein" class="RemoveOverlaps">
+			<layerName>Protein</layerName>
+		</module>
+		<module id="gene" class="Action">
+			<target>documents.sections.layer:Protein[outside:html[@tag == "em" or @tag == "i"]]</target>
+			<action>remove:Protein | add:gene1 | set:feat:ne-type("Gene")</action>
+			<removeFromLayer/>
+			<addToLayer/>
+			<setFeatures/>
+			<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
+		</module>
+		<module id="gene-italic" class="Action">
+			<target>documents.sections.layer:Protein[outside:html[@tag == "em" or @tag == "i"]]</target>
+			<action>remove:Protein | add:Gene | set:feat:ne-type("Gene")</action>
+			<removeFromLayer/>
+			<addToLayer/>
+			<setFeatures/>
+			<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
+		</module>
 
-	<module id="renametitlehtml" class="Action">
-		<target>documents.sections:title</target>
-		<action>set:feat:sectionname("title")</action>
-		<setFeatures/>
+
+
+		<!--**************************************************************************************-->
+		<!-- Etape 4 projection des familles de proteines et de gènes du lexique sur le texte -->
+		<!--**************************************************************************************-->
+		<module id="Protein_family" class="SimpleProjector2">
+			<dictFile>resources/gene_families_lexicon.txt</dictFile>
+			<targetLayerName>Protein_family</targetLayerName>
+			<valueFeatures>Protein_family_name</valueFeatures>
+			<keyIndex>0</keyIndex>
+			<skipEmpty>true</skipEmpty>
+			<constantAnnotationFeatures>ne-type=Protein_family</constantAnnotationFeatures>
+		</module>
+		<module id="overlapsprotein-family" class="RemoveOverlaps">
+			<layerName>Protein_family</layerName>
+		</module>
+		<module id="Gene_family" class="Action">
+			<target>documents.sections.layer:Protein_family[outside:html[@tag == "em" or @tag == "i"]]</target>
+			<action>remove:Protein_family | add:Gene_family | set:feat:ne-type("Gene_family")|set:feat:Gene_family_name(@Protein_family_name)</action>
+			<removeFromLayer/>
+			<addToLayer/>
+			<setFeatures/>
+			<constantAnnotationFeatures>ne-type=Gene_family</constantAnnotationFeatures>
+		</module>
+		<module id="overlapsgene-family" class="RemoveOverlaps">
+			<layerName>Gene_family</layerName>
+		</module>
+		<!--**************************************************************************************-->
+		<!-- Etape 5 projection de RNA lexique sur le texte -->
+		<!--**************************************************************************************-->
+		<module id="RNAmiRTarBase" class="SimpleProjector2">
+			<dictFile>resources/ath_MTI_extended.txt</dictFile>
+			<targetLayerName>rna1</targetLayerName>
+			<valueFeatures>miRTarBaseID,miRNA,miRNAcut,Species(miRNA),TargetGene,TargetGene(EntrezID),Species(TargetGene),Experiments,SupportType,References(PMID)</valueFeatures>
+			<caseInsensitive>true</caseInsensitive>
+			<keyIndex>0,1,2</keyIndex>
+			<constantAnnotationFeatures>ne-type=RNA</constantAnnotationFeatures>
+		</module>
+		<module id="mergerna" class="MergeLayers">
+			<sourceLayerNames>rna1,rna2,rna3</sourceLayerNames>
+			<targetLayerName>RNA</targetLayerName>
+		</module>
+		<module id="renamerna" class="Action">
+			<target>documents.sections.layer:RNA</target>
+			<action>set:feat:ne-type("RNA")</action>
+			<setFeatures/>
+		</module>
+		<module id="overlapsrna" class="RemoveOverlaps">
+			<layerName>RNA</layerName>
+		</module>
+		<!--**************************************************************************************-->
+		<!--  	Etape 6 projection des mots inutiles et suppresions dans les layers-->
+		<!--**************************************************************************************-->
+		<module id="stopwordsprojector" class="SimpleProjector2">
+			<dictFile>resources/stopwords_EN.txt</dictFile>
+			<targetLayerName>stopwords</targetLayerName>
+			<valueFeatures>stopwords</valueFeatures>
+			<constantAnnotationFeatures>ne-type=stopwords</constantAnnotationFeatures>
+			<caseInsensitive>true</caseInsensitive>
+		</module>
+		<module id="stopwords" class="Action">
+			<target>documents.sections.layer:Protein[span:stopwords] | documents.sections.layer:Gene[span:stopwords] | documents.sections.layer:Gene_family[span:stopwords] | documents.sections.layer:Protein_family[span:stopwords] | documents.sections.layer:RNA[span:stopwords] </target>
+			<action>delete</action>
+			<deleteElements/>
+		</module>
+		<module id="standfordwords" class="Action">
+			<target>documents.sections.layer:Protein[span:persons] | documents.sections.layer:Gene[span:persons] | documents.sections.layer:Gene_family[span:persons] | documents.sections.layer:Protein_family[span:persons] | documents.sections.layer:RNA[span:persons] </target>
+			<action>delete</action>
+			<deleteElements/>
+		</module>
+		<module id="refbiblio" class="RegExp">
+			<!--type (ABD ., et al 2000)-->
+			<pattern>\(([\p{L}-\s\u00a0\.,]+[\s\u00a0]\d{4}[a-zA-Z]?[\u00a0\s;]*)+?\)</pattern>
+			<!--		<pattern>\(\w[^\)&lt;&gt;=\/\\]*?\s\d{4}[^\)&lt;&gt;=\/\\]*?\)</pattern> -->
+			<targetLayerName>refbiblio</targetLayerName>
+			<constantAnnotationFeatures>ne-type=refbiblio</constantAnnotationFeatures>
+		</module>
+
+		<module id="genotype-minsucules" class="Action">
+			<target>documents.sections.layer:Gene[@form =~"^[a-z]+[0-9]?"]</target>
+			<action>remove:Gene | add:Genotype | set:feat:ne-type("Genotype")</action>
+			<removeFromLayer/>
+			<addToLayer/>
+			<setFeatures/>
+			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
+		</module>
+		<module id="genotype2-minsucules" class="Action">
+			<target>documents.sections.layer:Protein[@form =~"^[a-z]+[0-9]?"]</target>
+			<action>remove:Protein | add:Genotype | set:feat:ne-type("Genotype")</action>
+			<removeFromLayer/>
+			<addToLayer/>
+			<setFeatures/>
+			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
+		</module>
+
+		<!-- Etape 3d Fusion des layers-->
+		<module id="merge" class="MergeLayers">
+			<sourceLayerNames>Gene,Gene_family,Protein,Protein_family,RNA</sourceLayerNames>
+			<targetLayerName>fixed</targetLayerName>
+		</module>
+		<module id="overlapsfixed" class="RemoveOverlaps">
+			<layerName>fixed</layerName>
+		</module>
+		<module id="renamefixed" class="Action">
+			<target>documents.sections.layer:fixed</target>
+			<action>set:feat:pos("NN")</action>
+			<setFeatures/>
+		</module>
+		<module id="mergeundesirable" class="MergeLayers">
+			<sourceLayerNames>persons,refbiblio,stopwords</sourceLayerNames>
+			<targetLayerName>fixedundesirable</targetLayerName>
+		</module>
+		<module id="mergeAllfixed" class="MergeLayers">
+			<sourceLayerNames>fixed,fixedundesirable</sourceLayerNames>
+			<targetLayerName>fixedAll</targetLayerName>
+		</module>
+		<module id="overlaps" class="RemoveOverlaps">
+			<layerName>fixedAll</layerName>
+			<!--		<removeIncluded>false</removeIncluded>-->
+		</module>
+	</sequence>
+
+
+	<!--**************************************************************************************-->
+	<!-- Etape 4 : Segmenter en mot, insertion des différents tirets -->
+	<module id="words" class="WoSMig">
+		<balancedPunctuations>()[]{}""</balancedPunctuations>
+		<punctuations>?.!;,:-&#x2014;&#x2013;&#x2012;&#x002D;&#x2010;&#x2011;&#x00AD;&#x2015;&#x2043;&#x2212;&#x02D7;&#x207B;&#x208B;</punctuations>
+		<targetLayerName>words</targetLayerName>
+		<fixedFormLayerName>fixedAll</fixedFormLayerName>
 	</module>
-
-	<module id="renameabstracthtml" class="Action">
-		<target>documents.sections:abstract</target>
-		<action>set:feat:sectionname("abstract")</action>
-		<setFeatures/>
+	<!--**************************************************************************************-->
+	<!-- Etape 5 : Segmenter en phrases -->
+	<module id="sentences" class="SeSMig">
+		<strongPunctuations>?.!</strongPunctuations>
+		<targetLayerName>sentences</targetLayerName>
 	</module>
-
-	<module id="renamecontenthtml" class="Action">
-		<target>documents.sections:alltext</target>
-		<action>set:feat:sectionname("alltext")</action>
-		<setFeatures/>
-	</module> -->
-
-<!-- Lecture du corpus Web of knowledge --> 
-<module id="readWoK" class="WebOfKnowledgeReader">
-	<source>../alvisir2_corpus/corpus2000_12012017.txt</source>
-		<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
- </module>
-	<module id="renamedocumentWOK" class="Action">
-		<target>documents</target>
-		<action>set:feat:ID(@DI)</action>
-		<setFeatures/>
-	</module>
-
-	<module id="renameDIWOK" class="Action">
-		<target>documents</target>
-		<action>set:feat:doi(@DI)</action>
-		<setFeatures/>
-	</module>
-
-	<module id="renametitleWOK" class="Action">
-		<target>documents.sections:TI</target>
-		<action>set:feat:sectionname("title")</action>
-		<setFeatures/>
-	</module>
-	<module id="renamejournalWOK" class="Action">
-		<target>documents.sections:JI</target>
-		<action>set:feat:sectionname("journal")</action>
-		<setFeatures/>
-	</module>
-	<module id="renameyearWOK" class="Action">
-		<target>documents.sections:PY</target>
-		<action>set:feat:sectionname("year")</action>
-		<setFeatures/>
-	</module>
-	<module id="renamedoiWOK" class="Action">
-		<target>documents.sections:DI</target>
-		<action>set:feat:sectionname("doi")</action>
-		<setFeatures/>
-	</module>
-
-	<module id="completeurlwok" class="Action">
-		<target>documents[@source == "wok"]</target>
-		<action>set:feat:url(@url ^ @doi)</action>
-		<setFeatures/>
-	</module>
-	<module id="renameabstractWOK" class="Action">
-		<target>documents.sections:AB</target>
-		<action>set:feat:sectionname("abstract")</action>
-		<setFeatures/>
-	</module>
-
-
-
-<!-- Lecture du corpus html packs annotés manuellement -->
-	<module id="readhtmlannotated" class="XMLReader2">
-		<sourcePath>../alvisir2_corpus/fulltext/html</sourcePath>
-		<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
-		<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
-	</module>
-
-	<module id="completeurlhtml" class="Action">
-		<target>documents[@source == "html"]</target>
-		<action>set:feat:url(@url ^ @id)</action>
-		<setFeatures/>
-	</module>
-
-	<module id="renametitlehtml" class="Action">
-		<target>documents.sections:title</target>
-		<action>set:feat:sectionname("title")</action>
-		<setFeatures/>
-	</module>
-
-	<module id="renameabstracthtml" class="Action">
-		<target>documents.sections:abstract</target>
-		<action>set:feat:sectionname("abstract")</action>
-		<setFeatures/>
-	</module>
-
-	<module id="renamecontenthtml" class="Action">
-		<target>documents.sections:alltext</target>
-		<action>set:feat:sectionname("alltext")</action>
-		<setFeatures/>
-	</module>
-
-	<module id="renamedocumenthtml" class="Action">
-		<target>documents</target>
-		<action>set:feat:ID(@id)</action>
-		<setFeatures/>
-	</module>
-
-
-<module id="sections" class="TabularExport">
-    <outDir>corpus/output</outDir>
-    <files>$</files>
-    <fileName>"sections.txt"</fileName>
-    <lines>documents.sections</lines>
-    <columns>	document.@ID, 
-		@sectionname,
-		contents</columns>
-</module>
-</sequence>
-
-  <!-- Etape 2 : Traitement des noms-->
-<sequence id="stanford">
-	<module id="stanford" class="StanfordNER">
-		<labelFeatureName>Namelabel</labelFeatureName>
-		<targetLayerName>stanford</targetLayerName>
-		<searchInContents/>
-	</module>
-
-	<module id="persons" class="Action">
-		<target>documents.sections.layer:stanford[@Namelabel == "PERSON"]</target>
-		<action>add:persons</action>
-		<addToLayer/>
-	</module>
-
-</sequence> 
-
-<!--**************************************************************************************-->
-<!-- Etape 4 : Segmenter en mot, insertion des différents tirets -->
- <module id="words" class="WoSMig">
-	<balancedPunctuations>()[]{}""</balancedPunctuations>
-	<punctuations>?.!;,:-&#x2014;&#x2013;&#x2012;&#x002D;&#x2010;&#x2011;&#x00AD;&#x2015;&#x2043;&#x2212;&#x02D7;&#x207B;&#x208B;</punctuations>	
-	<targetLayerName>words</targetLayerName>
-	<fixedFormLayerName>fixed</fixedFormLayerName>
- </module>
-
-<!--**************************************************************************************-->
-  <!-- Etape 5 : Segmenter en phrases -->
-
- <module id="sentences" class="SeSMig">
-	<strongPunctuations>?.!</strongPunctuations>
-	<targetLayerName>sentences</targetLayerName>
- </module>
-
-   <module id="SentencePattern" class="PatternMatcher">
-                <layerName>sentences</layerName>
-                <pattern>
+	<module id="SentencePattern" class="PatternMatcher">
+		<layerName>sentences</layerName>
+		<pattern>
 	[true]
 	[true]? 
 	[true]?       
                 </pattern>
- 		<actions>
+		<actions>
 			<createAnnotation layer="threesent"/>
 			<setFeatures ne-type="threesent"/>
 		</actions>
-		<!--<actions>
-                        <addToLayer layer="threesent"/>
-			<setFeatures ne-type="threesent"/>
-                </actions>-->
-        </module>
-<!--**************************************************************************************-->
-
-<!-- Etape 3 projection de mots du lexique sur le texte -->
- <sequence id="named-entities">
-
-  	<!-- Etape 3a projection de proteines et des gènes du lexique sur le texte -->
-	<module id="protein" class="SimpleProjector2"> 
-<!-- /bibdev/travail/arabidopsis/resources/genes.txt -->
-		<dictFile>resources/gene_aliases_20130831_TAIR_extended.txt</dictFile>
-   		<targetLayerName>protein1</targetLayerName>
-  		<valueFeatures>locus_name,symbol,full_name</valueFeatures>
-		<caseInsensitive>true</caseInsensitive>
-		<keyIndex>0,1,2</keyIndex>
-		<!-- <allowJoined>true</allowJoined> -->
-		<!-- <joinDash>true</joinDash> -->
-		<constantAnnotationFeatures>ne-type=Protein</constantAnnotationFeatures>
-		<!-- <skipConsecutiveWhitespaces>true</skipConsecutiveWhitespaces> -->
-    	</module>
-
-	<module id="merge_protein" class="MergeLayers">
-		<sourceLayerNames>protein1,protein2,protein3</sourceLayerNames>
-		<targetLayerName>Protein</targetLayerName>
+		<!--<actions><addToLayer layer="threesent"/><setFeatures ne-type="threesent"/></actions>-->
 	</module>
-
-	<module id="overlapsprotein" class="RemoveOverlaps">
-		<layerName>Protein</layerName>
+	<!--**************************************************************************************-->
+	<sequence id="liste des tirets">
+		<module id="Tirets" class="PatternMatcher">
+			<layerName>words</layerName>
+			<pattern> 
+			[@form=~"^\\u2014$"]? 
+				<!-- tiret long-->
+			[@form=~"^\\u2013$"]? 
+				<!-- tiret moyen-->
+			[@form=~"^\\u2012$"]? 
+				<!-- tiret numérique-->
+			[@form=~"^\\u002D$"]? 
+				<!-- tiret union signe moins-->
+			[@form=~"^\\u2010$"]? 
+				<!-- trait d'union-->
+			[@form=~"^\\u2011$"]? 
+				<!-- trait d'union insécable-->
+			[@form=~"^\\u00AD$"]? 
+				<!-- trait d'union conditionel-->
+			[@form=~"^\\u2015$"]? 
+				<!-- barre horizontale-->
+			[@form=~"^\\u2043$"]? 
+				<!-- puce trait d'union-->
+			[@form=~"^\\u2212$"]? 
+				<!-- signe moins-->
+			[@form=~"^\\u02D7$"]? 
+				<!-- Lettre modificative signe moins-->
+			[@form=~"^\\u207B$"]? 
+				<!-- exposant signe moins-->
+			[@form=~"^\\u208B$"]? 
+				<!-- indice signe moins -->
+			</pattern>
+			<actions>
+				<createAnnotation layer="Tiret"/>
+				<setFeatures ne-type="Tiret"/>
+			</actions>
+			<constantAnnotationFeatures>ne-type=Tiret</constantAnnotationFeatures>
+		</module>
+		<module id="overlapstiret" class="RemoveOverlaps">
+			<layerName>Tiret</layerName>
+		</module>
+	</sequence>
+	<!--**************************************************************************************-->
+	<!-- Etape 7 : Tagger -->
+	<module id="tt-pos-tag" class="TreeTagger">
+		<treeTaggerExecutable>/bibdev/install/tree-tagger-3.2/bin/tree-tagger</treeTaggerExecutable>
+		<parFile>/bibdev/install/tree-tagger-3.2/lib/english.par</parFile>
+		<noUnknownLemma/>
 	</module>
-
-
-	<module id="gene" class="Action">
-		<target>documents.sections.layer:Protein[outside:html[@tag == "em" or @tag == "i"]]</target>
-		<action>remove:Protein | add:gene1 | set:feat:ne-type("Gene")</action>
-		<removeFromLayer/>
-		<addToLayer/>
-		<setFeatures/>
-		<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
-	</module>
-
-	<module id="gene-italic" class="Action">
-		<target>documents.sections.layer:Protein[span:Italic]</target>
-		<action>remove:Protein | add:gene1 | set:feat:ne-type("Gene")</action>
-		<removeFromLayer/>
-		<addToLayer/>
-		<setFeatures/>
-		<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
-	</module>
-
-<!--**************************************************************************************-->
-  	<!-- Etape 4 projection des familles de proteines et de gènes du lexique sur le texte -->
-<!--**************************************************************************************-->
-	<module id="Protein_family" class="SimpleProjector2">
-   		<dictFile>resources/gene_families_lexicon.txt</dictFile>
-		<targetLayerName>Protein_family</targetLayerName>
-		<valueFeatures>Protein_family_name</valueFeatures>
-		<keyIndex>0</keyIndex>
-		<skipEmpty>true</skipEmpty>
-		<constantAnnotationFeatures>ne-type=Protein_family</constantAnnotationFeatures>
-	</module>
-	<module id="overlapsprotein-family" class="RemoveOverlaps">
-		<layerName>Protein_family</layerName>
-	</module>
-		
-	<module id="Gene_family" class="Action">
-		<target>documents.sections.layer:Protein_family[outside:html[@tag == "em" or @tag == "i"]]</target>
-		<action>remove:Protein_family | add:Gene_family | set:feat:ne-type("Gene_family")|set:feat:Gene_family_name(@Protein_family_name)</action>
-		<removeFromLayer/>
-		<addToLayer/>
-		<setFeatures/>
-		<constantAnnotationFeatures>ne-type=Gene_family</constantAnnotationFeatures>
-	</module>
-
-
-	<module id="overlapsgene-family" class="RemoveOverlaps">
-		<layerName>Gene_family</layerName>
-	</module>
-
-<!--**************************************************************************************-->
-  	<!-- Etape 5 projection de RNA lexique sur le texte -->
-<!--**************************************************************************************-->
-
-	<module id="RNAmiRTarBase" class="SimpleProjector2"> 
-		<dictFile>resources/ath_MTI_extended.txt</dictFile>
-   		<targetLayerName>rna1</targetLayerName>
-  		<valueFeatures>miRTarBaseID,miRNA,miRNAcut,Species(miRNA),TargetGene,TargetGene(EntrezID),Species(TargetGene),Experiments,SupportType,References(PMID)</valueFeatures>
-		<caseInsensitive>true</caseInsensitive>
-		<keyIndex>0,1,2</keyIndex>
-		<constantAnnotationFeatures>ne-type=RNA</constantAnnotationFeatures>
-    	</module>
-
-
-	<module id="mergerna" class="MergeLayers">
-		<sourceLayerNames>rna1,rna2,rna3</sourceLayerNames>
-		<targetLayerName>RNA</targetLayerName>		
-	</module>
-
-	<module id="renamerna" class="Action">
-	    	<target>documents.sections.layer:RNA</target>
-	   	<action>set:feat:ne-type("RNA")</action>
-	    	<setFeatures/>
-	</module>
-
-	<module id="overlapsrna" class="RemoveOverlaps">
-		<layerName>RNA</layerName>
-	</module>
-
-
-
-<!--**************************************************************************************-->
-<!--  	Etape 6 projection des mots inutiles et suppresions dans les layers-->
-<!--**************************************************************************************-->
-	<module id="stopwordsprojector" class="SimpleProjector2">
-   		<dictFile>resources/stopwords_EN.txt</dictFile>
-		<targetLayerName>stopwords</targetLayerName>
-		<valueFeatures>stopwords</valueFeatures>
-		<constantAnnotationFeatures>ne-type=stopwords</constantAnnotationFeatures>
-		<caseInsensitive>true</caseInsensitive>
-	</module>
-
-	<module id="stopwords" class="Action">
-		<target>documents.sections.layer:Protein[span:stopwords] | documents.sections.layer:Gene[span:stopwords] | documents.sections.layer:Gene_family[span:stopwords] | documents.sections.layer:Protein_family[span:stopwords] | documents.sections.layer:RNA[span:stopwords] </target>
-		<action>delete</action>
-		<deleteElements/>
-	</module>
-
-	<module id="standfordwords" class="Action">
-		<target>documents.sections.layer:Protein[span:persons] | documents.sections.layer:Gene[span:persons] | documents.sections.layer:Gene_family[span:persons] | documents.sections.layer:Protein_family[span:persons] | documents.sections.layer:RNA[span:persons] </target>
-		<action>delete</action>
-		<deleteElements/>
-	</module>
-
-	<module id="refbiblio" class="RegExp"> <!--type (ABD ., et al 2000)-->
-<pattern>\(([\p{L}-\s\u00a0\.,]+[\s\u00a0]\d{4}[a-zA-Z]?[\u00a0\s;]*)+?\)</pattern>
-<!--		<pattern>\(\w[^\)&lt;&gt;=\/\\]*?\s\d{4}[^\)&lt;&gt;=\/\\]*?\)</pattern> -->
-		<targetLayerName>refbiblio</targetLayerName>
-		<constantAnnotationFeatures>ne-type=refbiblio</constantAnnotationFeatures>
-	</module>
-
-  	<!-- Etape 3d Fusion des layers-->
-
-	<module id="merge" class="MergeLayers">
-		<sourceLayerNames>Gene,Gene_family,Protein,Protein_family,RNA</sourceLayerNames>
-		<targetLayerName>fixed</targetLayerName>
-	</module>
-
-	<module id="overlapsfixed" class="RemoveOverlaps">
-		<layerName>fixed</layerName>
-	</module>
-
-	<module id="renamefixed" class="Action">
-    		<target>documents.sections.layer:fixed</target>
-   		 <action>set:feat:pos("NN")</action>
-    		<setFeatures/>
-	</module>
-
-	<module id="mergeundesirable" class="MergeLayers">
-		<sourceLayerNames>persons,refbiblio,stopwords</sourceLayerNames>
-		<targetLayerName>fixedundesirable</targetLayerName>
-	</module>
-
-
-	<module id="mergeAllfixed" class="MergeLayers">
-		<sourceLayerNames>fixed,fixedundesirable</sourceLayerNames>
-		<targetLayerName>fixedAll</targetLayerName>
-	</module>
-
-	<module id="overlaps" class="RemoveOverlaps">
-		<layerName>fixedAll</layerName>
-<!--		<removeIncluded>false</removeIncluded>-->
-	</module>
- </sequence>
-
-
-<!--**************************************************************************************-->
-<sequence id="liste des tirets"> 
-	<module id="Tirets" class="PatternMatcher">
-		<layerName>words</layerName>
-		<pattern> 
-			[@form=~"^\\u2014$"]? <!-- tiret long-->
-			[@form=~"^\\u2013$"]? <!-- tiret moyen-->
-			[@form=~"^\\u2012$"]? <!-- tiret numérique-->
-			[@form=~"^\\u002D$"]? <!-- tiret union signe moins-->
-			[@form=~"^\\u2010$"]? <!-- trait d'union-->
-			[@form=~"^\\u2011$"]? <!-- trait d'union insécable-->
-			[@form=~"^\\u00AD$"]? <!-- trait d'union conditionel-->
-			[@form=~"^\\u2015$"]? <!-- barre horizontale-->
-			[@form=~"^\\u2043$"]? <!-- puce trait d'union-->
-			[@form=~"^\\u2212$"]? <!-- signe moins-->
-			[@form=~"^\\u02D7$"]? <!-- Lettre modificative signe moins-->
-			[@form=~"^\\u207B$"]? <!-- exposant signe moins-->
-			[@form=~"^\\u208B$"]? <!-- indice signe moins -->
-		</pattern>
-		<actions>
-			<createAnnotation layer="Tiret"/>
-			<setFeatures ne-type="Tiret"/>
-		</actions>
-		<constantAnnotationFeatures>ne-type=Tiret</constantAnnotationFeatures>
-	</module> 
-
-
-	<module id="overlapstiret" class="RemoveOverlaps">
-		<layerName>Tiret</layerName>
-	</module>
-</sequence>
-
-
-<!--**************************************************************************************-->
-  <!-- Etape 7 : Tagger -->
-
- <module id="tt-pos-tag" class="TreeTagger">
- <noUnknownLemma/>
- </module>
-
-<!--**************************************************************************************-->
-<sequence>
-        <module id="GenePattern" class="PatternMatcher">
-                <layerName>words</layerName>
-                <pattern>
+	<!--**************************************************************************************-->
+	<sequence>
+		<module id="GenePattern" class="PatternMatcher">
+			<layerName>words</layerName>
+			<pattern>
         (Groupe1:[@ne-type=="Protein"])
 	[true]?
 	[true]? 
@@ -410,15 +394,14 @@ limitations under the License. -->
 	[true]?       
         [@lemma=="gene"]
                 </pattern>
-                <actions>
-                        <addToLayer group="Groupe1" layer="gene2"/>
-			<removeAnnotations group="Groupe1" layer="Protein"/>
-                </actions>
-        </module>
-
-        <module id="GenePattern2" class="PatternMatcher">
-                <layerName>words</layerName>
-                <pattern>
+			<actions>
+				<addToLayer group="Groupe1" layer="gene2"/>
+				<removeAnnotations group="Groupe1" layer="Protein"/>
+			</actions>
+		</module>
+		<module id="GenePattern2" class="PatternMatcher">
+			<layerName>words</layerName>
+			<pattern>
         [@lemma=="gene"]
 	[true]?
 	[true]? 
@@ -426,126 +409,204 @@ limitations under the License. -->
 	[true]?       
         (Groupe2:[@ne-type=="Protein"])
                 </pattern>
-                <actions>
-                        <addToLayer group="Groupe2" layer="gene3"/>
-			<removeAnnotations group="Groupe2" layer="Protein"/>
-                </actions>
-        </module>
-
-        <module id="mergeGene" class="MergeLayers">
-                <sourceLayerNames>gene1,gene2,gene3</sourceLayerNames>
-                <targetLayerName>Gene</targetLayerName>
-        </module>
-
-	<module id="overlapsgene" class="RemoveOverlaps">
-		<layerName>Gene</layerName>
-	</module>
-
-<!-- ENLEVE TOUS LES Overlaps entre Gene et Protein -->
-
-	<module id="generename" class="Action">
-		<target>documents.sections.layer:Gene</target>
-		<action>set:feat:ne-type("Gene")</action>
-		<setFeatures/>
-
-	</module>
-
-	<module id="proteinrename" class="Action">
-		<target>documents.sections.layer:Protein</target>
-		<action>set:feat:ne-type("Protein")</action>
-		<setFeatures/>
-	</module>
-
-	<module id="overlapsprotein2" class="RemoveOverlaps">
-		<layerName>Protein</layerName>
-	</module>
-
-
-        <module id="geneandproteinoverlaps" class="Action">
-                <target>documents.sections.layer:Protein[overlapping:Gene]</target>
-                <action>delete</action>
-                <deleteElements/>
-        </module>
-
-
-        <module id="geneandproteinoverlaps2" class="Action">
-                <target>documents.sections.layer:Gene[overlapping:Protein]</target>
-                <action>delete</action>
-                <deleteElements/>
-        </module>
-
-</sequence>
-<!--**************************************************************************************-->
-
-<sequence id="Proteinfamilypatterns">
-        <module id="ProteinfamPattern" class="PatternMatcher">
-                <layerName>words</layerName>
-                <pattern>
+			<actions>
+				<addToLayer group="Groupe2" layer="gene3"/>
+				<removeAnnotations group="Groupe2" layer="Protein"/>
+			</actions>
+		</module>
+		<module id="mergeGene" class="MergeLayers">
+			<sourceLayerNames>gene1,gene2,gene3</sourceLayerNames>
+			<targetLayerName>Gene</targetLayerName>
+		</module>
+		<module id="overlapsgene" class="RemoveOverlaps">
+			<layerName>Gene</layerName>
+		</module>
+		<!-- ENLEVE TOUS LES Overlaps entre Gene et Protein -->
+		<module id="generename" class="Action">
+			<target>documents.sections.layer:Gene</target>
+			<action>set:feat:ne-type("Gene")</action>
+			<setFeatures/>
+		</module>
+		<module id="proteinrename" class="Action">
+			<target>documents.sections.layer:Protein</target>
+			<action>set:feat:ne-type("Protein")</action>
+			<setFeatures/>
+		</module>
+		<module id="overlapsprotein2" class="RemoveOverlaps">
+			<layerName>Protein</layerName>
+		</module>
+		<module id="geneandproteinoverlaps" class="Action">
+			<target>documents.sections.layer:Protein[overlapping:Gene]</target>
+			<action>delete</action>
+			<deleteElements/>
+		</module>
+		<module id="geneandproteinoverlaps2" class="Action">
+			<target>documents.sections.layer:Gene[overlapping:Protein]</target>
+			<action>delete</action>
+			<deleteElements/>
+		</module>
+	</sequence>
+	<!--**************************************************************************************-->
+	<sequence id="Proteinfamilypatterns">
+		<module id="ProteinfamPattern" class="PatternMatcher">
+			<layerName>words</layerName>
+			<pattern>
 	[@ne-type=="Protein"]
 	[true]?
 	[true]?      
         ([@lemma=="like"]|[@lemma=="family"])
                 </pattern>
-                <actions>
-                        <!--<addToLayer layer="Protein_family"/>-->
-			<createAnnotation layer="Protein_family" />
-                        <setFeatures ne-type="Protein_family"/>
-                </actions>
-                <constantAnnotationFeatures>ne-type=Protein_family</constantAnnotationFeatures>
-        </module>
-
-        <module id="Proteinfamilylocusname" class="Action">
-                <target>documents.sections.layer:Protein_family[inside:Protein]</target>
-                <action>set:feat:Protein_family_name(inside:Protein.@symbol ^ "_family")</action>
-                <setFeatures/>
-        </module>
-
- 
-</sequence>
-
-<sequence id="Genefamilypatterns">
-        <module id="GenefamPattern" class="PatternMatcher">
-                <layerName>words</layerName>
-                <pattern>
+			<actions>
+				<!--<addToLayer layer="Protein_family"/>-->
+				<createAnnotation layer="Protein_family" />
+				<setFeatures ne-type="Protein_family"/>
+			</actions>
+			<constantAnnotationFeatures>ne-type=Protein_family</constantAnnotationFeatures>
+		</module>
+		<module id="Proteinfamilylocusname" class="Action">
+			<target>documents.sections.layer:Protein_family[inside:Protein]</target>
+			<action>set:feat:Protein_family_name(inside:Protein.@symbol ^ "_family")</action>
+			<setFeatures/>
+		</module>
+	</sequence>
+	<sequence id="Genefamilypatterns">
+		<module id="GenefamPattern" class="PatternMatcher">
+			<layerName>words</layerName>
+			<pattern>
 	[@ne-type=="Gene"]
 	[true]?
 	[true]?      
         ([@lemma=="like"]|[@lemma=="family"])
                 </pattern>
-                <actions>
-			<createAnnotation layer="Gene_family" />
-                        <setFeatures ne-type="Gene_family"/>
-                </actions>
-                <constantAnnotationFeatures>ne-type=Gene_family</constantAnnotationFeatures>
-        </module>
+			<actions>
+				<createAnnotation layer="Gene_family" />
+				<setFeatures ne-type="Gene_family"/>
+			</actions>
+			<constantAnnotationFeatures>ne-type=Gene_family</constantAnnotationFeatures>
+		</module>
+		<module id="Genefamilylocusname" class="Action">
+			<target>documents.sections.layer:Gene_family[inside:Gene]</target>
+			<action>set:feat:Gene_family_name(inside:Gene.@symbol ^ "_family")</action>
+			<setFeatures/>
+		</module>
+	</sequence>
+	<!--**************************************************************************************-->
+	<!--
 
-        <module id="Genefamilylocusname" class="Action">
-                <target>documents.sections.layer:Gene_family[inside:Gene]</target>
-                <action>set:feat:Gene_family_name(inside:Gene.@symbol ^ "_family")</action>
-                <setFeatures/>
-        </module>
+RELATION PREDICTION CO OCCURENCE
 
- 
-</sequence>
-<!--**************************************************************************************-->
+-->
+	<sequence id="RelationPrediction">
+		<sequence id="geneandprot">
+			<module id="layeraddgene" class="Action">
+				<target>documents.sections.layer:Gene</target>
+				<action>add:geneandprot | set:feat:ne-type("geneandprot")</action>
+				<setFeatures/>
+				<addToLayer/>
+			</module>
+			<module id="layeraddprot" class="Action">
+				<target>documents.sections.layer:Protein</target>
+				<action>add:geneandprot | set:feat:ne-type("geneandprot")</action>
+				<addToLayer/>
+				<setFeatures/>
+			</module>
+		</sequence>
+		<sequence id ="Conjonction detection">
+			<module id="Groupofgeneprot" class="PatternMatcher">
+				<layerName>words</layerName>
+				<pattern>
+				[@form!="between"]
+				(Conj: ([@ne-type=="geneandprot"]
+				[@form==","]?)+
+				[@form=="and"]
+				[@ne-type=="geneandprot"])
+			        </pattern>
+				<actions>
+					<createAnnotation group="Conj" layer="groupGandP"/>
+					<setFeatures ne-type="groupGandP"/>
+					
+				</actions>
+			</module>
 
+		 <module id="overlapscgroupGandP" class="RemoveOverlaps">
+			<layerName>groupGandP</layerName>
+		</module> 
 
-  <sequence id="output">
-    <module id="gene" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"entities.txt"</fileName>
+		</sequence>
+
+		<sequence id="interaction-relations">
+			<module id="triggers" class="Action">
+				<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode)"]</target>
+				<action>add:triggers</action>
+				<addToLayer/>
+			</module>
+			<module id="create-relation" class="Action">
+				<target>documents.sections</target>
+				<action>new:relation:CooccurrenceInteraction</action>
+				<createRelations/>
+			</module>
+			<module id="create-tuples" class="Action">
+				<target>documents.sections.layer:sentences[inside:triggers]</target>
+				<action>
+	  inside:geneandprot as R.
+	  target.inside:geneandprot[R.@locus_name!=@locus_name] as L.
+	  section.relations:CooccurrenceInteraction.new:tuple.(set:arg:geneandprotfirst(L)|set:arg:geneandprotsecond(R)|set:feat:TYPE("Interaction"))
+	</action>
+				<createTuples/>
+				<setArguments/>
+				<setFeatures/>
+			</module>
+			<!--
+  <module id="duplicates" class="RemoveEquivalent"><target>documents.sections.relations.tuples</target><equivalency>(@TYPE == other.@TYPE) and (nav:args(relation.@argument-left).id:unique == other.nav:args(relation.@argument-left).id:unique) and (nav:args(relation.@argument-right).id:unique == other.nav:args(relation.@argument-right).id:unique)</equivalency></module><remove-duplicates class="RemoveEquivalent"><target>documents.sections.relations.tuples</target><equivalency>
+	@geneandprotfirst == other.@geneandprotfirst and
+	@geneandprotsecond == other.@geneandprotsecond and
+	nav:args(@geneandprotfirst).id:unique == other.nav:args(@geneandprotfirst).id:unique and
+	nav:args(@geneandprotsecond).id:unique == other.nav:args(@geneandprotsecond).id:unique
+      </equivalency><priority>0</priority></remove-duplicates> -->
+			<module id="remove" class="Action">
+				<target>documents.sections.relations.tuples[(args:geneandprotfirst.start > args:geneandprotsecond.start)]</target>
+				<action>delete</action>
+				<deleteElements/>
+			</module>
+			<!-- 	-->
+			<module id="removecoordination" class="Action">
+				<target>documents.sections.relations.tuples[(args:geneandprotfirst.outside:groupGandP.id:unique==args:geneandprotsecond.outside:groupGandP.id:unique)]</target>
+				<action>delete</action>
+				<deleteElements/>
+			</module>
+		</sequence>
+	</sequence>
+	<!-- *******
+************
+************
+-->
+	<module id="mergeAllEntities" class="MergeLayers">
+		<sourceLayerNames>
+			Gene,
+			Protein,
+			Protein_family,
+			Gene_family,
+			RNA,
+			groupGandP,
+		</sourceLayerNames>
+		<targetLayerName>AllEntities</targetLayerName>
+	</module>
+	<sequence id="outputEntities">
+		<module id="gene" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"entities.txt"</fileName>
 			<lines>documents.sections.layer:Gene</lines>
-		<columns separator=";">
-			<element>section.document.@ID</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>@locus_name</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
-		</columns>
-		<headers>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@locus_name</element>
+				<element>start ^ "-" ^ end</element>
+				<element>section.@sectionname</element>
+				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
+			</columns>
+			<headers>
 			"DOCID",
 			"EntityType",
 			"Form",
@@ -554,184 +615,150 @@ limitations under the License. -->
 			"Section name",
 			"URL"
 		</headers>
-	</module>
-
-
-	<module id="protein" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"entities.txt"</fileName>
-		<append/>
-		<lines>documents.sections.layer:Protein</lines>
-		<columns separator=";">
-			<element>section.document.@ID</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>@locus_name</element>		
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
-		</columns>
-		<append>true</append>
-	</module> 
-
-	<module id="proteinfamily" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"entities.txt"</fileName>
-		<append/>
-		<lines>documents.sections.layer:Protein_family</lines>
-		<columns separator=";">
-			<element>section.document.@ID</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>@Protein_family_name</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Protein_family_name</element>
-		</columns>
-		<append>true</append>
-	</module>
-
-	<module id="genefamily" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"entities.txt"</fileName>
-		<append/>
-		<lines>documents.sections.layer:Gene_family</lines>
-		<columns separator=";">
-			<element>section.document.@ID</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>@Gene_family_name</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Gene_family_name</element>
-		</columns>
-		<append>true</append>
-	</module>
- 
-	<module id="RNA" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"entities.txt"</fileName>
-		<append/>
-		<lines>documents.sections.layer:RNA</lines>
-		<columns separator=";">
-			<element>section.document.@ID</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>@miRTarBaseID</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@miRTarBaseID</element>
-		</columns>
-		<append>true</append>
-	</module>
-
-<!--
-
-RELATION PREDICTION CO OCCURENCE
-
--->
-<!-- *******
-<sequence id="RelationPrediction">
-
-<sequence id="geneandprot">
-	<module id="layeraddgene" class="Action">
-	      <target>documents.sections.layer:Gene</target>
-	      <action>add:geneandprot</action>
-	      <addToLayer/>
-	</module>
-
-	<module id="layeraddprot" class="Action">
-	      <target>documents.sections.layer:Protein</target>
-	      <action>add:geneandprot</action>
-	      <addToLayer/>
-	</module>
-
-</sequence>
-    <sequence id="interaction-relations">
-      <module id="triggers" class="Action">
-	<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode)"]</target>
-	<action>add:triggers</action>
-	<addToLayer/>
-      </module>
-
-      <module id="create-relation" class="Action">
-	<target>documents.sections</target>
-	<action>new:relation:CooccurrenceInteraction</action>
-	<createRelations/>
-      </module>
-
-      <module id="create-tuples" class="Action">
-	<target>documents.sections.layer:sentences[inside:triggers]</target>
-	<action>
-	  inside:geneandprot as R.
-	  target.inside:geneandprot as L.
-	  section.relations:CooccurrenceInteraction.new:tuple.(set:arg:geneandprot(R)|set:arg:geneandprot(L))
-	</action>
-	<createTuples/>
-	<setArguments/>
-      </module>
-
-      </sequence>
-  </sequence>
-
-
-
-
-************
-************
--->
-
-<sequence id="dependencies">
-      <module id="index-words" class="Action">
-	<target>documents.sections.layer:sentences[@name != "author"]</target>
-	<action>id:enumerate:word-index(inside:words)</action>
-	<setFeatures/>
-      </module>
-
-      <module id="index-sentences" class="Action">
-	<target>documents.sections[@name != "author"]</target>
-	<action>id:enumerate:sentence-index(layer:sentences)</action>
-	<setFeatures/>
-      </module>
-
-   <module id="index-threesentences" class="Action">
-	<target>documents.sections[@name != "author"]</target>
-	<action>id:enumerate:threesentence-index(layer:threesent)</action>
-	<setFeatures/>
-      </module>
-
-    <module id="sentences" class="TabularExport">
-		<outDir>corpus/output</outDir>
-		<files>$</files>
-		<fileName>"sentences.txt"</fileName>
-		<lines>documents.sections.layer:sentences[@name != "author"]</lines>
-		<columns separator=";">
+		</module>
+		<module id="protein" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"entities.txt"</fileName>
+			<append/>
+			<lines>documents.sections.layer:Protein</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@locus_name</element>
+				<element>start ^ "-" ^ end</element>
+				<element>section.@sectionname</element>
+				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
+			</columns>
+			<append>true</append>
+		</module>
+		<module id="proteinfamily" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"entities.txt"</fileName>
+			<append/>
+			<lines>documents.sections.layer:Protein_family</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@Protein_family_name</element>
+				<element>start ^ "-" ^ end</element>
+				<element>section.@sectionname</element>
+				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Protein_family_name</element>
+			</columns>
+			<append>true</append>
+		</module>
+		<module id="genefamily" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"entities.txt"</fileName>
+			<append/>
+			<lines>documents.sections.layer:Gene_family</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@Gene_family_name</element>
+				<element>start ^ "-" ^ end</element>
+				<element>section.@sectionname</element>
+				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Gene_family_name</element>
+			</columns>
+			<append>true</append>
+		</module>
+		<module id="RNA" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"entities.txt"</fileName>
+			<append/>
+			<lines>documents.sections.layer:RNA</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@miRTarBaseID</element>
+				<element>start ^ "-" ^ end</element>
+				<element>section.@sectionname</element>
+				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@miRTarBaseID</element>
+			</columns>
+			<append>true</append>
+		</module>
+		<module id="groupGandPexport" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"groupGandPexport.txt"</fileName>
+			<lines>documents.sections.layer:groupGandP</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@locus_name</element>
+				<element>start ^ "-" ^ end</element>
+				<element>section.@sectionname</element>
+				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
+			</columns>
+			<append>true</append>
+		</module>
+		<module id="wordsexport" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"words.txt"</fileName>
+			<lines>documents.sections.layer:words</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@form</element>
+				<element>start ^ "-" ^ end</element>
+			</columns>
+			<append>true</append>
+		</module>
+	</sequence>
+	
+	<!--**************************************************************************************-->
+	
+	
+	<sequence id="dependencies">
+		<module id="index-words" class="Action">
+			<target>documents.sections.layer:sentences[@name != "author"]</target>
+			<action>id:enumerate:word-index(inside:words)</action>
+			<setFeatures/>
+		</module>
+		<module id="index-sentences" class="Action">
+			<target>documents.sections[@name != "author"]</target>
+			<action>id:enumerate:sentence-index(layer:sentences)</action>
+			<setFeatures/>
+		</module>
+		<module id="index-threesentences" class="Action">
+			<target>documents.sections[@name != "author"]</target>
+			<action>id:enumerate:threesentence-index(layer:threesent)</action>
+			<setFeatures/>
+		</module>
+		<module id="sentences" class="TabularExport">
+			<outDir>corpus/output</outDir>
+			<files>$</files>
+			<fileName>"sentences.txt"</fileName>
+			<lines>documents.sections.layer:sentences[@name != "author"]</lines>
+			<columns separator=";">
 		  section.document.@id;
 		  section.@name;
 		  @sentence-index;
 		  start ^ "-" ^ end;
 		  str:replace(@form, "\n", " ")
 		</columns>
-		<headers>
+			<headers>
 		  "DOCUMENT",
 		  "SECTION",
 		  "SENTENCE",
 		  "OFFSET",
 		  "FORM"
 		</headers>
-      </module>
-
- 
-      <module id="dependencies" class="TabularExport">
-	<outDir>output</outDir>
-	<files>$</files>
-	<fileName>"dependencies.txt"</fileName>
-	<lines>documents.sections[@name != "author"].relations:dependencies.tuples</lines>
-	<columns separator=";">
+		</module>
+		<module id="dependencies" class="TabularExport">
+			<outDir>output</outDir>
+			<files>$</files>
+			<fileName>"dependencies.txt"</fileName>
+			<lines>documents.sections[@name != "author"].relations:dependencies.tuples</lines>
+			<columns separator=";">
 	  relation.section.document.@id;
 	  relation.section.@name;
 	  args:sentence.@sentence-index;
@@ -747,7 +774,7 @@ RELATION PREDICTION CO OCCURENCE
 	  args:dependent.@pos;
 	  args:dependent.start ^ "-" ^ args:dependent.end
 	</columns>
-	<headers>
+			<headers>
 	  "DOCUMENT",
 	  "SECTION",
 	  "SENTENCE",
@@ -763,133 +790,135 @@ RELATION PREDICTION CO OCCURENCE
 	  "DEPENDENT POS",
 	  "DEPENDENT OFFSET"
 	</headers>
-      </module>
-</sequence>
-</sequence>
-
-<sequence id="AlvisIRIndexer">
-	<module id="AlvisIRindex" class="AlvisIRIndexer">
-		<indexDir>configuration/index</indexDir> 
-	    <tokenPositionGap>1024</tokenPositionGap>
-	    <fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
-	    <relations>
-	      <loc>Gene,Protein</loc>
-	    </relations>
-	    <propertyKeys/>
-		<documents>
-			<fields normalization="ascii,lower">
-				<instances>sections[@sectionname=="title"] | sections[@sectionname=="abstract"]| sections[@sectionname=="alltext"]| sections[@sectionname=="journal"]| sections[@sectionname=="year"]| sections[@sectionname=="doi"]</instances>
-				<field-name>@sectionname</field-name>
-			
-				<annotations>
-				  <instances>layer:threesent</instances>
-				  <text>"{threesent}"</text>
-				</annotations>
-			
-				<annotations>
-				  <instances>layer:sentences</instances>
-				  <text>"{sent}"</text>
-				</annotations>
-			
-				<annotations>
-				  <instances>layer:Protein</instances>
-				  <text>"{protein}" ^ @locus_name ^ "/"</text>
-				</annotations>
-			        <annotations>
-			          <instances>layer:Gene</instances>
-			          <text>"{gene}" ^ @locus_name ^ "/"</text>
-			        </annotations>
-			        <annotations>
-			          <instances>layer:Gene_family</instances>
-			          <text>"{gene_family}" ^ @Gene_family_name ^ "/"</text>
-			        </annotations>
-			        <annotations>
-			          <instances>layer:Protein_family</instances>
-			          <text>"{protein_family}" ^ @Protein_family_name ^ "/"</text>
-			        </annotations>
-			
-			        <annotations>
-			          <instances>layer:RNA</instances>
-			          <text>"{rna}" ^ @miRTarBaseID ^ "/"</text>
-			        </annotations>
-			     </fields>
+		</module>
+	</sequence>
+	
+	<sequence id="AlvisIRIndexer">
+		<module id="AlvisIRindex" class="AlvisIRIndexer">
+			<indexDir>configuration/index</indexDir>
+			<tokenPositionGap>1024</tokenPositionGap>
+			<fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
+			<relations>
+				<interact>geneandprotfirst,geneandprotsecond</interact>
+				
+			</relations>
+			<propertyKeys/>
+			<documents>
+				<fields normalization="ascii,lower">
+					<instances>sections[@sectionname=="title"] | sections[@sectionname=="abstract"]| sections[@sectionname=="alltext"]| sections[@sectionname=="journal"]| sections[@sectionname=="year"]| sections[@sectionname=="doi"]</instances>
+					<field-name>@sectionname</field-name>
+					<annotations>
+						<instances>layer:threesent</instances>
+						<text>"{threesent}"</text>
+					</annotations>
+					<annotations>
+						<instances>layer:sentences</instances>
+						<text>"{sent}"</text>
+					</annotations>
+					<annotations>
+						<instances>layer:Protein</instances>
+						<text>"{protein}" ^ @locus_name ^ "/"</text>
+					</annotations>
+					<annotations>
+						<instances>layer:Gene</instances>
+						<text>"{gene}" ^ @locus_name ^ "/"</text>
+					</annotations>
+					<annotations>
+						<instances>layer:Gene_family</instances>
+						<text>"{gene_family}" ^ @Gene_family_name ^ "/"</text>
+					</annotations>
+					<annotations>
+						<instances>layer:Protein_family</instances>
+						<text>"{protein_family}" ^ @Protein_family_name ^ "/"</text>
+					</annotations>
+					<annotations>
+						<instances>layer:RNA</instances>
+						<text>"{rna}" ^ @miRTarBaseID ^ "/"</text>
+					</annotations>
+					<annotations>
+					  <instances>relations:CooccurrenceInteraction.tuples</instances>
+					  <fragments>
+					  	<instances>sort:ival(args, start)</instances>
+					  </fragments>
+					  <text>"{interact}{protein}" ^ args:geneandprotfirst.@locus_name ^ "/~{protein}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> <!-- à mettre plusieurs fois suivant les entités--> 
+					  <text>"{interact}{gene}" ^ args:geneandprotfirst.@locus_name ^ "/~{protein}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> 
+					  <text>"{interact}{protein}" ^ args:geneandprotfirst.@locus_name ^ "/~{gene}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> 
+					  <text>"{interact}{gene}" ^ args:geneandprotfirst.@locus_name ^ "/~{gene}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> 
+					  <arguments>
+					    <geneandprotfirst>args:geneandprotfirst.id:unique</geneandprotfirst>
+					    <geneandprotsecond>args:geneandprotsecond.id:unique</geneandprotsecond>
+				  	</arguments>
+					</annotations>
+				</fields>
 				<fields>
 					<instances>sections:author</instances>
-			     </fields>
-			    <fields>
+				</fields>
+				<fields>
 					<instances>sections:author</instances>
 					<field-name>"full-author"</field-name>
 					<keyword>contents</keyword>
-			    </fields>
-			    <fields>
+				</fields>
+				<fields>
 					<instances>$[document.@url]</instances>
 					<field-name>"url"</field-name>
 					<keyword>document.@url</keyword>
-			    </fields>
-			    <fields>
+				</fields>
+				<fields>
 					<instances>$[@pmid]</instances>
 					<field-name>"pmid"</field-name>
 					<keyword>@id</keyword>
-			    </fields>
-			    <fields>
-			  		<instances>$[@doi]</instances>
-			  		<field-name>"doi"</field-name>
-			  		<keyword>@doi</keyword>
-			    </fields>
-			    <fields>
+				</fields>
+				<fields>
+					<instances>$[@doi]</instances>
+					<field-name>"doi"</field-name>
+					<keyword>@doi</keyword>
+				</fields>
+				<fields>
 					<instances>$[@year]</instances>
 					<field-name>"year"</field-name>
 					<keyword>@PY</keyword>
-			    </fields>
-			    <fields>
+				</fields>
+				<fields>
 					<instances>$[@journal]</instances>
 					<field-name>"journal"</field-name>
 					<keyword>@journal</keyword>
-			</fields>
-		  </documents>
-  	</module>
-  </sequence>
-	
-	<module id="mergeAllEntities" class="MergeLayers">
-		<sourceLayerNames>
-			Gene,
-			Protein,
-			Protein_family,
-			Gene_family,
-			RNA,
-		</sourceLayerNames>
-		<targetLayerName>AllEntities</targetLayerName>		
-	</module>
-
-<!--Visualisation html -->	
+				</fields>
+			</documents>
+		</module>
+	</sequence>
+	<!--**************************************************************************************-->
+	<!--Visualisation html -->
 	<module id="html" class="QuickHTML">
 		<outDir>output/Entities-html</outDir>
 		<classFeature>ne-type</classFeature>
-		<layers>Gene_family</layers>
+		<layers>groupGandP</layers>
 		<colors>#d7d7d7, #ff9966</colors>
 	</module>
-
-    <module id="relations" class="TabularExport">
-      <outDir>output</outDir>
-      <files>$</files>
-      <fileName>"relations.txt"</fileName>
-      <lines>documents.sections.relations:CooccurrenceInteraction.tuples</lines>
-      <columns separator=";">
+	<module id="relations" class="TabularExport">
+		<outDir>output</outDir>
+		<files>$</files>
+		<fileName>"relationsgroup.txt"</fileName>
+		<lines>documents.sections.relations:CooccurrenceInteraction.tuples</lines>
+		<columns separator=";">
 	section.document.@id;
 	section.@name;
-	args:geneandprot.@form;
-	<!--args:DNA.@canonical-name;-->
-	args:geneandprot.@form;
-	section.layer:sentences
-	<!--args:DNA.@concept-name;-->
-      </columns>
-    </module>
-
-  <module id="success" class="TabularExport">
-    <outDir>output</outDir>
-    <files>$</files>
-    <fileName>"success.txt"</fileName>
-    <lines>documents</lines>
-    <columns>@ID</columns>
-  </module>
+	args:geneandprotfirst.@form;
+	args:geneandprotfirst.@locus_name;
+	@TYPE;
+				
+			<!--args:DNA.@canonical-name;-->
+	args:geneandprotsecond.@form;
+	args:geneandprotsecond.@locus_name;
+	args:geneandprotfirst.outside:sentences
+				
+			<!--args:DNA.@concept-name;-->
+		</columns>
+	</module>
+	<module id="success" class="TabularExport">
+		<outDir>output</outDir>
+		<files>$</files>
+		<fileName>"success.txt"</fileName>
+		<lines>documents</lines>
+		<columns>@identifiant</columns>
+	</module>
 </alvisnlp-plan>
