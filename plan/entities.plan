@@ -119,11 +119,14 @@ limitations under the License. -->
 			<lines>documents</lines>
 			<columns>	@identifiant, 
 				
+				
 				<!-- @sectionname,contents -->
 		str:diacritics(str:normalizeSpace(document.sections[@sectionname == "title"].contents)),
 				
+				
 				<!-- document.sections:abstract.contents,-->
 		document.@doi
+			
 			
 			</columns>
 		</module>
@@ -142,7 +145,6 @@ limitations under the License. -->
 			<addToLayer/>
 		</module>
 	</sequence>
-
 	<!--**************************************************************************************-->
 	<!-- Etape 3 projection de mots du lexique sur le texte -->
 	<sequence id="named-entities">
@@ -182,9 +184,6 @@ limitations under the License. -->
 			<setFeatures/>
 			<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
 		</module>
-
-
-
 		<!--**************************************************************************************-->
 		<!-- Etape 4 projection des familles de proteines et de gènes du lexique sur le texte -->
 		<!--**************************************************************************************-->
@@ -260,7 +259,6 @@ limitations under the License. -->
 			<targetLayerName>refbiblio</targetLayerName>
 			<constantAnnotationFeatures>ne-type=refbiblio</constantAnnotationFeatures>
 		</module>
-
 		<module id="genotype-minsucules" class="Action">
 			<target>documents.sections.layer:Gene[@form =~"^[a-z]+[0-9]?"]</target>
 			<action>remove:Gene | add:Genotype | set:feat:ne-type("Genotype")</action>
@@ -277,7 +275,6 @@ limitations under the License. -->
 			<setFeatures/>
 			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
 		</module>
-
 		<!-- Etape 3d Fusion des layers-->
 		<module id="merge" class="MergeLayers">
 			<sourceLayerNames>Gene,Gene_family,Protein,Protein_family,RNA</sourceLayerNames>
@@ -304,8 +301,6 @@ limitations under the License. -->
 			<!--		<removeIncluded>false</removeIncluded>-->
 		</module>
 	</sequence>
-
-
 	<!--**************************************************************************************-->
 	<!-- Etape 4 : Segmenter en mot, insertion des différents tirets -->
 	<module id="words" class="WoSMig">
@@ -339,30 +334,43 @@ limitations under the License. -->
 			<layerName>words</layerName>
 			<pattern> 
 			[@form=~"^\\u2014$"]? 
+				
 				<!-- tiret long-->
 			[@form=~"^\\u2013$"]? 
+				
 				<!-- tiret moyen-->
 			[@form=~"^\\u2012$"]? 
+				
 				<!-- tiret numérique-->
 			[@form=~"^\\u002D$"]? 
+				
 				<!-- tiret union signe moins-->
 			[@form=~"^\\u2010$"]? 
+				
 				<!-- trait d'union-->
 			[@form=~"^\\u2011$"]? 
+				
 				<!-- trait d'union insécable-->
 			[@form=~"^\\u00AD$"]? 
+				
 				<!-- trait d'union conditionel-->
 			[@form=~"^\\u2015$"]? 
+				
 				<!-- barre horizontale-->
 			[@form=~"^\\u2043$"]? 
+				
 				<!-- puce trait d'union-->
 			[@form=~"^\\u2212$"]? 
+				
 				<!-- signe moins-->
 			[@form=~"^\\u02D7$"]? 
+				
 				<!-- Lettre modificative signe moins-->
 			[@form=~"^\\u207B$"]? 
+				
 				<!-- exposant signe moins-->
 			[@form=~"^\\u208B$"]? 
+				
 				<!-- indice signe moins -->
 			</pattern>
 			<actions>
@@ -524,16 +532,12 @@ RELATION PREDICTION CO OCCURENCE
 				<actions>
 					<createAnnotation group="Conj" layer="groupGandP"/>
 					<setFeatures ne-type="groupGandP"/>
-					
 				</actions>
 			</module>
-
-		 <module id="overlapscgroupGandP" class="RemoveOverlaps">
-			<layerName>groupGandP</layerName>
-		</module> 
-
+			<module id="overlapscgroupGandP" class="RemoveOverlaps">
+				<layerName>groupGandP</layerName>
+			</module>
 		</sequence>
-
 		<sequence id="interaction-relations">
 			<module id="triggers" class="Action">
 				<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode)"]</target>
@@ -713,10 +717,7 @@ RELATION PREDICTION CO OCCURENCE
 			<append>true</append>
 		</module>
 	</sequence>
-	
 	<!--**************************************************************************************-->
-	
-	
 	<sequence id="dependencies">
 		<module id="index-words" class="Action">
 			<target>documents.sections.layer:sentences[@name != "author"]</target>
@@ -792,7 +793,6 @@ RELATION PREDICTION CO OCCURENCE
 	</headers>
 		</module>
 	</sequence>
-	
 	<sequence id="AlvisIRIndexer">
 		<module id="AlvisIRindex" class="AlvisIRIndexer">
 			<indexDir>configuration/index</indexDir>
@@ -800,7 +800,6 @@ RELATION PREDICTION CO OCCURENCE
 			<fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
 			<relations>
 				<interact>geneandprotfirst,geneandprotsecond</interact>
-				
 			</relations>
 			<propertyKeys/>
 			<documents>
@@ -836,18 +835,19 @@ RELATION PREDICTION CO OCCURENCE
 						<text>"{rna}" ^ @miRTarBaseID ^ "/"</text>
 					</annotations>
 					<annotations>
-					  <instances>relations:CooccurrenceInteraction.tuples</instances>
-					  <fragments>
-					  	<instances>sort:ival(args, start)</instances>
-					  </fragments>
-					  <text>"{interact}{protein}" ^ args:geneandprotfirst.@locus_name ^ "/~{protein}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> <!-- à mettre plusieurs fois suivant les entités--> 
-					  <text>"{interact}{gene}" ^ args:geneandprotfirst.@locus_name ^ "/~{protein}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> 
-					  <text>"{interact}{protein}" ^ args:geneandprotfirst.@locus_name ^ "/~{gene}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> 
-					  <text>"{interact}{gene}" ^ args:geneandprotfirst.@locus_name ^ "/~{gene}" ^ args:geneandprotsecond.@locus_name ^ "/"</text> 
-					  <arguments>
-					    <geneandprotfirst>args:geneandprotfirst.id:unique</geneandprotfirst>
-					    <geneandprotsecond>args:geneandprotsecond.id:unique</geneandprotsecond>
-				  	</arguments>
+						<instances>relations:CooccurrenceInteraction.tuples</instances>
+						<fragments>
+							<instances>sort:ival(args, start)</instances>
+						</fragments>
+						<text>"{interact}{protein}" ^ args:geneandprotfirst.@locus_name ^ "/~{protein}" ^ args:geneandprotsecond.@locus_name ^ "/"</text>
+						<!-- à mettre plusieurs fois suivant les entités-->
+						<text>"{interact}{gene}" ^ args:geneandprotfirst.@locus_name ^ "/~{protein}" ^ args:geneandprotsecond.@locus_name ^ "/"</text>
+						<text>"{interact}{protein}" ^ args:geneandprotfirst.@locus_name ^ "/~{gene}" ^ args:geneandprotsecond.@locus_name ^ "/"</text>
+						<text>"{interact}{gene}" ^ args:geneandprotfirst.@locus_name ^ "/~{gene}" ^ args:geneandprotsecond.@locus_name ^ "/"</text>
+						<arguments>
+							<geneandprotfirst>args:geneandprotfirst.id:unique</geneandprotfirst>
+							<geneandprotsecond>args:geneandprotsecond.id:unique</geneandprotsecond>
+						</arguments>
 					</annotations>
 				</fields>
 				<fields>
@@ -906,11 +906,13 @@ RELATION PREDICTION CO OCCURENCE
 	args:geneandprotfirst.@locus_name;
 	@TYPE;
 				
+			
 			<!--args:DNA.@canonical-name;-->
 	args:geneandprotsecond.@form;
 	args:geneandprotsecond.@locus_name;
 	args:geneandprotfirst.outside:sentences
 				
+			
 			<!--args:DNA.@concept-name;-->
 		</columns>
 	</module>
