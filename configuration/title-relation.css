@@ -1,0 +1,23 @@
+.doc-header {
+    overflow: visible;
+}
+
+.wrappercontainer {
+    overflow: visible;
+}
+
+.dualcontainer {
+    overflow: visible;
+}
+
+.textcontainer {
+    overflow: visible;
+}
+
+.svgcontainer {
+    overflow: visible;
+}
+
+svg {
+    overflow: visible;
+}
