@@ -1,8 +1,9 @@
 <alvisir-search
-    index="/bibdev/travail/arabidopsis/alvisir2_devel/configuration/index"
-    expander-index="/bibdev/travail/arabidopsis/alvisir2_devel/configuration/expander"
+    index="index"
+    expander-index="expander"
     default-field="contents"
     >
+    <!--    query-expansion="advanced"-->
 
 <!--  <normalization>case,ascii</normalization>-->
 
