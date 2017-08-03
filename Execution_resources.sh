@@ -23,7 +23,7 @@ cut -f1 resources/gene_families_sep_29_09_update.txt | sort -u > resources/gene_
 #***********************
 #RNA MirTarBase en xls 
 #convertion avec gnumeric : exemple 
-ssconvert -O 'separator="	" eol=unix quote=' resources/ath_MTI.xls resources/ath_MTI.txt
+ssconvert -O 'separator="	" eol=unix quote=' resources/ath_MTI.xls resources/ath_MTItoto.txt
 #Separator: tab : ctrl+v+tab
 #je rajoute la seconde colonne en enlevant 
 cat resources/ath_MTI.txt | awk -F"\t" '{print$1"\t"$2"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9;}' | awk -F"\t" '{gsub("ath-","",$3);print$1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$10;}' | sort | head -n -1 > resources/ath_MTI_extended.txt 
