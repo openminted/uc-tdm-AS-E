@@ -129,7 +129,7 @@ limitations under the License. -->
 	<!-- Etape 2 : Traitement des noms-->
 	<sequence id="stanford">
 		<module id="stanford" class="StanfordNER">
-			<classifierFile>/bibdev/install/stanford-ner-3.4/classifiers/english.all.3class.distsim.crf.ser.gz</classifierFile>
+			<classifierFile>/alvisnlp/psoft/stanford-ner-2014-06-16/classifiers/english.all.3class.distsim.crf.ser.gz</classifierFile>
 			<labelFeatureName>Namelabel</labelFeatureName>
 			<targetLayerName>stanford</targetLayerName>
 			<searchInContents/>
@@ -145,7 +145,6 @@ limitations under the License. -->
 	<sequence id="named-entities">
 		<!-- Etape 3a projection de proteines et des gènes du lexique sur le texte -->
 		<module id="protein" class="TabularProjector">
-			<!-- /bibdev/travail/arabidopsis/resources/genes.txt -->
 			<dictFile>resources/gene_aliases_20130831_TAIR_extended.txt</dictFile>
 			<targetLayerName>protein1</targetLayerName>
 			<valueFeatures>locus_name,symbol,full_name</valueFeatures>
@@ -419,8 +418,8 @@ limitations under the License. -->
 	<!--**************************************************************************************-->
 	<!-- Etape 7 : Tagger -->
 	<module id="tt-pos-tag" class="TreeTagger">
-		<treeTaggerExecutable>/bibdev/install/tree-tagger-3.2/bin/tree-tagger</treeTaggerExecutable>
-		<parFile>/bibdev/install/tree-tagger-3.2/lib/english.par</parFile>
+		<treeTaggerExecutable>/alvisnlp/psoft/treetagger/bin/tree-tagger</treeTaggerExecutable>
+		<parFile>/alvisnlp/psoft/treetagger/lib/english.par</parFile>
 		<noUnknownLemma/>
 	</module>
 	<!--**************************************************************************************-->
