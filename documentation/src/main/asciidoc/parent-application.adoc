@@ -50,7 +50,7 @@ image::images/FLAGDB++_right-click-interaction.png[]
 The __Bibliography__ button opens a window with text mining annotations in which the entity selected by right click appears (see section __Results__ below).
 
 
-In the keyword search window, the user may enter the name of an entity or one of its synonyms (the synonyms of Genes from the TAIR list can be used).
+In the keyword search window (opened by clicking on __Tools__ > Query with keywords), the user may enter the name of an entity or one of its synonyms (the synonyms of Genes from the TAIR list can be used).
 
 [[img-sunset]]
 // .FLAGDB++ keyword search //
