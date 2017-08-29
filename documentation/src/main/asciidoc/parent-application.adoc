@@ -75,7 +75,7 @@ The total number of occurences and publications in which the relation is found i
 
 [[img-sunset]]
 // .Results table //
-image::images/FLAGdb++_resultsults.png[]
+image::images/FLAGdb++_results.png[]
 
 
 === Reference
