@@ -31,6 +31,8 @@ The relevant corpus has been fully pre-processed by AlvisNLP pipeline and indexe
 
 The FLAGdb++ application is a Java web application, available at http://tools.ips2.u-psud.fr/projects/FLAGdb++/HTML/ and that may be started by opening the following URL with a browser http://tools.ips2.u-psud.fr/projects/FLAGdb++/Appli/FLAGdb.jnlp.
 
+The application has been tested on Ubuntu (Linux).
+
 [[img-sunset]]
 // .FLAGDB++ start page//
 image::images/FLAGDB++_start.png[]
@@ -68,7 +70,9 @@ Relations between the selected named entity and other entities are made visualis
 - the canonical name of the entity
 - the name of the relation
 - the canonical name of the second entity
-- the total number of occurences of this relation and the number of publications in which this relation has been predicted.
+- the total number of occurences of this relation and the number of publications in which this relation has been predicted
+- an indication if the relation has been predicted or has been infered (in order to emulate commutativity (=bidirectionnality) of a relation).
+
 
 The total number of occurences and publications in which the relation is found is provided to the user as a way to identify relations that decipher relations that are widely admitted from low signal.
 
