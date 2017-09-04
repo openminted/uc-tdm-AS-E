@@ -1,10 +1,8 @@
 = Application Design
 
-== Data production
+== Components development
 
-Until now the execution of the text mining workflow is done on the Migale platform at INRA.
-
-The workflow is detailled in the <<production_processing.adoc#, production processing documentation>>
+This is yet to be addressed.
 
 == Model alignement
 
@@ -14,10 +12,9 @@ The FLAGdb++ database focuses on the gene locii, which are stored using the TAIR
 
 Hence, the models have been aligned and the named-entities which have been predicted but for which the locus is unknown have been filtered out of the data.
 
-== Data Updates
+== Data production
 
-The resulting text mining data is made available to the parent application maintainers as a downloadable file.
+Until now the execution of the text mining workflow is done on the Migale platform at INRA.
 
-They can be downloaded at http://genome.jouy.inra.fr/~jbbohuon/uc-e-extracting-gene-regulation-networks-involved-in-seed-development/text-mining-annotations-for-flagdb_latest.tsv
-
+The workflow is detailled in the <<production_processing.adoc#, production processing documentation>>
 
