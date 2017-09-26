@@ -59,10 +59,6 @@ In the keyword search window (opened by clicking on __Tools__ > Query with keywo
 image::images/FLAGDB++_keyword_search.png[]
 
 
-
-[[img-sunset]]
-
-
 === Results
 
 Relations between the selected named entity and other entities are made visualisable in a table. The colums of this table contain:
@@ -78,8 +74,12 @@ The total number of occurences and publications in which the relation is found i
 
 
 [[img-sunset]]
-// .Results table //
-image::images/FLAGdb++_results.png[]
+// .Results table Gene//
+image::images/FLAGdb++_results_gene.png[]
+
+[[img-sunset]]
+// .Results table Protein//
+image::images/FLAGdb++_results_gene.png[]
 
 
 === Reference
