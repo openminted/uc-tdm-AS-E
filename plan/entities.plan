@@ -38,7 +38,7 @@ limitations under the License. -->
 		</module>
 		<!-- Lecture du corpus Web of knowledge -->
 		<module id="readWoK" class="WebOfKnowledgeReader">
-			<source>../alvisir2_corpus/corpus2000_12012017.txt</source>
+			<source>../alvisir2_corpus/listeriawok.txt </source>
 			<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
 		</module>
 		<module id="renamedocumentWOK" class="Action">

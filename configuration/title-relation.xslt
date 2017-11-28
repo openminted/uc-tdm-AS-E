@@ -25,7 +25,7 @@
     <!-- configuration dependant parameters -->
     <xsl:param name="title">AlvisIR Search</xsl:param>
     <xsl:param name="copyright-owner">INRA</xsl:param>
-    <xsl:param name="copyright-years">2013</xsl:param>
+    <xsl:param name="copyright-years">2017</xsl:param>
     <xsl:param name="about-url">../about.jsp</xsl:param>
     <xsl:param name="search-button-text">Search</xsl:param>
 

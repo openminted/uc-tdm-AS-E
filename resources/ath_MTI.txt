@@ -1,102 +1,102 @@
-miRTarBase ID	miRNA	Species (miRNA)	Target Gene	Target Gene (Entrez ID)	Species (Target Gene)	Experiments	Support Type	References (PMID)
-MIRT003730	ath-miR408	Arabidopsis thaliana	ARPN	814816	Arabidopsis thaliana	Northern blot	Functional MTI (Weak)	18408011
-MIRT006000	ath-miR396a	Arabidopsis thaliana	GRF6	815176	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT006000	ath-miR396a	Arabidopsis thaliana	GRF6	815176	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	21036927
-MIRT006006	ath-miR396b	Arabidopsis thaliana	GRF6	815176	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT005996	ath-miR396a	Arabidopsis thaliana	GRF1	816815	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT006002	ath-miR396b	Arabidopsis thaliana	GRF1	816815	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT002095	ath-miR398a	Arabidopsis thaliana	CSD2	817365	Arabidopsis thaliana	Western blot	Functional MTI	18392778
-MIRT002095	ath-miR398a	Arabidopsis thaliana	CSD2	817365	Arabidopsis thaliana	Microarray//qRT-PCR//Western blot	Functional MTI	20128885
-MIRT002095	ath-miR398a	Arabidopsis thaliana	CSD2	817365	Arabidopsis thaliana	5"RACE//Northern blot	Functional MTI (Weak)	20400846
-MIRT002092	ath-miR398b	Arabidopsis thaliana	CSD2	817365	Arabidopsis thaliana	Western blot	Functional MTI	18392778
-MIRT002092	ath-miR398b	Arabidopsis thaliana	CSD2	817365	Arabidopsis thaliana	5"RACE//Northern blot	Functional MTI (Weak)	20400846
-MIRT002091	ath-miR398c	Arabidopsis thaliana	CSD2	817365	Arabidopsis thaliana	Western blot	Functional MTI	18392778
-MIRT002091	ath-miR398c	Arabidopsis thaliana	CSD2	817365	Arabidopsis thaliana	5"RACE//Northern blot	Functional MTI (Weak)	20400846
-MIRT002122	ath-miR160a	Arabidopsis thaliana	ARF10	817382	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT002121	ath-miR160b	Arabidopsis thaliana	ARF10	817382	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT002120	ath-miR160c	Arabidopsis thaliana	ARF10	817382	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT003074	ath-miR397a	Arabidopsis thaliana	LAC2	817462	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	18408011
-MIRT003071	ath-miR408	Arabidopsis thaliana	LAC3	817571	Arabidopsis thaliana	Northern blot	Functional MTI (Weak)	18408011
-MIRT003018	ath-miR156a	Arabidopsis thaliana	SPL3	817948	Arabidopsis thaliana	GFP reporter assay	Functional MTI	17217458
-MIRT005659	ath-miR156f	Arabidopsis thaliana	SPL3	817948	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT003017	ath-miR157a	Arabidopsis thaliana	SPL3	817948	Arabidopsis thaliana	GFP reporter assay	Functional MTI	17217458
-MIRT005998	ath-miR396a	Arabidopsis thaliana	GRF3	818213	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT006004	ath-miR396b	Arabidopsis thaliana	GRF3	818213	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT003729	ath-miR397a	Arabidopsis thaliana	IRX12	818386	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	18408011
-MIRT005797	ath-miR402	Arabidopsis thaliana	AT2G38950	818480	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT005662	ath-miR156f	Arabidopsis thaliana	SPL9	818820	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT003404	ath-miR396a	Arabidopsis thaliana	GRF9	819156	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT003404	ath-miR396a	Arabidopsis thaliana	GRF9	819156	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	21036927
-MIRT003395	ath-miR396b	Arabidopsis thaliana	GRF9	819156	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT003395	ath-miR396b	Arabidopsis thaliana	GRF9	819156	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	21036927
-MIRT007390	ath-miR838	Arabidopsis thaliana	AT2G45720	819180	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT005798	ath-miR408	Arabidopsis thaliana	AT2G47020	819316	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	21265889
-MIRT005664	ath-miR169a	Arabidopsis thaliana	NF-YA2	819738	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT003067	ath-miR857	Arabidopsis thaliana	LAC7	820078	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	18408011
-MIRT005999	ath-miR396a	Arabidopsis thaliana	GRF5	820609	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT006005	ath-miR396b	Arabidopsis thaliana	GRF5	820609	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT005796	ath-miR172b-3p	Arabidopsis thaliana	AT3G14770	820705	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT005661	ath-miR156f	Arabidopsis thaliana	SPL5	820758	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT005799	ath-miR408	Arabidopsis thaliana	AT3G02200	821267	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT007396	ath-miR774a	Arabidopsis thaliana	AT3G19890	821526	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT003468	ath-miR163	Arabidopsis thaliana	AT3G44870	823621	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT003409	ath-miR396a	Arabidopsis thaliana	GRF4	824457	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT003400	ath-miR396b	Arabidopsis thaliana	GRF4	824457	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT005666	ath-miR172b-3p	Arabidopsis thaliana	SMZ	824664	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT005802	ath-miR1888a	Arabidopsis thaliana	AT4G14930	827151	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT006001	ath-miR396a	Arabidopsis thaliana	GRF8	828515	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT006007	ath-miR396b	Arabidopsis thaliana	GRF8	828515	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT005636	ath-miR172b-3p	Arabidopsis thaliana	AP2	829845	Arabidopsis thaliana	In situ hybridization//Western blot	Functional MTI	12893888
-MIRT005635	ath-miR173-5p	Arabidopsis thaliana	AP2	829845	Arabidopsis thaliana	In situ hybridization	Non-Functional MTI (Weak)	12893888
-MIRT002116	ath-miR172c	Arabidopsis thaliana	AP2	829845	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT002115	ath-miR172d	Arabidopsis thaliana	AP2	829845	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT005997	ath-miR396a	Arabidopsis thaliana	GRF2	829930	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT006003	ath-miR396b	Arabidopsis thaliana	GRF2	829930	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT003070	ath-miR408	Arabidopsis thaliana	LAC12	830421	Arabidopsis thaliana	Northern blot	Functional MTI (Weak)	18408011
-MIRT003069	ath-miR408	Arabidopsis thaliana	LAC13	830604	Arabidopsis thaliana	Northern blot	Functional MTI (Weak)	18408011
-MIRT005803	ath-miR1888a	Arabidopsis thaliana	AT5G08310	830727	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT007391	ath-miR837-3p	Arabidopsis thaliana	AT5G08415	830740	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18472421
-MIRT007402	ath-miR173-5p	Arabidopsis thaliana	AT5G10950	830962	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18472421
-MIRT005663	ath-miR169a	Arabidopsis thaliana	NF-YA1	831124	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT007393	ath-miR822	Arabidopsis thaliana	AT5G02350	831920	Arabidopsis thaliana	Degradome;Other	Functional MTI (Weak)	18472421
-MIRT007392	ath-miR781a	Arabidopsis thaliana	AT5G23480	832414	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT007387	ath-miR859	Arabidopsis thaliana	AT5G36200	833617	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT002124	ath-miR167a	Arabidopsis thaliana	ARF8	833672	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT002123	ath-miR167b	Arabidopsis thaliana	ARF8	833672	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT007389	ath-miR842	Arabidopsis thaliana	AT5G38550	833843	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT005801	ath-miR1888a	Arabidopsis thaliana	AT5G38900	833882	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT005658	ath-miR156f	Arabidopsis thaliana	SPL2	834345	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT007397	ath-miR472	Arabidopsis thaliana	AT5G43740	834394	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT007388	ath-miR844-5p	Arabidopsis thaliana	AT5G51270	835201	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT003406	ath-miR396a	Arabidopsis thaliana	GRF7	835447	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT003397	ath-miR396b	Arabidopsis thaliana	GRF7	835447	Arabidopsis thaliana	Northern blot//qRT-PCR	Functional MTI (Weak)	19453503
-MIRT002114	ath-miR164a	Arabidopsis thaliana	CUC2	835478	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT002113	ath-miR164b	Arabidopsis thaliana	CUC2	835478	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT007111	ath-miR159a	Arabidopsis thaliana	MYB120	835593	Arabidopsis thaliana	Microarray//qRT-PCR	Functional MTI (Weak)	23180669
-MIRT003072	ath-miR397a	Arabidopsis thaliana	LAC17	836124	Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	18408011
-MIRT005665	ath-miR172b-3p	Arabidopsis thaliana	TOE2	836134	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT007401	ath-miR400	Arabidopsis thaliana	AT1G06580	837169	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT007401	ath-miR400	Arabidopsis thaliana	AT1G06580	837169	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18472421
-MIRT002096	ath-miR398a	Arabidopsis thaliana	CSD1	837405	Arabidopsis thaliana	Western blot	Functional MTI	18392778
-MIRT002096	ath-miR398a	Arabidopsis thaliana	CSD1	837405	Arabidopsis thaliana	Microarray//qRT-PCR//Western blot	Functional MTI	20128885
-MIRT002094	ath-miR398b	Arabidopsis thaliana	CSD1	837405	Arabidopsis thaliana	Western blot	Functional MTI	18392778
-MIRT002093	ath-miR398c	Arabidopsis thaliana	CSD1	837405	Arabidopsis thaliana	Western blot	Functional MTI	18392778
-MIRT005464	ath-miR398a	Arabidopsis thaliana	CCS	837808	Arabidopsis thaliana	5"RACE//Northern blot	Functional MTI (Weak)	20400846
-MIRT005465	ath-miR398b	Arabidopsis thaliana	CCS	837808	Arabidopsis thaliana	5"RACE//Northern blot	Functional MTI (Weak)	20400846
-MIRT005466	ath-miR398c	Arabidopsis thaliana	CCS	837808	Arabidopsis thaliana	5"RACE//Northern blot	Functional MTI (Weak)	20400846
-MIRT007403	ath-miR163	Arabidopsis thaliana	AT1G15125	838076	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18472421
-MIRT005800	ath-miR775	Arabidopsis thaliana	AT1G23390	838947	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT006010	ath-miR156d	Arabidopsis thaliana			Arabidopsis thaliana	qRT-PCR	Functional MTI (Weak)	21265889
-MIRT007395	ath-miR472	Arabidopsis thaliana	AT1G51480	841573	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT005660	ath-miR156f	Arabidopsis thaliana	SPL4	841749	Arabidopsis thaliana	Microarray//Northern blot//qRT-PCR	Functional MTI (Weak)	20110261
-MIRT007394	ath-miR775	Arabidopsis thaliana	AT1G53290	841763	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT005795	ath-miR172b-3p	Arabidopsis thaliana	AT1G53780	841815	Arabidopsis thaliana	qRT-PCR	Non-Functional MTI (Weak)	21265889
-MIRT007398	ath-miR400	Arabidopsis thaliana	AT1G62720	842570	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT007400	ath-miR400	Arabidopsis thaliana	AT1G62930	842594	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT007399	ath-miR400	Arabidopsis thaliana	AT1G64580	842766	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT003470	ath-miR163	Arabidopsis thaliana	AT1G66690	842987	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT007404	ath-miR163	Arabidopsis thaliana	AT1G66720	842990	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18542052
-MIRT002119	ath-miR160a	Arabidopsis thaliana	ARF17	844120	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT002118	ath-miR160b	Arabidopsis thaliana	ARF17	844120	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT002117	ath-miR160c	Arabidopsis thaliana	ARF17	844120	Arabidopsis thaliana	5'RACE	Functional MTI (Weak)	12586064
-MIRT007386	ath-miR863-3p	Arabidopsis thaliana	AT4G13495	5008139	Arabidopsis thaliana	Degradome	Functional MTI (Weak)	18472421
+miRTarBase IDmiRNASpecies (miRNA)Target GeneTarget Gene (Entrez ID)Species (Target Gene)ExperimentsSupport TypeReferences (PMID)
+MIRT003730ath-miR408Arabidopsis thalianaARPN814816Arabidopsis thalianaNorthern blotFunctional MTI (Weak)18408011
+MIRT006000ath-miR396aArabidopsis thalianaGRF6815176Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT006000ath-miR396aArabidopsis thalianaGRF6815176Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)21036927
+MIRT006006ath-miR396bArabidopsis thalianaGRF6815176Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT005996ath-miR396aArabidopsis thalianaGRF1816815Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT006002ath-miR396bArabidopsis thalianaGRF1816815Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT002095ath-miR398aArabidopsis thalianaCSD2817365Arabidopsis thalianaWestern blotFunctional MTI18392778
+MIRT002095ath-miR398aArabidopsis thalianaCSD2817365Arabidopsis thalianaMicroarray//qRT-PCR//Western blotFunctional MTI20128885
+MIRT002095ath-miR398aArabidopsis thalianaCSD2817365Arabidopsis thaliana5"RACE//Northern blotFunctional MTI (Weak)20400846
+MIRT002092ath-miR398bArabidopsis thalianaCSD2817365Arabidopsis thalianaWestern blotFunctional MTI18392778
+MIRT002092ath-miR398bArabidopsis thalianaCSD2817365Arabidopsis thaliana5"RACE//Northern blotFunctional MTI (Weak)20400846
+MIRT002091ath-miR398cArabidopsis thalianaCSD2817365Arabidopsis thalianaWestern blotFunctional MTI18392778
+MIRT002091ath-miR398cArabidopsis thalianaCSD2817365Arabidopsis thaliana5"RACE//Northern blotFunctional MTI (Weak)20400846
+MIRT002122ath-miR160aArabidopsis thalianaARF10817382Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT002121ath-miR160bArabidopsis thalianaARF10817382Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT002120ath-miR160cArabidopsis thalianaARF10817382Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT003074ath-miR397aArabidopsis thalianaLAC2817462Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)18408011
+MIRT003071ath-miR408Arabidopsis thalianaLAC3817571Arabidopsis thalianaNorthern blotFunctional MTI (Weak)18408011
+MIRT003018ath-miR156aArabidopsis thalianaSPL3817948Arabidopsis thalianaGFP reporter assayFunctional MTI17217458
+MIRT005659ath-miR156fArabidopsis thalianaSPL3817948Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT003017ath-miR157aArabidopsis thalianaSPL3817948Arabidopsis thalianaGFP reporter assayFunctional MTI17217458
+MIRT005998ath-miR396aArabidopsis thalianaGRF3818213Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT006004ath-miR396bArabidopsis thalianaGRF3818213Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT003729ath-miR397aArabidopsis thalianaIRX12818386Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)18408011
+MIRT005797ath-miR402Arabidopsis thalianaAT2G38950818480Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT005662ath-miR156fArabidopsis thalianaSPL9818820Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT003404ath-miR396aArabidopsis thalianaGRF9819156Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT003404ath-miR396aArabidopsis thalianaGRF9819156Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)21036927
+MIRT003395ath-miR396bArabidopsis thalianaGRF9819156Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT003395ath-miR396bArabidopsis thalianaGRF9819156Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)21036927
+MIRT007390ath-miR838Arabidopsis thalianaAT2G45720819180Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT005798ath-miR408Arabidopsis thalianaAT2G47020819316Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)21265889
+MIRT005664ath-miR169aArabidopsis thalianaNF-YA2819738Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT003067ath-miR857Arabidopsis thalianaLAC7820078Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)18408011
+MIRT005999ath-miR396aArabidopsis thalianaGRF5820609Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT006005ath-miR396bArabidopsis thalianaGRF5820609Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT005796ath-miR172b-3pArabidopsis thalianaAT3G14770820705Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT005661ath-miR156fArabidopsis thalianaSPL5820758Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT005799ath-miR408Arabidopsis thalianaAT3G02200821267Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT007396ath-miR774aArabidopsis thalianaAT3G19890821526Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT003468ath-miR163Arabidopsis thalianaAT3G44870823621Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT003409ath-miR396aArabidopsis thalianaGRF4824457Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT003400ath-miR396bArabidopsis thalianaGRF4824457Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT005666ath-miR172b-3pArabidopsis thalianaSMZ824664Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT005802ath-miR1888aArabidopsis thalianaAT4G14930827151Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT006001ath-miR396aArabidopsis thalianaGRF8828515Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT006007ath-miR396bArabidopsis thalianaGRF8828515Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT005636ath-miR172b-3pArabidopsis thalianaAP2829845Arabidopsis thalianaIn situ hybridization//Western blotFunctional MTI12893888
+MIRT005635ath-miR173-5pArabidopsis thalianaAP2829845Arabidopsis thalianaIn situ hybridizationNon-Functional MTI (Weak)12893888
+MIRT002116ath-miR172cArabidopsis thalianaAP2829845Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT002115ath-miR172dArabidopsis thalianaAP2829845Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT005997ath-miR396aArabidopsis thalianaGRF2829930Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT006003ath-miR396bArabidopsis thalianaGRF2829930Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT003070ath-miR408Arabidopsis thalianaLAC12830421Arabidopsis thalianaNorthern blotFunctional MTI (Weak)18408011
+MIRT003069ath-miR408Arabidopsis thalianaLAC13830604Arabidopsis thalianaNorthern blotFunctional MTI (Weak)18408011
+MIRT005803ath-miR1888aArabidopsis thalianaAT5G08310830727Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT007391ath-miR837-3pArabidopsis thalianaAT5G08415830740Arabidopsis thalianaDegradomeFunctional MTI (Weak)18472421
+MIRT007402ath-miR173-5pArabidopsis thalianaAT5G10950830962Arabidopsis thalianaDegradomeFunctional MTI (Weak)18472421
+MIRT005663ath-miR169aArabidopsis thalianaNF-YA1831124Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT007393ath-miR822Arabidopsis thalianaAT5G02350831920Arabidopsis thalianaDegradome;OtherFunctional MTI (Weak)18472421
+MIRT007392ath-miR781aArabidopsis thalianaAT5G23480832414Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT007387ath-miR859Arabidopsis thalianaAT5G36200833617Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT002124ath-miR167aArabidopsis thalianaARF8833672Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT002123ath-miR167bArabidopsis thalianaARF8833672Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT007389ath-miR842Arabidopsis thalianaAT5G38550833843Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT005801ath-miR1888aArabidopsis thalianaAT5G38900833882Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT005658ath-miR156fArabidopsis thalianaSPL2834345Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT007397ath-miR472Arabidopsis thalianaAT5G43740834394Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT007388ath-miR844-5pArabidopsis thalianaAT5G51270835201Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT003406ath-miR396aArabidopsis thalianaGRF7835447Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT003397ath-miR396bArabidopsis thalianaGRF7835447Arabidopsis thalianaNorthern blot//qRT-PCRFunctional MTI (Weak)19453503
+MIRT002114ath-miR164aArabidopsis thalianaCUC2835478Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT002113ath-miR164bArabidopsis thalianaCUC2835478Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT007111ath-miR159aArabidopsis thalianaMYB120835593Arabidopsis thalianaMicroarray//qRT-PCRFunctional MTI (Weak)23180669
+MIRT003072ath-miR397aArabidopsis thalianaLAC17836124Arabidopsis thalianaqRT-PCRFunctional MTI (Weak)18408011
+MIRT005665ath-miR172b-3pArabidopsis thalianaTOE2836134Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT007401ath-miR400Arabidopsis thalianaAT1G06580837169Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT007401ath-miR400Arabidopsis thalianaAT1G06580837169Arabidopsis thalianaDegradomeFunctional MTI (Weak)18472421
+MIRT002096ath-miR398aArabidopsis thalianaCSD1837405Arabidopsis thalianaWestern blotFunctional MTI18392778
+MIRT002096ath-miR398aArabidopsis thalianaCSD1837405Arabidopsis thalianaMicroarray//qRT-PCR//Western blotFunctional MTI20128885
+MIRT002094ath-miR398bArabidopsis thalianaCSD1837405Arabidopsis thalianaWestern blotFunctional MTI18392778
+MIRT002093ath-miR398cArabidopsis thalianaCSD1837405Arabidopsis thalianaWestern blotFunctional MTI18392778
+MIRT005464ath-miR398aArabidopsis thalianaCCS837808Arabidopsis thaliana5"RACE//Northern blotFunctional MTI (Weak)20400846
+MIRT005465ath-miR398bArabidopsis thalianaCCS837808Arabidopsis thaliana5"RACE//Northern blotFunctional MTI (Weak)20400846
+MIRT005466ath-miR398cArabidopsis thalianaCCS837808Arabidopsis thaliana5"RACE//Northern blotFunctional MTI (Weak)20400846
+MIRT007403ath-miR163Arabidopsis thalianaAT1G15125838076Arabidopsis thalianaDegradomeFunctional MTI (Weak)18472421
+MIRT005800ath-miR775Arabidopsis thalianaAT1G23390838947Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT006010ath-miR156dArabidopsis thalianaArabidopsis thalianaqRT-PCRFunctional MTI (Weak)21265889
+MIRT007395ath-miR472Arabidopsis thalianaAT1G51480841573Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT005660ath-miR156fArabidopsis thalianaSPL4841749Arabidopsis thalianaMicroarray//Northern blot//qRT-PCRFunctional MTI (Weak)20110261
+MIRT007394ath-miR775Arabidopsis thalianaAT1G53290841763Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT005795ath-miR172b-3pArabidopsis thalianaAT1G53780841815Arabidopsis thalianaqRT-PCRNon-Functional MTI (Weak)21265889
+MIRT007398ath-miR400Arabidopsis thalianaAT1G62720842570Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT007400ath-miR400Arabidopsis thalianaAT1G62930842594Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT007399ath-miR400Arabidopsis thalianaAT1G64580842766Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT003470ath-miR163Arabidopsis thalianaAT1G66690842987Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT007404ath-miR163Arabidopsis thalianaAT1G66720842990Arabidopsis thalianaDegradomeFunctional MTI (Weak)18542052
+MIRT002119ath-miR160aArabidopsis thalianaARF17844120Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT002118ath-miR160bArabidopsis thalianaARF17844120Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT002117ath-miR160cArabidopsis thalianaARF17844120Arabidopsis thaliana5'RACEFunctional MTI (Weak)12586064
+MIRT007386ath-miR863-3pArabidopsis thalianaAT4G134955008139Arabidopsis thalianaDegradomeFunctional MTI (Weak)18472421
