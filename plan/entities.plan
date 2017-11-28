@@ -25,7 +25,9 @@ limitations under the License. -->
 
 
 	<sequence id="read">
-		<!--Lecture corpus Pubmed -->
+<!-- ******* -->
+<!--PubMed corpus reading-->
+<!-- *******  -->
 		<module id="readPubMed" class="XMLReader">
 			<sourcePath>../alvisir2_corpus/pubmed_result-2.xml</sourcePath>
 			<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
@@ -50,7 +52,9 @@ limitations under the License. -->
 			<action>set:feat:identifiant(@id)</action>
 			<setFeatures/>
 		</module>
-		<!-- Lecture du corpus Web of knowledge -->
+<!-- ******* -->
+<!--Web of Knowledge corpus reading (.txt format)-->
+<!-- *******  -->
 		<module id="readWoKcorpus" class="WebOfKnowledgeReader">
 			<source>../alvisir2_corpus/listeriawok.txt </source>
 			<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
@@ -95,7 +99,8 @@ limitations under the License. -->
 			<action>set:feat:sectionname("abstract")</action>
 			<setFeatures/>
 		</module>
-		<!-- Lecture du corpus html packs annotés manuellement -->
+<!-- Manual annotated corpus reading (full text, html format)-->
+<!-- *******  -->
 		<module id="readhtmlannotated" class="XMLReader">
 			<sourcePath>../alvisir2_corpus/fulltext/html</sourcePath>
 			<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
@@ -140,7 +145,10 @@ limitations under the License. -->
 			</columns>
 		</module>
 	</sequence>
-	<!-- Etape 2 : Traitement des noms-->
+
+<!-- ******* -->
+<!--Name entity recognition-->
+<!-- *******  -->
 	<sequence id="stanford">
 		<module id="stanford" class="StanfordNER">
 			<classifierFile>/alvisnlp/psoft/stanford-ner-2014-06-16/classifiers/english.all.3class.distsim.crf.ser.gz</classifierFile>
@@ -154,10 +162,14 @@ limitations under the License. -->
 			<addToLayer/>
 		</module>
 	</sequence>
-	<!--**************************************************************************************-->
-	<!-- Etape 3 projection de mots du lexique sur le texte -->
+
+<!-- ******* -->
+<!--projection of lexicon words on the text-->
+<!-- *******  -->
 	<sequence id="named-entities">
-		<!-- Etape 3a projection de proteines et des gènes du lexique sur le texte -->
+	<!-- *******  -->
+	<!-- Projection of proteins and genes from the lexicon on the text -->
+	<!-- *******  -->
 		<module id="protein" class="TabularProjector">
 			<dictFile>resources/gene_aliases_20130831_TAIR_extended.txt</dictFile>
 			<targetLayerName>protein1</targetLayerName>
@@ -192,9 +204,9 @@ limitations under the License. -->
 			<setFeatures/>
 			<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
 		</module>
-		<!--**************************************************************************************-->
-		<!-- Etape 4 projection des familles de proteines et de gènes du lexique sur le texte -->
-		<!--**************************************************************************************-->
+	<!-- *******  -->
+	<!-- Projection of proteins and genes  families from the lexicon on the text -->
+	<!-- *******  -->
 		<module id="Protein_family" class="TabularProjector">
 			<dictFile>resources/gene_families_lexicon.txt</dictFile>
 			<targetLayerName>Protein_family</targetLayerName>
@@ -217,9 +229,9 @@ limitations under the License. -->
 		<module id="overlapsgene-family" class="RemoveOverlaps">
 			<layerName>Gene_family</layerName>
 		</module>
-		<!--**************************************************************************************-->
-		<!-- Etape 5 projection de RNA lexique sur le texte -->
-		<!--**************************************************************************************-->
+	<!-- *******  -->
+	<!-- Projection of RNA from the lexicon on the text -->
+	<!-- *******  -->
 		<module id="RNAmiRTarBase" class="TabularProjector">
 			<dictFile>resources/ath_MTI_extended.txt</dictFile>
 			<targetLayerName>rna1</targetLayerName>
@@ -240,9 +252,9 @@ limitations under the License. -->
 		<module id="overlapsrna" class="RemoveOverlaps">
 			<layerName>RNA</layerName>
 		</module>
-		<!--**************************************************************************************-->
-		<!--  	Etape 6 projection des mots inutiles et suppresions dans les layers-->
-		<!--**************************************************************************************-->
+	<!-- *******  -->
+	<!-- Projection of stop words from the lexicon on the text -->
+	<!-- *******  -->
 		<module id="stopwordsprojector" class="TabularProjector">
 			<dictFile>resources/stopwords_EN.txt</dictFile>
 			<targetLayerName>stopwords</targetLayerName>
@@ -260,6 +272,9 @@ limitations under the License. -->
 			<action>delete</action>
 			<deleteElements/>
 		</module>
+	<!-- *******  -->
+	<!-- Detection of bibliographic references -->
+	<!-- *******  -->
 		<module id="refbiblio" class="RegExp">
 			<!--type (ABD ., et al 2000)-->
 			<pattern>\(([\p{L}-\s\u00a0\.,]+[\s\u00a0]\d{4}[a-zA-Z]?[\u00a0\s;]*)+?\)</pattern>
@@ -267,7 +282,10 @@ limitations under the License. -->
 			<targetLayerName>refbiblio</targetLayerName>
 			<constantAnnotationFeatures>ne-type=refbiblio</constantAnnotationFeatures>
 		</module>
-		<module id="genotype-minsucules" class="Action">
+	<!-- *******  -->
+	<!-- transformation Gene to Gentoype -->
+	<!-- *******  -->
+		<module id="genotype-lowercase" class="Action">
 			<target>documents.sections.layer:Gene[@form =~"^[a-z]+[0-9]?"]</target>
 			<action>remove:Gene | add:Genotype | set:feat:ne-type("Genotype")</action>
 			<removeFromLayer/>
@@ -275,7 +293,7 @@ limitations under the License. -->
 			<setFeatures/>
 			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
 		</module>
-		<module id="genotype2-minsucules" class="Action">
+		<module id="genotype2-lowercase" class="Action">
 			<target>documents.sections.layer:Protein[@form =~"^[a-z]+[0-9]?"]</target>
 			<action>remove:Protein | add:Genotype | set:feat:ne-type("Genotype")</action>
 			<removeFromLayer/>
@@ -283,7 +301,9 @@ limitations under the License. -->
 			<setFeatures/>
 			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
 		</module>
-		<!-- Etape 3d Fusion des layers-->
+		<!-- *******  -->
+		<!-- Merge off fixed entities -->
+		<!-- *******  -->
 		<module id="merge" class="MergeLayers">
 			<sourceLayerNames>Gene,Gene_family,Protein,Protein_family,RNA</sourceLayerNames>
 			<targetLayerName>fixed</targetLayerName>
@@ -309,6 +329,11 @@ limitations under the License. -->
 			<!--		<removeIncluded>false</removeIncluded>-->
 		</module>
 	</sequence>
+
+<!-- *******  -->
+<!-- Export of fixed entities Gene and Protein -->
+<!-- *******  -->
+<sequence id="export-fixed-entities">
 	<module id="gene1" class="TabularExport">
 		<outDir>output</outDir>
 		<files>$</files>
@@ -350,21 +375,21 @@ limitations under the License. -->
 		</columns>
 		<append>true</append>
 	</module>
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<!--*****************MOTS*********************************************************************-->
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<!-- Etape 4 : Segmenter en mot, insertion des différents tirets -->
+
+</sequence>
+<!--**************************************************************************************-->
+<!--**************************************************************************************-->
+<!--*****************Word and sentences segmentation**************************************-->
+<!--**************************************************************************************-->
+<!--**************************************************************************************-->
+<!--**************************************************************************************-->
 	<module id="words" class="WoSMig">
 		<balancedPunctuations>()[]{}""</balancedPunctuations>
 		<punctuations>?.!;,:-&#x2014;&#x2013;&#x2012;&#x002D;&#x2010;&#x2011;&#x00AD;&#x2015;&#x2043;&#x2212;&#x02D7;&#x207B;&#x208B;</punctuations>
 		<targetLayerName>words</targetLayerName>
 		<fixedFormLayerName>fixed</fixedFormLayerName>
 	</module>
-	<!--**************************************************************************************-->
-	<!-- Etape 5 : Segmenter en phrases -->
+
 	<module id="sentences" class="SeSMig">
 		<strongPunctuations>?.!</strongPunctuations>
 		<targetLayerName>sentences</targetLayerName>
@@ -380,57 +405,58 @@ limitations under the License. -->
 			<createAnnotation layer="threesent"/>
 			<setFeatures ne-type="threesent"/>
 		</actions>
-		<!--<actions><addToLayer layer="threesent"/><setFeatures ne-type="threesent"/></actions>-->
 	</module>
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<sequence id="liste des tirets">
-		<module id="Tirets" class="PatternMatcher">
+
+<!--**************************************************************************************-->
+<!--**************************************************************************************-->
+<!--**************************************************************************************-->
+<!--*************************dash detection***********************************************-->
+<!--**************************************************************************************-->
+<!--**************************************************************************************-->
+	<sequence id="dash list">
+		<module id="dash" class="PatternMatcher">
 			<layerName>words</layerName>
 			<pattern> 
 			[@form=~"^\\u2014$"]? 
-<!-- tiret long-->
+<!-- long dash-->
 			[@form=~"^\\u2013$"]? 
-<!-- tiret moyen-->
+<!-- middle dash-->
 			[@form=~"^\\u2012$"]? 
-<!-- tiret numérique-->
+<!-- numerical dash-->
 			[@form=~"^\\u002D$"]? 
-<!-- tiret union signe moins-->
+<!-- minus sign-->
 			[@form=~"^\\u2010$"]? 
-<!-- trait d'union-->
+<!-- hyphen-->
 			[@form=~"^\\u2011$"]? 
-<!-- trait d'union insécable-->
+<!-- unbreakable hyphen-->
 			[@form=~"^\\u00AD$"]? 
-<!-- trait d'union conditionel-->
+<!-- conditional hyphen-->
 			[@form=~"^\\u2015$"]? 
-<!-- barre horizontale-->
+<!-- horizontal bar-->
 			[@form=~"^\\u2043$"]? 
-<!-- puce trait d'union-->
+<!-- hyphenated chip-->
 			[@form=~"^\\u2212$"]? 
-<!-- signe moins-->
+<!-- minus sign-->
 			[@form=~"^\\u02D7$"]? 
-<!-- Lettre modificative signe moins-->
+<!-- letter amending minus sign-->
 			[@form=~"^\\u207B$"]? 
-<!-- exposant signe moins-->
+<!-- superscripts minus sign-->
 			[@form=~"^\\u208B$"]? 
-<!-- indice signe moins -->
+<!-- subscripts minus sign -->
 			</pattern>
 			<actions>
-				<createAnnotation layer="Tiret"/>
-				<setFeatures ne-type="Tiret"/>
+				<createAnnotation layer="Dash"/>
+				<setFeatures ne-type="Dash"/>
 			</actions>
-			<constantAnnotationFeatures>ne-type=Tiret</constantAnnotationFeatures>
+			<constantAnnotationFeatures>ne-type=Dash</constantAnnotationFeatures>
 		</module>
-		<module id="overlapstiret" class="RemoveOverlaps">
-			<layerName>Tiret</layerName>
+		<module id="Dash-overlaps" class="RemoveOverlaps">
+			<layerName>Dash</layerName>
 		</module>
 	</sequence>
 	<!--**************************************************************************************-->
-	<!-- Etape 7 : Tagger -->
+	<!--  Pos Tagger -->
+	<!--**************************************************************************************-->
 	<module id="tt-pos-tag" class="TreeTagger">
 		<treeTaggerExecutable>/alvisnlp/psoft/treetagger/bin/tree-tagger</treeTaggerExecutable>
 		<parFile>/alvisnlp/psoft/treetagger/lib/english.par</parFile>
