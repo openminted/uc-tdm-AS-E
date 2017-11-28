@@ -10,6 +10,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 <alvisnlp-plan id="entities">
+
+	<param name="readPubMedcorpus">
+		<alias module="readPubMed" param="sourcePath"/>
+	</param>
+
+	<param name="readhtmlannotated">
+		<alias module="analyze" param="sourcePath"/>
+	</param>
+
+	<param name="readWoKcorpus">
+		<alias module="readWoKcorpus" param="source"/>
+	</param>
+
+
 	<sequence id="read">
 		<!--Lecture corpus Pubmed -->
 		<module id="readPubMed" class="XMLReader">
@@ -37,7 +51,7 @@ limitations under the License. -->
 			<setFeatures/>
 		</module>
 		<!-- Lecture du corpus Web of knowledge -->
-		<module id="readWoK" class="WebOfKnowledgeReader">
+		<module id="readWoKcorpus" class="WebOfKnowledgeReader">
 			<source>../alvisir2_corpus/listeriawok.txt </source>
 			<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
 		</module>
