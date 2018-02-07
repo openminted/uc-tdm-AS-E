@@ -11,24 +11,30 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 <alvisnlp-plan id="entities">
 
-	<param name="readPubMedcorpus">
-		<alias module="readPubMed" param="sourcePath"/>
-	</param>
-
-	<param name="readhtmlannotated">
-		<alias module="analyze" param="sourcePath"/>
-	</param>
-
-	<param name="readWoKcorpus">
-		<alias module="readWoKcorpus" param="source"/>
-	</param>
-
+ <param name="readPubMed">
+        <alias module="readPubMedcorpus" param="sourcePath"/>
+    </param>
+    <param name="readhtml">
+        <alias module="readhtmlannotated" param="sourcePath"/>
+    </param>
+    <param name="readWoK">
+        <alias module="readWoKcorpus" param="source"/>
+    </param>
+    <param name="exportDocument">
+        <alias module="sections" param="outDir"/>
+    </param>
+    <param name="output-fixed-relations">
+        <alias module="relation_export" param="outDir"/>
+    </param>
+    <param name="output-fixed-entities">
+        <alias module="entities_export" param="outDir"/>
+    </param>
 
 	<sequence id="read">
 <!-- ******* -->
 <!--PubMed corpus reading-->
 <!-- *******  -->
-		<module id="readPubMed" class="XMLReader">
+		<module id="readPubMedcorpus" class="XMLReader">
 			<sourcePath>../alvisir2_corpus/pubmed_result-2.xml</sourcePath>
 			<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
 		</module>
@@ -144,6 +150,7 @@ limitations under the License. -->
 				document.@doi			
 			</columns>
 		</module>
+
 	</sequence>
 
 <!-- ******* -->
@@ -698,7 +705,10 @@ limitations under the License. -->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
-	<module id="mergeAllEntities" class="MergeLayers">
+
+
+
+<module id="mergeAllEntities" class="MergeLayers">
 		<sourceLayerNames>
 			Gene,
 			Protein,
@@ -710,11 +720,11 @@ limitations under the License. -->
 		<targetLayerName>AllEntities</targetLayerName>
 	</module>
 	<sequence id="outputEntities">
-		<module id="gene" class="TabularExport">
+		<module id="entities_export" class="TabularExport">
 			<outDir>output</outDir>
 			<files>$</files>
 			<fileName>"entities.txt"</fileName>
-			<lines>documents.sections.layer:Gene</lines>
+			<lines>documents.sections.layer:AllEntities</lines>
 			<columns separator=";">
 				<element>section.document.@identifiant</element>
 				<element>@ne-type</element>
@@ -733,115 +743,6 @@ limitations under the License. -->
 			"Section name",
 			"URL"
 		</headers>
-		</module>
-		<module id="protein" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"entities.txt"</fileName>
-			<append/>
-			<lines>documents.sections.layer:Protein</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@ne-type</element>
-				<element>@form</element>
-				<element>@locus_name</element>
-				<element>start ^ "-" ^ end</element>
-				<element>section.@sectionname</element>
-				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
-			</columns>
-			<append>true</append>
-		</module>
-		<module id="proteinfamily" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"entities.txt"</fileName>
-			<append/>
-			<lines>documents.sections.layer:Protein_family</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@ne-type</element>
-				<element>@form</element>
-				<element>@Protein_family_name</element>
-				<element>start ^ "-" ^ end</element>
-				<element>section.@sectionname</element>
-				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Protein_family_name</element>
-			</columns>
-			<append>true</append>
-		</module>
-		<module id="genefamily" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"entities.txt"</fileName>
-			<append/>
-			<lines>documents.sections.layer:Gene_family</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@ne-type</element>
-				<element>@form</element>
-				<element>@Gene_family_name</element>
-				<element>start ^ "-" ^ end</element>
-				<element>section.@sectionname</element>
-				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@Gene_family_name</element>
-			</columns>
-			<append>true</append>
-		</module>
-		<module id="RNA" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"entities.txt"</fileName>
-			<append/>
-			<lines>documents.sections.layer:RNA</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@ne-type</element>
-				<element>@form</element>
-				<element>@miRTarBaseID</element>
-				<element>start ^ "-" ^ end</element>
-				<element>section.@sectionname</element>
-				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@miRTarBaseID</element>
-			</columns>
-			<append>true</append>
-		</module>
-		<module id="groupGandPexport" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"groupGandPexport.txt"</fileName>
-			<lines>documents.sections.layer:groupGandP</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@ne-type</element>
-				<element>@form</element>
-				<element>@locus_name</element>
-				<element>start ^ "-" ^ end</element>
-				<element>section.@sectionname</element>
-				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
-			</columns>
-		</module>
-		<module id="groupNegationexport" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"groupNegation.txt"</fileName>
-			<lines>documents.sections.layer:groupNegation</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@ne-type</element>
-				<element>@form</element>
-				<element>start ^ "-" ^ end</element>
-				<element>section.@sectionname</element>
-
-			</columns>
-		</module>
-		<module id="wordsexport" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"words.txt"</fileName>
-			<lines>documents.sections.layer:words</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@form</element>
-				<element>@pos</element>
-				<element>start ^ "-" ^ end</element>
-			</columns>
 		</module>
 	</sequence>
 	
@@ -1067,7 +968,9 @@ limitations under the License. -->
 <!--		<layers>groupGandP</layers>-->
 <!--		<colors>#d7d7d7, #ff9966</colors>-->
 <!--	</module>-->
-	<module id="relations" class="TabularExport">
+
+	
+	<module id="relation_export" class="TabularExport">
 		<outDir>output</outDir>
 		<files>$</files>
 		<fileName>"relationsgroup.txt"</fileName>
