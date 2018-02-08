@@ -12,22 +12,22 @@ limitations under the License. -->
 <alvisnlp-plan id="entities">
 
  <param name="readPubMed">
-        <alias module="readPubMedcorpus" param="sourcePath"/>
+        <alias module="read.readPubMedcorpus" param="sourcePath"/>
     </param>
     <param name="readhtml">
-        <alias module="readhtmlannotated" param="sourcePath"/>
+        <alias module="read.readhtmlannotated" param="sourcePath"/>
     </param>
     <param name="readWoK">
-        <alias module="readWoKcorpus" param="source"/>
+        <alias module="read.readWoKcorpus" param="source"/>
     </param>
     <param name="exportDocument">
-        <alias module="sections" param="outDir"/>
+        <alias module="read.sections" param="outDir"/>
     </param>
     <param name="output-fixed-relations">
         <alias module="relation_export" param="outDir"/>
     </param>
     <param name="output-fixed-entities">
-        <alias module="entities_export" param="outDir"/>
+        <alias module="outputEntitiesentities_export" param="outDir"/>
     </param>
 
 	<sequence id="read">
