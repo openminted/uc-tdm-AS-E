@@ -27,7 +27,7 @@ limitations under the License. -->
         <alias module="relation_export" param="outDir"/>
     </param>
     <param name="output-fixed-entities">
-        <alias module="outputEntitiesentities_export" param="outDir"/>
+        <alias module="outputEntities.entities_export" param="outDir"/>
     </param>
 
 	<sequence id="read">
