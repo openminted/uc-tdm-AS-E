@@ -21,13 +21,13 @@ limitations under the License. -->
         <alias module="read.readWoKcorpus" param="source"/>
     </param>
     <param name="exportDocument">
-        <alias module="read.sections" param="outDir"/>
+        <alias module="read.sections" param="fileName"/>
     </param>
     <param name="output-fixed-relations">
-        <alias module="relation_export" param="outDir"/>
+        <alias module="relation_export" param="fileName"/>
     </param>
     <param name="output-fixed-entities">
-        <alias module="outputEntities.entities_export" param="outDir"/>
+        <alias module="outputEntities.entities_export" param="fileName"/>
     </param>
 
 	<sequence id="read">
