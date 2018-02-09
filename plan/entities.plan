@@ -62,7 +62,7 @@ limitations under the License. -->
 <!--Web of Knowledge corpus reading (.txt format)-->
 <!-- *******  -->
 		<module id="readWoKcorpus" class="WebOfKnowledgeReader">
-			<source>../alvisir2_corpus/corpus2000_12012017.txt/source>
+			<source>../alvisir2_corpus/corpus2000_12012017.txt</source>
 			<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
 		</module>
 		<module id="renamedocumentWOK" class="Action">
