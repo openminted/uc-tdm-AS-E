@@ -35,7 +35,7 @@ limitations under the License. -->
 <!--PubMed corpus reading-->
 <!-- *******  -->
 		<module id="readPubMedcorpus" class="XMLReader">
-			<sourcePath>/alvisir2_corpus/pubmed_result-2.xml</sourcePath>
+			<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
 			<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
 		</module>
 		<module id="renametitlehtmlPubMed" class="Action">
@@ -62,7 +62,7 @@ limitations under the License. -->
 <!--Web of Knowledge corpus reading (.txt format)-->
 <!-- *******  -->
 		<module id="readWoKcorpus" class="WebOfKnowledgeReader">
-			<source>/alvisir2_corpus/corpus2000_12012017.txt</source>
+			<source>alvisir2_corpus/corpus2000_12012017.txt</source>
 			<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
 		</module>
 		<module id="renamedocumentWOK" class="Action">
@@ -108,7 +108,7 @@ limitations under the License. -->
 <!-- Manual annotated corpus reading (full text, html format)-->
 <!-- *******  -->
 		<module id="readhtmlannotated" class="XMLReader">
-			<sourcePath>/alvisir2_corpus/fulltext/html</sourcePath>
+			<sourcePath>alvisir2_corpus/fulltext/html</sourcePath>
 			<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
 			<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
 		</module>
