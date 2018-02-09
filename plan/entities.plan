@@ -23,10 +23,10 @@ limitations under the License. -->
     <param name="exportDocument">
         <alias module="read.sections" param="fileName"/>
     </param>
-    <param name="output-fixed-relations">
+    <param name="output_fixed_relations">
         <alias module="relation_export" param="fileName"/>
     </param>
-    <param name="output-fixed-entities">
+    <param name="output_fixed_entities">
         <alias module="outputEntities.entities_export" param="fileName"/>
     </param>
 
