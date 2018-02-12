@@ -768,26 +768,6 @@ limitations under the License. -->
 			<action>id:enumerate:threesentence-index(layer:threesent)</action>
 			<setFeatures/>
 		</module>
-		<module id="sentences" class="TabularExport">
-			<outDir>corpus/output</outDir>
-			<files>$</files>
-			<fileName>"sentences.txt"</fileName>
-			<lines>documents.sections.layer:sentences[@name != "author"]</lines>
-			<columns separator=";">
-		  section.document.@id;
-		  section.@name;
-		  @sentence-index;
-		  start ^ "-" ^ end;
-		  str:replace(@form, "\n", " ")
-		</columns>
-			<headers>
-		  "DOCUMENT",
-		  "SECTION",
-		  "SENTENCE",
-		  "OFFSET",
-		  "FORM"
-		</headers>
-		</module>
 		<module id="dependencies" class="TabularExport">
 			<outDir>output</outDir>
 			<files>$</files>
@@ -835,7 +815,7 @@ limitations under the License. -->
 	<!--**************************************************************************************-->
 	<sequence id="AlvisIRIndexer">
 		<module id="AlvisIRindex" class="AlvisIRIndexer">
-			<indexDir inhibitCheck="true">configuration/index</indexDir>
+			<indexDir inhibitCheck="true">output/AlvisIRconfiguration/index</indexDir>
 			<tokenPositionGap>1024</tokenPositionGap>
 			<fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
 			<relations>
