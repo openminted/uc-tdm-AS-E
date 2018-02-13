@@ -30,128 +30,153 @@ limitations under the License. -->
         <alias module="outputEntities.entities_export" param="fileName"/>
     </param>
 
-	<sequence id="read">
+	<!--**************************************************************************************-->
+	<!--  Reading sequence -->
+	<!--**************************************************************************************-->
+
+<sequence id="read">
+	<sequence id ="Corpuschoice">
 <!-- ******* -->
 <!--PubMed corpus reading-->
 <!-- *******  -->
-		<module id="readPubMedcorpus" class="XMLReader">
-			<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
-			<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
-		</module>
-		<module id="renametitlehtmlPubMed" class="Action">
-			<target>documents.sections:title</target>
-			<action>set:feat:sectionname("title")</action>
+		<sequence id="PubMedread">
+<!--Input for PubMed corpus. Format XML exported from PubMed-->
+			<module id="readPubMedcorpus" class="XMLReader">
+				<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
+				<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
+			</module>
+
+<!--Treatment for PubMed corpus. -->
+			<module id="renametitlehtmlPubMed" class="Action">
+				<target>documents.sections:title</target>
+				<action>set:feat:sectionname("title")</action>
 			<setFeatures/>
-		</module>
-		<module id="renameabstracthtmlPubMed" class="Action">
-			<target>documents.sections:abstract</target>
-			<action>set:feat:sectionname("abstract")</action>
-			<setFeatures/>
-		</module>
-		<module id="renamecontenthtmlPubMed" class="Action">
-			<target>documents.sections:alltext</target>
-			<action>set:feat:sectionname("alltext")</action>
-			<setFeatures/>
-		</module>
-		<module id="renamedocumentPubmed" class="Action">
-			<target>documents</target>
-			<action>set:feat:identifiant(@id)</action>
-			<setFeatures/>
-		</module>
+			</module>
+			<module id="renameabstracthtmlPubMed" class="Action">
+				<target>documents.sections:abstract</target>
+				<action>set:feat:sectionname("abstract")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamecontenthtmlPubMed" class="Action">
+				<target>documents.sections:alltext</target>
+				<action>set:feat:sectionname("alltext")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamedocumentPubmed" class="Action">
+				<target>documents</target>
+				<action>set:feat:identifiant(@id)</action>
+				<setFeatures/>
+			</module>
+		</sequence>	
 <!-- ******* -->
 <!--Web of Knowledge corpus reading (.txt format)-->
 <!-- *******  -->
-		<module id="readWoKcorpus" class="WebOfKnowledgeReader">
-			<source>alvisir2_corpus/corpus2000_12012017.txt</source>
-			<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
-		</module>
-		<module id="renamedocumentWOK" class="Action">
-			<target>documents</target>
-			<action>set:feat:identifiant(@id)</action>
-			<setFeatures/>
-		</module>
-		<module id="renameDIWOK" class="Action">
-			<target>documents[@source == "wok"]</target>
-			<action>set:feat:doi(@DI)</action>
-			<setFeatures/>
-		</module>
-		<module id="renametitleWOK" class="Action">
-			<target>documents.sections:TI</target>
-			<action>set:feat:sectionname("title")</action>
-			<setFeatures/>
-		</module>
-		<module id="renamejournalWOK" class="Action">
-			<target>documents.sections:JI</target>
-			<action>set:feat:sectionname("journal")</action>
-			<setFeatures/>
-		</module>
-		<module id="renameyearWOK" class="Action">
-			<target>documents.sections:PY</target>
-			<action>set:feat:sectionname("year")</action>
-			<setFeatures/>
-		</module>
-		<module id="renamedoiWOK" class="Action">
-			<target>documents.sections:DI</target>
-			<action>set:feat:sectionname("doi")</action>
-			<setFeatures/>
-		</module>
-		<module id="completeurlwok" class="Action">
-			<target>documents[@source == "wok"]</target>
-			<action>set:feat:url(@url ^ @doi)</action>
-			<setFeatures/>
-		</module>
-		<module id="renameabstractWOK" class="Action">
-			<target>documents.sections:AB</target>
-			<action>set:feat:sectionname("abstract")</action>
-			<setFeatures/>
-		</module>
-<!-- Manual annotated corpus reading (full text, html format)-->
-<!-- *******  -->
-		<module id="readhtmlannotated" class="XMLReader">
-			<sourcePath>alvisir2_corpus/fulltext/html</sourcePath>
-			<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
-			<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
-		</module>
-		<module id="completeurlhtml" class="Action">
-			<target>documents[@source == "html"]</target>
-			<action>set:feat:url(@url ^ @id)</action>
-			<setFeatures/>
-		</module>
-		<module id="renametitlehtml" class="Action">
-			<target>documents.sections:title</target>
-			<action>set:feat:sectionname("title")</action>
-			<setFeatures/>
-		</module>
-		<module id="renameabstracthtml" class="Action">
-			<target>documents.sections:abstract</target>
-			<action>set:feat:sectionname("abstract")</action>
-			<setFeatures/>
-		</module>
-		<module id="renamecontenthtml" class="Action">
-			<target>documents.sections:alltext</target>
-			<action>set:feat:sectionname("alltext")</action>
-			<setFeatures/>
-		</module>
-		<module id="renamedocumenthtml" class="Action">
-			<target>documents</target>
-			<action>set:feat:ID(@id)</action>
-			<setFeatures/>
-		</module>
-		<module id="sections" class="TabularExport">
-			<outDir>output</outDir>
-			<files>$</files>
-			<fileName>"sectionsWOK+PubMed.txt"</fileName>
-			<lines>documents</lines>
-			<columns>	
-				@identifiant, 
-				<!-- @sectionname,contents -->
-				str:diacritics(str:normalizeSpace(document.sections[@sectionname == "title"].contents)),
-				<!-- document.sections:abstract.contents,-->
-				document.@doi			
-			</columns>
-		</module>
+		<sequence id="WOKread">
+	<!--Input for Web of Knowledge corpus. Format XML exported from PubMed-->
+			<module id="readWoKcorpus" class="WebOfKnowledgeReader">
+				<source>alvisir2_corpus/corpus2000_12012017.txt</source>
+				<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
+			</module>
 
+	<!--Treatment for Web of Knowledge corpus. -->
+			<module id="renamedocumentWOK" class="Action">
+				<target>documents</target>
+				<action>set:feat:identifiant(@id)</action>
+				<setFeatures/>
+			</module>
+			<module id="renameDIWOK" class="Action">
+				<target>documents[@source == "wok"]</target>
+				<action>set:feat:doi(@DI)</action>
+				<setFeatures/>
+			</module>
+			<module id="renametitleWOK" class="Action">
+				<target>documents.sections:TI</target>
+				<action>set:feat:sectionname("title")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamejournalWOK" class="Action">
+				<target>documents.sections:JI</target>
+				<action>set:feat:sectionname("journal")</action>
+				<setFeatures/>
+			</module>
+			<module id="renameyearWOK" class="Action">
+				<target>documents.sections:PY</target>
+				<action>set:feat:sectionname("year")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamedoiWOK" class="Action">
+				<target>documents.sections:DI</target>
+				<action>set:feat:sectionname("doi")</action>
+				<setFeatures/>
+			</module>
+			<module id="completionlwok" class="Action">
+				<target>documents[@source == "wok"]</target>
+				<action>set:feat:url(@url ^ @doi)</action>
+				<setFeatures/>
+			</module>
+			<module id="renameabstractWOK" class="Action">
+				<target>documents.sections:AB</target>
+				<action>set:feat:sectionname("abstract")</action>
+				<setFeatures/>
+			</module>
+
+		</sequence>
+<!-- *******  -->
+<!-- Html format corpus (i.e. Manual annotated corpus reading (full text, html format))-->
+<!-- *******  -->
+		<sequence id="HTMLread">
+	<!--Input for html corpus. Format XML exported from PubMed-->
+			<module id="readhtmlannotated" class="XMLReader">
+				<sourcePath>alvisir2_corpus/fulltext/html</sourcePath>
+				<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
+				<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
+			</module>
+
+	<!--Treatment for html corpus -->
+			<module id="completionoflhtml" class="Action">
+				<target>documents[@source == "html"]</target>
+				<action>set:feat:url(@url ^ @id)</action>
+				<setFeatures/>
+			</module>
+			<module id="renametitlehtml" class="Action">
+				<target>documents.sections:title</target>
+				<action>set:feat:sectionname("title")</action>
+				<setFeatures/>
+			</module>
+			<module id="renameabstracthtml" class="Action">
+				<target>documents.sections:abstract</target>
+				<action>set:feat:sectionname("abstract")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamecontenthtml" class="Action">
+				<target>documents.sections:alltext</target>
+				<action>set:feat:sectionname("alltext")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamedocumenthtml" class="Action">
+				<target>documents</target>
+				<action>set:feat:ID(@id)</action>
+				<setFeatures/>
+			</module>
+		</sequence>
 	</sequence>
+
+<!-- Output File-->
+	<module id="sections" class="TabularExport">
+		<outDir>output</outDir>
+		<files>$</files>
+		<fileName>"identifiant_of_documents.txt"</fileName>
+		<lines>documents</lines>
+		<columns>	
+			@identifiant, 
+			<!-- @sectionname,contents -->
+			str:diacritics(str:normalizeSpace(document.sections[@sectionname == "title"].contents)),
+			<!-- document.sections:abstract.contents,-->
+			document.@doi			
+		</columns>
+	</module>
+
+</sequence>
 
 <!-- ******* -->
 <!--Name entity recognition-->
@@ -211,31 +236,7 @@ limitations under the License. -->
 			<setFeatures/>
 			<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
 		</module>
-	<!-- *******  -->
-	<!-- Projection of proteins and genes  families from the lexicon on the text -->
-	<!-- *******  -->
-		<module id="Protein_family" class="TabularProjector">
-			<dictFile>resources/gene_families_lexicon.txt</dictFile>
-			<targetLayerName>Protein_family</targetLayerName>
-			<valueFeatures>Protein_family_name</valueFeatures>
-			<keyIndex>0</keyIndex>
-			<skipEmpty>true</skipEmpty>
-			<constantAnnotationFeatures>ne-type=Protein_family</constantAnnotationFeatures>
-		</module>
-		<module id="overlapsprotein-family" class="RemoveOverlaps">
-			<layerName>Protein_family</layerName>
-		</module>
-		<module id="Gene_family" class="Action">
-			<target>documents.sections.layer:Protein_family[outside:html[@tag == "em" or @tag == "i"]]</target>
-			<action>remove:Protein_family | add:Gene_family | set:feat:ne-type("Gene_family")|set:feat:Gene_family_name(@Protein_family_name)</action>
-			<removeFromLayer/>
-			<addToLayer/>
-			<setFeatures/>
-			<constantAnnotationFeatures>ne-type=Gene_family</constantAnnotationFeatures>
-		</module>
-		<module id="overlapsgene-family" class="RemoveOverlaps">
-			<layerName>Gene_family</layerName>
-		</module>
+
 	<!-- *******  -->
 	<!-- Projection of RNA from the lexicon on the text -->
 	<!-- *******  -->
@@ -289,30 +290,11 @@ limitations under the License. -->
 			<targetLayerName>refbiblio</targetLayerName>
 			<constantAnnotationFeatures>ne-type=refbiblio</constantAnnotationFeatures>
 		</module>
-	<!-- *******  -->
-	<!-- transformation Gene to Gentoype -->
-	<!-- *******  -->
-		<module id="genotype-lowercase" class="Action">
-			<target>documents.sections.layer:Gene[@form =~"^[a-z]+[0-9]?"]</target>
-			<action>remove:Gene | add:Genotype | set:feat:ne-type("Genotype")</action>
-			<removeFromLayer/>
-			<addToLayer/>
-			<setFeatures/>
-			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
-		</module>
-		<module id="genotype2-lowercase" class="Action">
-			<target>documents.sections.layer:Protein[@form =~"^[a-z]+[0-9]?"]</target>
-			<action>remove:Protein | add:Genotype | set:feat:ne-type("Genotype")</action>
-			<removeFromLayer/>
-			<addToLayer/>
-			<setFeatures/>
-			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
-		</module>
 		<!-- *******  -->
 		<!-- Merge off fixed entities -->
 		<!-- *******  -->
 		<module id="merge" class="MergeLayers">
-			<sourceLayerNames>Gene,Gene_family,Protein,Protein_family,RNA</sourceLayerNames>
+			<sourceLayerNames>Gene,Protein,RNA</sourceLayerNames>
 			<targetLayerName>fixed</targetLayerName>
 		</module>
 		<module id="overlapsfixed" class="RemoveOverlaps">
@@ -333,63 +315,16 @@ limitations under the License. -->
 		</module>
 		<module id="overlaps" class="RemoveOverlaps">
 			<layerName>fixedAll</layerName>
-			<!--		<removeIncluded>false</removeIncluded>-->
 		</module>
 	</sequence>
 
-<!-- *******  -->
-<!-- Export of fixed entities Gene and Protein -->
-<!-- *******  -->
-<sequence id="export-fixed-entities">
-	<module id="gene1" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"gene.txt"</fileName>
-		<lines>documents.sections.layer:Gene</lines>
-		<columns separator=";">
-			<element>section.document.@identifiant</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>@locus_name</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
-		</columns>
-		<headers>
-			"DOCID",
-			"EntityType",
-			"Form",
-			"Normalisation",
-			"Offset",
-			"Section name",
-			"URL"
-		</headers>
-	</module>
-	<module id="protein1" class="TabularExport">
-		<outDir>output</outDir>
-		<files>$</files>
-		<fileName>"gene.txt"</fileName>
-		<append/>
-		<lines>documents.sections.layer:Protein</lines>
-		<columns separator=";">
-			<element>section.document.@identifiant</element>
-			<element>@ne-type</element>
-			<element>@form</element>
-			<element>@locus_name</element>
-			<element>start ^ "-" ^ end</element>
-			<element>section.@sectionname</element>
-			<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
-		</columns>
-		<append>true</append>
-	</module>
-
-</sequence>
 <!--**************************************************************************************-->
 <!--**************************************************************************************-->
-<!--*****************Word and sentences segmentation**************************************-->
+<!--*****************Words and sentences segmentation**************************************-->
 <!--**************************************************************************************-->
 <!--**************************************************************************************-->
 <!--**************************************************************************************-->
+	<sequence id="WordsAndSentences">
 	<module id="words" class="WoSMig">
 		<balancedPunctuations>()[]{}""</balancedPunctuations>
 		<punctuations>?.!;,:-&#x2014;&#x2013;&#x2012;&#x002D;&#x2010;&#x2011;&#x00AD;&#x2015;&#x2043;&#x2212;&#x02D7;&#x207B;&#x208B;</punctuations>
@@ -413,6 +348,7 @@ limitations under the License. -->
 			<setFeatures ne-type="threesent"/>
 		</actions>
 	</module>
+	</sequence>
 
 <!--**************************************************************************************-->
 <!--**************************************************************************************-->
@@ -492,7 +428,7 @@ limitations under the License. -->
 		<module id="overlapsgene" class="RemoveOverlaps">
 			<layerName>Gene</layerName>
 		</module>
-		<!-- ENLEVE TOUS LES Overlaps entre Gene et Protein -->
+
 		<module id="generename" class="Action">
 			<target>documents.sections.layer:Gene</target>
 			<action>set:feat:ne-type("Gene")</action>
@@ -506,6 +442,7 @@ limitations under the License. -->
 		<module id="overlapsprotein2" class="RemoveOverlaps">
 			<layerName>Protein</layerName>
 		</module>
+		<!-- Remove Overlaps between Gene and Protein -->
 		<module id="geneandproteinoverlaps" class="Action">
 			<target>documents.sections.layer:Protein[overlapping:Gene]</target>
 			<action>delete</action>
@@ -517,50 +454,8 @@ limitations under the License. -->
 			<deleteElements/>
 		</module>
 	</sequence>
-	<!--**************************************************************************************-->
-	<sequence id="Proteinfamilypatterns">
-		<module id="ProteinfamPattern" class="PatternMatcher">
-			<layerName>words</layerName>
-			<pattern>
-	[@ne-type=="Protein"]
-	[true]?
-	[true]?      
-        ([@lemma=="like"]|[@lemma=="family"])
-                </pattern>
-			<actions>
-				<!--<addToLayer layer="Protein_family"/>-->
-				<createAnnotation layer="Protein_family" />
-				<setFeatures ne-type="Protein_family"/>
-			</actions>
-			<constantAnnotationFeatures>ne-type=Protein_family</constantAnnotationFeatures>
-		</module>
-		<module id="Proteinfamilylocusname" class="Action">
-			<target>documents.sections.layer:Protein_family[inside:Protein]</target>
-			<action>set:feat:Protein_family_name(inside:Protein.@symbol ^ "_family")</action>
-			<setFeatures/>
-		</module>
-	</sequence>
-	<sequence id="Genefamilypatterns">
-		<module id="GenefamPattern" class="PatternMatcher">
-			<layerName>words</layerName>
-			<pattern>
-	[@ne-type=="Gene"]
-	[true]?
-	[true]?      
-        ([@lemma=="like"]|[@lemma=="family"])
-                </pattern>
-			<actions>
-				<createAnnotation layer="Gene_family" />
-				<setFeatures ne-type="Gene_family"/>
-			</actions>
-			<constantAnnotationFeatures>ne-type=Gene_family</constantAnnotationFeatures>
-		</module>
-		<module id="Genefamilylocusname" class="Action">
-			<target>documents.sections.layer:Gene_family[inside:Gene]</target>
-			<action>set:feat:Gene_family_name(inside:Gene.@symbol ^ "_family")</action>
-			<setFeatures/>
-		</module>
-	</sequence>
+
+
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<!--***********************RELATION PREDICTION CO OCCURENCE*******************************-->
@@ -641,20 +536,6 @@ limitations under the License. -->
 			<module id="overlapscgGandPinNegation" class="RemoveOverlaps">
 			<layerName>GandPinNegation</layerName>	
 			</module>
-			<module id="GandPinNegationexport" class="TabularExport">
-				<outDir>output</outDir>
-				<files>$</files>
-				<fileName>"GandPinNegation.txt"</fileName>
-				<lines>documents.sections.layer:GandPinNegation</lines>
-				<columns separator=";">
-					<element>section.document.@identifiant</element>
-					<element>@ne-type</element>
-					<element>@form</element>
-					<element>start ^ "-" ^ end</element>
-					<element>section.@sectionname</element>
-					<element>outside:sentences</element>
-				</columns>
-			</module>
 		</sequence> 
 
 	<!--**************************************************************************************-->
@@ -687,7 +568,7 @@ limitations under the License. -->
 				<action>delete</action>
 				<deleteElements/>
 			</module>
-			<!-- 	-->
+
 			<module id="removenegation" class="Action">
 				<target>documents.sections.relations.tuples[(args:geneandprotfirst.outside:GandPinNegation) or (args:geneandprotsecond.outside:GandPinNegation)]</target>
 				<action>delete</action>
@@ -704,21 +585,21 @@ limitations under the License. -->
 
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
+	<!--****************************Export files *********************************************-->
+	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 
 
-
-<module id="mergeAllEntities" class="MergeLayers">
+	<module id="mergeAllEntities" class="MergeLayers">
 		<sourceLayerNames>
 			Gene,
 			Protein,
-			Protein_family,
-			Gene_family,
-			RNA,
-			groupGandP,
+			RNA
 		</sourceLayerNames>
 		<targetLayerName>AllEntities</targetLayerName>
 	</module>
+
+<!-- Output File-->
 	<sequence id="outputEntities">
 		<module id="entities_export" class="TabularExport">
 			<outDir>output</outDir>
@@ -746,7 +627,6 @@ limitations under the License. -->
 		</module>
 	</sequence>
 	
-
 
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
@@ -813,6 +693,8 @@ limitations under the License. -->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
+
+<!-- Output File-->
 	<sequence id="AlvisIRIndexer">
 		<module id="AlvisIRindex" class="AlvisIRIndexer">
 			<indexDir inhibitCheck="true">output/AlvisIRconfiguration/index</indexDir>
@@ -938,17 +820,11 @@ limitations under the License. -->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
-	<!--Visualisation html -->
+	<!--Relation export -->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
-<!--	<module id="html" class="QuickHTML">-->
-<!--		<outDir>output/Entities-html</outDir>-->
-<!--		<classFeature>ne-type</classFeature>-->
-<!--		<layers>groupGandP</layers>-->
-<!--		<colors>#d7d7d7, #ff9966</colors>-->
-<!--	</module>-->
-
+<!-- Output File-->
 	
 	<module id="relation_export" class="TabularExport">
 		<outDir>output</outDir>
@@ -972,6 +848,9 @@ limitations under the License. -->
 			<!--args:DNA.@concept-name;-->
 		</columns>
 	</module>
+
+<!-- End of the process-->
+<!-- Output File-->
 	<module id="success" class="TabularExport">
 		<outDir>output</outDir>
 		<files>$</files>
