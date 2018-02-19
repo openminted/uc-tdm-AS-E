@@ -12,13 +12,13 @@ limitations under the License. -->
 <alvisnlp-plan id="entities">
 
  <param name="readPubMed">
-        <alias module="read.readPubMedcorpus" param="sourcePath"/>
-    </param>
-    <param name="readhtml">
-        <alias module="read.readhtmlannotated" param="sourcePath"/>
+        <alias module="read.Corpuschoice.PubMedread.readPubMedcorpus" param="sourcePath"/>
     </param>
     <param name="readWoK">
-        <alias module="read.readWoKcorpus" param="source"/>
+        <alias module="read.Corpuschoice.WOKread.readWoKcorpus" param="source"/>
+    </param>
+    <param name="readhtml">
+        <alias module="read.Corpuschoice.HTMLread.readhtmlannotated" param="sourcePath"/>
     </param>
     <param name="exportDocument">
         <alias module="read.sections" param="fileName"/>
@@ -30,12 +30,33 @@ limitations under the License. -->
         <alias module="outputEntities.entities_export" param="fileName"/>
     </param>
 
+
+	<!--**************************************************************************************-->
+	<!--  Stanford and TreeTagger Parameters  -->
+	<!--**************************************************************************************-->
+
+
+    <param name="stanfordClassifier_localization">
+        <alias module="stanford.stanford" param="classifierFile"/>
+    </param>
+    <param name="treetagger_executable">
+        <alias module="tt-pos-tag" param="treeTaggerExecutable"/>
+    </param>
+    <param name="treetagger_lib">
+        <alias module="tt-pos-tag" param="parFile"/>
+    </param>
+
+
 	<!--**************************************************************************************-->
 	<!--  Reading sequence -->
 	<!--**************************************************************************************-->
 
 <sequence id="read">
 	<sequence id ="Corpuschoice">
+
+<!--Corpus type choice 
+Decomment, and write the name of the module to treat only one kind of corpus -->
+	<select>PubMedread</select>
 <!-- ******* -->
 <!--PubMed corpus reading-->
 <!-- *******  -->
@@ -421,6 +442,27 @@ limitations under the License. -->
                 
 			</pattern><actions><addToLayer group="Groupe2" layer="gene3"/><removeAnnotations group="Groupe2" layer="Protein"/></actions></module> -->
 		<!-- pass: 30mn !!! -->
+
+	<!-- *******  -->
+	<!-- transformation Gene to Gentoype -->
+	<!-- *******  -->
+		<module id="genotype-lowercase" class="Action">
+			<target>documents.sections.layer:Gene[@form =~"^[a-z]+[0-9]?"]</target>
+			<action>remove:Gene | add:Genotype | set:feat:ne-type("Genotype")</action>
+			<removeFromLayer/>
+			<addToLayer/>
+			<setFeatures/>
+			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
+		</module>
+		<module id="genotype2-lowercase" class="Action">
+			<target>documents.sections.layer:Protein[@form =~"^[a-z]+[0-9]?"]</target>
+			<action>remove:Protein | add:Genotype | set:feat:ne-type("Genotype")</action>
+			<removeFromLayer/>
+			<addToLayer/>
+			<setFeatures/>
+			<constantAnnotationFeatures>ne-type=Genotype</constantAnnotationFeatures>
+		</module>
+
 		<module id="mergeGene" class="MergeLayers">
 			<sourceLayerNames>gene1,gene2,gene3</sourceLayerNames>
 			<targetLayerName>Gene</targetLayerName>
@@ -484,6 +526,7 @@ limitations under the License. -->
 				[@form!="between"]
 				(Conj: ([@ne-type=="Gene" or @ne-type=="Protein"]
 				[@form==","]?)+
+				[@ne-type=="Gene" or @ne-type=="Protein"]+
 				[@form=="and"]
 				[@ne-type=="Gene" or @ne-type=="Protein"])
 			        </pattern>
@@ -543,7 +586,7 @@ limitations under the License. -->
 	<!--**************************************************************************************-->
 		<sequence id="interaction-relations">
 			<module id="triggers" class="Action">
-				<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode|induce|modulate)"]</target>
+				<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode|induce|modulate|phosphorylate)"]</target>
 				<action>add:triggers</action>
 				<addToLayer/>
 			</module>
@@ -701,6 +744,7 @@ limitations under the License. -->
 			<tokenPositionGap>1024</tokenPositionGap>
 			<fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
 			<relations>
+				<loc>geneandprotfirst,geneandprotsecond</loc> <!--Output for falgdb++ query -->
 				<interact>geneandprotfirst,geneandprotsecond</interact>
 			</relations>
 			<propertyKeys/>
@@ -736,6 +780,25 @@ limitations under the License. -->
 						<instances>layer:RNA</instances>
 						<text>"{rna}" ^ @miRTarBaseID ^ "/"</text>
 					</annotations>
+
+					<annotations>
+						<instances>layer:geneandprot</instances>
+						<text>"{geneandprotein}" ^ @locus_name ^ "/"</text>
+					</annotations>
+
+<!--Relation creation XX ~loc XX -->
+					<annotations>
+						<instances>relations:CooccurrenceInteraction.tuples</instances>
+						<fragments>
+							<instances>sort:ival(args, start)</instances>
+						</fragments>
+						<text>"{loc}{geneandprotein}" ^ args:geneandprotfirst.@locus_name ^ "/~{geneandprotein}" ^ args:geneandprotsecond.@locus_name ^ "/"</text>
+						<arguments>
+							<geneandprotfirst>args:geneandprotfirst.id:unique</geneandprotfirst>
+							<geneandprotsecond>args:geneandprotsecond.id:unique</geneandprotsecond>
+						</arguments>
+					</annotations>
+<!--Relation creation protein interact protein -->
 					<annotations>
 						<instances>relations:CooccurrenceInteraction.tuples</instances>
 						<fragments>
@@ -747,6 +810,7 @@ limitations under the License. -->
 							<geneandprotsecond>args:geneandprotsecond.id:unique</geneandprotsecond>
 						</arguments>
 					</annotations>
+<!--Relation creation gene interact protein -->
 					<annotations>
 						<instances>relations:CooccurrenceInteraction.tuples</instances>
 						<fragments>
@@ -758,6 +822,7 @@ limitations under the License. -->
 							<geneandprotsecond>args:geneandprotsecond.id:unique</geneandprotsecond>
 						</arguments>
 					</annotations>
+<!--Relation creation protein interact gene -->
 					<annotations>
 						<instances>relations:CooccurrenceInteraction.tuples</instances>
 						<fragments>
@@ -769,6 +834,7 @@ limitations under the License. -->
 							<geneandprotsecond>args:geneandprotsecond.id:unique</geneandprotsecond>
 						</arguments>
 					</annotations>
+<!--Relation creation gene interact gene -->
 					<annotations>
 						<instances>relations:CooccurrenceInteraction.tuples</instances>
 						<fragments>
@@ -848,8 +914,22 @@ limitations under the License. -->
 			<!--args:DNA.@concept-name;-->
 		</columns>
 	</module>
+<!-- XX to be delete-->
+
+	<module id="lemmaexport" class="TabularExport">
+		<outDir>output</outDir>
+		<files>$</files>
+		<fileName>"lemma.txt"</fileName>
+		<append/>
+		<lines>documents.sections.layer:words</lines>
+		<columns separator=";">
+			<element>@lemma</element>
+		</columns>
+	</module>
+
 
 <!-- End of the process-->
+
 <!-- Output File-->
 	<module id="success" class="TabularExport">
 		<outDir>output</outDir>

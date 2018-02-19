@@ -30,12 +30,12 @@
 
   <expansion method="path" type="Gene" max-depth="2" max-sub-paths="50"/>
   <expansion method="path" type="Protein" max-depth="2" max-sub-paths="50"/>
-  <expansion method="path" type="Protein Family" max-depth="2" max-sub-paths="50"/>
+  <!--<expansion method="path" type="Protein Family" max-depth="2" max-sub-paths="50"/>-->
 
 <global-facet name="Gene" term-prefix="{gene}" field="contents" sort="document" cutoff="1" max-facets="100"/>
   <global-facet name="Protein" term-prefix="{protein}" field="contents" sort="document" cutoff="1" max-facets="100" label-query="true"/>
-  <global-facet name="Protein Family" term-prefix="{protein_family}" field="contents" sort="document" cutoff="1" max-facets="100" label-query="true"/>
-  <global-facet name="Gene Family" term-prefix="{gene_family}" field="contents" sort="document" cutoff="1" max-facets="100" label-query="true"/>
+ <!-- <global-facet name="Protein Family" term-prefix="{protein_family}" field="contents" sort="document" cutoff="1" max-facets="100" label-query="true"/>
+  <global-facet name="Gene Family" term-prefix="{gene_family}" field="contents" sort="document" cutoff="1" max-facets="100" label-query="true"/>-->
   <global-facet name="RNA" term-prefix="{rna}" field="contents" sort="document" cutoff="1" max-facets="100" label-query="true"/>
   <global-facet name="Journals" term-prefix="" field="journal" sort="document" cutoff="1" max-facets="100" capitalize="yes" query-type="prefix" />
   <global-facet name="Publication years" term-prefix="" field="year" sort="term" cutoff="1" max-facets="100" capitalize="no" query-type="term"/>
@@ -43,8 +43,8 @@
 
   <document-facet name="Gene" term-prefix="{gene}" field="contents" sort="term" label-query="true"/>
   <document-facet name="Protein" term-prefix="{protein}" field="contents" sort="term" label-query="true"/>
-  <document-facet name="Protein Family" term-prefix="{protein_family}" field="contents" sort="term" label-query="true"/>
-  <document-facet name="Gene Family" term-prefix="{gene_family}" field="contents" sort="term" label-query="true"/>
+ <!-- <document-facet name="Protein Family" term-prefix="{protein_family}" field="contents" sort="term" label-query="true"/>
+  <document-facet name="Gene Family" term-prefix="{gene_family}" field="contents" sort="term" label-query="true"/>-->
   <document-facet name="RNA" term-prefix="{rna}" field="contents" sort="term" label-query="true"/>
   <!--<document-facet name="MeSH" term-prefix="" field="mesh" sort="term" label-query="true"/>-->
 

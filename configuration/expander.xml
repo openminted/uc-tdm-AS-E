@@ -36,7 +36,7 @@ limitations under the License. -->
   </sorted-vertical>
 
 
-<sorted-vertical>
+<!--<sorted-vertical>
     <source>resources/gene_families_lexicon.txt</source>
     <synonym>0</synonym> 
     <canonical>0</canonical>
@@ -55,7 +55,7 @@ limitations under the License. -->
     <type>Gene_family_name</type>
     <suffix>/</suffix>
   </sorted-vertical>
-
+-->
 <sorted-vertical>
     <source>resources/ath_MTI_extended.txt</source>
     <synonym>2</synonym>
