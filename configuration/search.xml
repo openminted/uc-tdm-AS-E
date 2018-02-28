@@ -30,6 +30,7 @@
 
   <expansion method="path" type="Gene" max-depth="2" max-sub-paths="50"/>
   <expansion method="path" type="Protein" max-depth="2" max-sub-paths="50"/>
+    <expansion method="path" type="GeneOrProtein" max-depth="2" max-sub-paths="50"/>
   <!--<expansion method="path" type="Protein Family" max-depth="2" max-sub-paths="50"/>-->
 
 <global-facet name="Gene" term-prefix="{gene}" field="contents" sort="document" cutoff="1" max-facets="100"/>

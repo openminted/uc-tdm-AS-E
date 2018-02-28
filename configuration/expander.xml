@@ -24,6 +24,16 @@ limitations under the License. -->
     <type>Protein</type>
     <suffix>/</suffix>
   </sorted-vertical>
+  
+<sorted-vertical>
+    <source>resources/gene_aliases_20130831_TAIR_extended.txt</source>
+    <synonym>2</synonym> 
+    <canonical>0</canonical>
+    <label>1</label>
+    <prefix>{geneandprotein}</prefix>
+    <type>GeneOrProtein</type>
+    <suffix>/</suffix>
+  </sorted-vertical> 
 
 <sorted-vertical>
     <source>resources/gene_aliases_20130831_TAIR_extended.txt</source>
