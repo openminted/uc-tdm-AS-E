@@ -188,8 +188,9 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 			</module>
 		</sequence>
 	</sequence>
-
-<!-- Output File-->
+	<!--**************************************************************************************-->
+	<!-- Output File-->
+	<!--**************************************************************************************-->
 	<module id="sections" class="TabularExport">
 		<outDir>output/Bionlpst</outDir>
 		<files>$</files>
@@ -206,9 +207,14 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 
 </sequence>
 
-<!-- ******* -->
-<!--Name entity recognition-->
-<!-- *******  -->
+	<!--**************************************************************************************-->
+	<!--**************************************************************************************-->
+	<!--**************************************************************************************-->
+	<!--Name entity recognition-->
+	<!--**************************************************************************************-->
+	<!--**************************************************************************************-->
+	<!--**************************************************************************************-->	
+	
 	<sequence id="stanford">
 		<module id="stanford" class="StanfordNER">
 			<classifierFile>/alvisnlp/psoft/stanford-ner-2014-06-16/classifiers/english.all.3class.distsim.crf.ser.gz</classifierFile>
@@ -265,9 +271,10 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 			<constantAnnotationFeatures>ne-type=Gene</constantAnnotationFeatures>
 		</module>
 
-	<!-- *******  -->
-	<!-- Projection of RNA from the lexicon on the text -->
-	<!-- *******  -->
+<!-- *******  -->
+<!-- Projection of RNA from the lexicon on the text -->
+<!-- *******  -->
+
 		<module id="RNAmiRTarBase" class="TabularProjector">
 			<dictFile>resources/ath_MTI_extended.txt</dictFile>
 			<targetLayerName>rna1</targetLayerName>
@@ -288,9 +295,9 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 		<module id="overlapsrna" class="RemoveOverlaps">
 			<layerName>RNA</layerName>
 		</module>
-	<!-- *******  -->
-	<!-- Projection of stop words from the lexicon on the text -->
-	<!-- *******  -->
+<!-- *******  -->
+<!-- Projection of stop words from the lexicon on the text -->
+<!-- *******  -->
 		<module id="stopwordsprojector" class="TabularProjector">
 			<dictFile>resources/stopwords_EN.txt</dictFile>
 			<targetLayerName>stopwords</targetLayerName>
@@ -308,9 +315,9 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 			<action>delete</action>
 			<deleteElements/>
 		</module>
-	<!-- *******  -->
-	<!-- Detection of bibliographic references -->
-	<!-- *******  -->
+<!-- *******  -->
+<!-- Detection of bibliographic references -->
+<!-- *******  -->
 		<module id="refbiblio" class="RegExp">
 			<!--type (ABD ., et al 2000)-->
 			<pattern>\(([\p{L}-\s\u00a0\.,]+[\s\u00a0]\d{4}[a-zA-Z]?[\u00a0\s;]*)+?\)</pattern>
@@ -318,9 +325,9 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 			<targetLayerName>refbiblio</targetLayerName>
 			<constantAnnotationFeatures>ne-type=refbiblio</constantAnnotationFeatures>
 		</module>
-		<!-- *******  -->
-		<!-- Merge off fixed entities -->
-		<!-- *******  -->
+	<!-- *******  -->
+	<!-- Merge off fixed entities -->
+	<!-- *******  -->
 		<module id="merge" class="MergeLayers">
 			<sourceLayerNames>Gene,Protein,RNA</sourceLayerNames>
 			<targetLayerName>fixed</targetLayerName>
@@ -433,6 +440,12 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 		<parFile>/alvisnlp/psoft/treetagger/lib/english.par</parFile>
 		<noUnknownLemma/>
 	</module>
+	
+	<!--**************************************************************************************-->
+	<!--**************************************************************************************-->
+	<!--************************ Entities detection with Pattern *****************************-->
+	<!--**************************************************************************************-->
+	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<sequence>
 		<!--		<module id="GenePattern" class="PatternMatcher"><layerName>words</layerName><pattern>
@@ -450,9 +463,9 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 			</pattern><actions><addToLayer group="Groupe2" layer="gene3"/><removeAnnotations group="Groupe2" layer="Protein"/></actions></module> -->
 		<!-- pass: 30mn !!! -->
 
-	<!-- *******  -->
-	<!-- transformation Gene to Gentoype -->
-	<!-- *******  -->
+<!-- *******  -->
+<!-- transformation Gene to Gentoype -->
+<!-- *******  -->
 		<module id="genotype-lowercase" class="Action">
 			<target>documents.sections.layer:Gene[@form =~"^[a-z]+[0-9]?"]</target>
 			<action>remove:Gene | add:Genotype | set:feat:ne-type("Genotype")</action>
