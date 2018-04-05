@@ -56,7 +56,14 @@ limitations under the License. -->
 
 <!--Corpus type choice 
 Decomment, and write the name of the module to treat only one kind of corpus -->
-	<select>PubMedread</select>
+	<select>BioNLPSTread</select>
+	
+<sequence id="BioNLPSTread">	
+	<module id="readBionlpt" class="TextFileReader">
+    <sourcePath filter=".txt$">../alvisir2_corpus/BioNLP-ST_Txt</sourcePath>
+    <baseNameId/>
+  </module> 
+ </sequence>	  
 <!-- ******* -->
 <!--PubMed corpus reading-->
 <!-- *******  -->
@@ -184,7 +191,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 
 <!-- Output File-->
 	<module id="sections" class="TabularExport">
-		<outDir>output</outDir>
+		<outDir>output/Bionlpst</outDir>
 		<files>$</files>
 		<fileName>"identifiant_of_documents.txt"</fileName>
 		<lines>documents</lines>
@@ -527,6 +534,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 				(Conj: ([@ne-type=="Gene" or @ne-type=="Protein"]
 				[@form==","]?)+
 				[@ne-type=="Gene" or @ne-type=="Protein"]+
+				[@form==","]?
 				[@form=="and"]
 				[@ne-type=="Gene" or @ne-type=="Protein"])
 			        </pattern>
@@ -535,9 +543,43 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 					<setFeatures ne-type="groupGandP"/>
 				</actions>
 			</module>
+			<module id="Groupofgeneprot2" class="PatternMatcher">
+				<layerName>words</layerName>
+				<pattern>
+				[@form!="between"]
+				(Conj2: ([@ne-type=="Gene" or @ne-type=="Protein"]
+				[@form=="and" or @form=="or"]
+				[@ne-type=="Gene" or @ne-type=="Protein"]))
+			        </pattern>
+				<actions>
+					<createAnnotation group="Conj2" layer="groupGandP"/>
+					<setFeatures ne-type="groupGandP"/>
+				</actions>
+			</module>
 			<module id="overlapscgroupGandP" class="RemoveOverlaps">
 				<layerName>groupGandP</layerName>
 			</module>
+			
+			<module id="exportgroupGandP" class="TabularExport">
+			<outDir>output/Bionlpst</outDir>
+			<files>$</files>
+			<fileName>"groupGandP.txt"</fileName>
+			<lines>documents.sections.layer:groupGandP</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@locus_name</element>
+				<element>start ^ "-" ^ end</element>
+			</columns>
+			<headers>
+			"DOCID",
+			"EntityType",
+			"Form",
+			"Normalisation",
+			"Offset"
+		</headers>
+		</module>
 		</sequence>
 	<!--**************************************************************************************-->
 	<!--****************************************NEGATION**************************************-->
@@ -585,11 +627,41 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 	<!--********************************RELATION PREDICTION***********************************-->
 	<!--**************************************************************************************-->
 		<sequence id="interaction-relations">
+			
+			
 			<module id="triggers" class="Action">
-				<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode|induce|modulate|phosphorylate)"]</target>
-				<action>add:triggers</action>
+				<target>documents.sections.layer:words[@lemma =~ "^(interact|regulate|bind|activate|cause|encode|induce|modulate|phosphorylat)"]</target>
+				<action>add:triggers| set:feat:ne-type("triggers")</action>
 				<addToLayer/>
+				<setFeatures/>
 			</module>
+			
+		<sequence id="Exporttrigger1">
+		<module id="entities_export" class="TabularExport">
+			<outDir>output/Bionlpst</outDir>
+			<files>$</files>
+			<fileName>"trigger1.txt"</fileName>
+			<lines>documents.sections.layer:triggers</lines>
+			<columns separator=";">
+				<element>section.document.@identifiant</element>
+				<element>@ne-type</element>
+				<element>@form</element>
+				<element>@locus_name</element>
+				<element>start ^ "-" ^ end</element>
+			</columns>
+			<headers>
+			"DOCID",
+			"EntityType",
+			"Form",
+			"Normalisation",
+			"Offset"
+		</headers>
+		</module>
+		</sequence>
+	
+	
+			
+	
 			<module id="create-relation" class="Action">
 				<target>documents.sections</target>
 				<action>new:relation:CooccurrenceInteraction</action>
@@ -600,7 +672,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 				<action>
 				  inside:geneandprot as R.
 				  target.inside:geneandprot[R.@locus_name!=@locus_name] as L.
-				  section.relations:CooccurrenceInteraction.new:tuple.(set:arg:geneandprotfirst(L)|set:arg:geneandprotsecond(R)|set:feat:TYPE("Interaction"))
+				  section.relations:CooccurrenceInteraction.new:tuple.(set:arg:geneandprotfirst(L)|set:arg:geneandprotsecond(R)|set:feat:TYPE("Interacts_With"))
 				</action>
 				<createTuples/>
 				<setArguments/>
@@ -611,6 +683,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 				<action>delete</action>
 				<deleteElements/>
 			</module>
+			
 
 			<module id="removenegation" class="Action">
 				<target>documents.sections.relations.tuples[(args:geneandprotfirst.outside:GandPinNegation) or (args:geneandprotsecond.outside:GandPinNegation)]</target>
@@ -618,11 +691,15 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 				<deleteElements/>
 			</module>
 	<!--**************************************************************************************-->
+	
+
 			<module id="removecoordination" class="Action">
-				<target>documents.sections.relations.tuples[(args:geneandprotfirst.outside:groupGandP.id:unique==args:geneandprotsecond.outside:groupGandP.id:unique)]</target>
+				<target>documents.sections.relations:CooccurrenceInteraction.tuples[(args:geneandprotfirst.outside:groupGandP.id:unique==args:geneandprotsecond.outside:groupGandP.id:unique and args:geneandprotsecond.outside:groupGandP.id:unique>0)]</target>
 				<action>delete</action>
 				<deleteElements/>
 			</module>
+
+	
 		</sequence>
 	</sequence>
 
@@ -645,7 +722,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 <!-- Output File-->
 	<sequence id="outputEntities">
 		<module id="entities_export" class="TabularExport">
-			<outDir>output</outDir>
+			<outDir>output/Bionlpst</outDir>
 			<files>$</files>
 			<fileName>"entities.txt"</fileName>
 			<lines>documents.sections.layer:AllEntities</lines>
@@ -692,7 +769,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 			<setFeatures/>
 		</module>
 		<module id="dependencies" class="TabularExport">
-			<outDir>output</outDir>
+			<outDir>output/Bionlpst</outDir>
 			<files>$</files>
 			<fileName>"dependencies.txt"</fileName>
 			<lines>documents.sections[@name != "author"].relations:dependencies.tuples</lines>
@@ -740,7 +817,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 <!-- Output File-->
 	<sequence id="AlvisIRIndexer">
 		<module id="AlvisIRindex" class="AlvisIRIndexer">
-			<indexDir inhibitCheck="true">output/AlvisIRconfiguration/index</indexDir>
+			<indexDir inhibitCheck="true">output/Bionlpst/AlvisIRconfiguration/index</indexDir>
 			<tokenPositionGap>1024</tokenPositionGap>
 			<fieldNames>title,abstract,alltext,author,full-author,pmid,url,doi,year,journal,mesh</fieldNames>
 			<relations>
@@ -893,7 +970,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 <!-- Output File-->
 	
 	<module id="relation_export" class="TabularExport">
-		<outDir>output</outDir>
+		<outDir>output/Bionlpst</outDir>
 		<files>$</files>
 		<fileName>"relationsgroup.txt"</fileName>
 		<lines>documents.sections.relations:CooccurrenceInteraction.tuples</lines>
@@ -914,10 +991,29 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 			<!--args:DNA.@concept-name;-->
 		</columns>
 	</module>
+	
+	
+		<module id="flagdbJibe_export" class="TabularExport">
+		<outDir>output/Bionlpst</outDir>
+		<files>$</files>
+		<fileName>"flagdbrelationsexport.txt"</fileName>
+		<lines>documents.sections.relations:CooccurrenceInteraction.tuples</lines>
+		<columns separator=";">
+	section.document.@id;
+	@TYPE;
+	args:geneandprotfirst.@ne-type;
+	args:geneandprotfirst.@locus_name;		
+	args:geneandprotsecond.@ne-type;
+	args:geneandprotsecond.@locus_name;
+	"http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search?q="^args:geneandprotfirst.@locus_name^"+~loc+"^args:geneandprotsecond.@locus_name
+		</columns>
+	</module>
+	
+	
 <!-- XX to be delete-->
 
 	<module id="lemmaexport" class="TabularExport">
-		<outDir>output</outDir>
+		<outDir>output/Bionlpst</outDir>
 		<files>$</files>
 		<fileName>"lemma.txt"</fileName>
 		<append/>
@@ -932,7 +1028,7 @@ Decomment, and write the name of the module to treat only one kind of corpus -->
 
 <!-- Output File-->
 	<module id="success" class="TabularExport">
-		<outDir>output</outDir>
+		<outDir>output/Bionlpst</outDir>
 		<files>$</files>
 		<fileName>"success.txt"</fileName>
 		<lines>documents</lines>

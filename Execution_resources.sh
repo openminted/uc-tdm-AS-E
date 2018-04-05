@@ -13,7 +13,10 @@ cat resources/gene_aliases_20130831_TAIR_synonymesfirst.txt | awk -F"\t" '{print
 cat resources/gene_aliases_20130831_TAIR_synonymes.txt | perl -npe '$line=$_; $line=~s/-/ /g; print $line;' |sort -u > resources/gene_aliases_20130831_TAIR_tiret.txt
 #extended dash and space file: print all the lines you read, + create if space between anything that is not finished by chifrre space number (APETELA 2), paste (APETALA2) or dash (APETALA-2) or underscore (APETALA_2)
 #if anything is terminated by letter + digit (+ other hypothetical number) (APETALA2) is detached (APETALA2) or dash (APETALA-2) or underscore (APETALA_2)
-cat resources/gene_aliases_20130831_TAIR_tiret.txt | perl -npe 's/ +/ /g; if(/^(.+[^\d])\s(\d+(\s\d+)*)$/){print "$1$2\n"; print "$1-$2\n"; print $1."_".$2."\n";} if(/^(.+[a-zA-Z])(\d+(\s\d+)*)$/){print "$1 $2\n"; print "$1-$2\n"; print $1."_".$2."\n";}' |sort -u > resources/gene_aliases_20130831_TAIR_extended.txt
+cat resources/gene_aliases_20130831_TAIR_tiret.txt | perl -npe 's/ +/ /g; if(/^(.+[^\d])\s(\d+(\s\d+)*)$/){print "$1$2\n"; print "$1-$2\n"; print $1."_".$2."\n";} if(/^(.+[a-zA-Z])(\d+(\s\d+)*)$/){print "$1 $2\n"; print "$1-$2\n"; print $1."_".$2."\n";}' |sort -u > resources/gene_aliases_20130831_TAIR_ext.txt
+#***********************
+#Grec letter treatement
+cat resources/gene_aliases_20130831_TAIR_ext.txt | perl -ne 'print; if(/[\s\(\)-](alpha|beta|gamma|delta|epsilon|zeta|theta|iota|kappa|lambda|psi|mu|omega|omicron|rho|sigma|tau|upsilon|phi)[\s\(\)-]/i){ s/alpha/α/gi; s/beta/β/gi;  s/gamma/γ/gi;  s/delta/δ/gi;  s/epsilon/ε/gi;  s/zeta/ζ/gi;  s/theta/θ/gi;  s/iota/ι/gi;  s/kappa/κ/gi;  s/lambda/λ/gi;  s/psi/ψ/gi;  s/mu/μ/gi;  s/omega/ω/gi;  s/omicron/ο/gi;  s/rho/ρ/gi;  s/sigma/σ/gi;  s/tau/τ/gi;  s/upsilon/υ/gi;  s/phi/φ/gi; print; s/φ/ϕ/gi; print;}' |sort -u > resources/gene_aliases_20130831_TAIR_extended.txt
 #***********************
 #Gene and Protein families
 #***********************
