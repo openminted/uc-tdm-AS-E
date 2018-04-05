@@ -7,8 +7,6 @@ The AS-E text-mining pipeline automatically extracts the following entities:
 * Genes
 * Proteins
 * RNA
-* Gene families
-* Protein families
 
 All configuration files, AlvisNLP workflow plans, scripts, and resources used to create the AS-E text-mining pipeline are provided in the uc-tdm-AS-E repository in the openminted github (https://github.com/openminted/uc-tdm-AS-E). Documentation for running the pipeline to annotate and index a corpus is also included in the repository.
 
