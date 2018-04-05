@@ -27,9 +27,8 @@ The relevant corpus has been fully pre-processed by AlvisNLP pipeline and indexe
 
 === Launching the application
 
-The URL to run AlvisIR search engine on Microbial Biodiversity is : 
+The URL to run AlvisIR search engine on SeeDev : 
 http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search
-
 [[img-sunset]]
 // .AlvisIR search engine//
 image::images/alvisIR_home.png[]
