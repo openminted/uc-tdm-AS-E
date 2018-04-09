@@ -12,6 +12,12 @@ All configuration files, AlvisNLP workflow plans, scripts, and resources used to
 
 == Integration into a parent application
 
-As the results of the text-mining pipeline could not be integrated into the parent application targeted by this use case at the time of the first release, we integrated them into the semantic search engine instead. This semantic search engine is close to what will be available in the final application since it provides an easier access to information about seed development from the scientific literature. It is a web application, available at : http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search.
+The text-mining annotations have been integrated into the parent application FLAGdb++ enabling a researcher to browse the Abrabidopsis genome and access text-mining annotations as well as genomic data integrated into FLAGdb++.
+
+Moreover, the same annotations are indexed by the semantic search engine of the first release and can be accessed directly, through the search interface available at http://bibliome.jouy.inra.fr/demo/seedev/alvisir/webapi/search?.
+
+
+Detailed documentation, including a tutorial guiding the user on the interface can be found in the <<parent-application#, FLAGdb++ documentation>>.
 
 Detailed documentation on how to use the search engine can be found in the <<web_app_doc.adoc#, AS-E web application documentation>>.
+

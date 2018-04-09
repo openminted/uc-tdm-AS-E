@@ -1,3 +1,20 @@
 = Application Design
 
-This data processing scenario is yet to be addressed in the current AS-E application.
+== Components development
+
+This is yet to be addressed.
+
+== Model alignement
+
+The models of text mining data and data stored in the FLAGdb++ database do not match exactly. This is due to the separate developments of these models before the partnership was established for this use-case.
+
+The FLAGdb++ database focuses on the gene locii, which are stored using the TAIR identifiers, while the text mining annotations classify entities but do not require an entity to be associated to its locus.
+
+Hence, the models have been aligned and the named-entities which have been predicted but for which the locus is unknown have been filtered out of the data.
+
+== Data production
+
+Until now the execution of the text mining workflow is done on the Migale platform at INRA.
+
+The workflow is detailled in the <<production_processing.adoc#, production processing documentation>>
+
