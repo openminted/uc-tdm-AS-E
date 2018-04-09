@@ -1,0 +1,214 @@
+<!--
+Copyright 2017 Institut National de la Recherche Agronomique
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+<alvisnlp-plan id="entities">
+
+ <param name="readPubMed">
+        <alias module="read.Corpuschoice.PubMedread.readPubMedcorpus" param="sourcePath"/>
+    </param>
+    <param name="readWoK">
+        <alias module="read.Corpuschoice.WOKread.readWoKcorpus" param="source"/>
+    </param>
+    <param name="readhtml">
+        <alias module="read.Corpuschoice.HTMLread.readhtmlannotated" param="sourcePath"/>
+    </param>
+    <param name="exportDocument">
+        <alias module="read.sections" param="fileName"/>
+    </param>
+    <param name="output_fixed_relations">
+        <alias module="relation_export" param="fileName"/>
+    </param>
+    <param name="output_fixed_entities">
+        <alias module="outputEntities.entities_export" param="fileName"/>
+    </param>
+
+
+	<!--**************************************************************************************-->
+	<!--  Stanford and TreeTagger Parameters  -->
+	<!--**************************************************************************************-->
+
+
+    <param name="stanfordClassifier_localization">
+        <alias module="stanford.stanford" param="classifierFile"/>
+    </param>
+    <param name="treetagger_executable">
+        <alias module="tt-pos-tag" param="treeTaggerExecutable"/>
+    </param>
+    <param name="treetagger_lib">
+        <alias module="tt-pos-tag" param="parFile"/>
+    </param>
+
+
+	<!--**************************************************************************************-->
+	<!--  Reading sequence -->
+	<!--**************************************************************************************-->
+
+<sequence id="read">
+	<sequence id ="Corpuschoice">
+
+<!--Corpus type choice 
+Decomment, and write the name of the module to treat only one kind of corpus -->
+	<select>BioNLPSTread</select>
+	
+<sequence id="BioNLPSTread">	
+	<module id="readBionlpt" class="TextFileReader">
+    <sourcePath filter=".txt$">../alvisir2_corpus/BioNLP-ST_Txt</sourcePath>
+    <baseNameId/>
+  </module> 
+ </sequence>	  
+<!-- ******* -->
+<!--PubMed corpus reading-->
+<!-- *******  -->
+		<sequence id="PubMedread">
+<!--Input for PubMed corpus. Format XML exported from PubMed-->
+			<module id="readPubMedcorpus" class="XMLReader">
+				<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
+				<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
+			</module>
+
+<!--Treatment for PubMed corpus. -->
+			<module id="renametitlehtmlPubMed" class="Action">
+				<target>documents.sections:title</target>
+				<action>set:feat:sectionname("title")</action>
+			<setFeatures/>
+			</module>
+			<module id="renameabstracthtmlPubMed" class="Action">
+				<target>documents.sections:abstract</target>
+				<action>set:feat:sectionname("abstract")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamecontenthtmlPubMed" class="Action">
+				<target>documents.sections:alltext</target>
+				<action>set:feat:sectionname("alltext")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamedocumentPubmed" class="Action">
+				<target>documents</target>
+				<action>set:feat:identifiant(@id)</action>
+				<setFeatures/>
+			</module>
+		</sequence>	
+<!-- ******* -->
+<!--Web of Knowledge corpus reading (.txt format)-->
+<!-- *******  -->
+		<sequence id="WOKread">
+	<!--Input for Web of Knowledge corpus. Format XML exported from PubMed-->
+			<module id="readWoKcorpus" class="WebOfKnowledgeReader">
+				<source>alvisir2_corpus/corpus2000_12012017.txt</source>
+				<constantDocumentFeatures>source=wok,url=https://doi.org/</constantDocumentFeatures>
+			</module>
+
+	<!--Treatment for Web of Knowledge corpus. -->
+			<module id="renamedocumentWOK" class="Action">
+				<target>documents</target>
+				<action>set:feat:identifiant(@id)</action>
+				<setFeatures/>
+			</module>
+			<module id="renameDIWOK" class="Action">
+				<target>documents[@source == "wok"]</target>
+				<action>set:feat:doi(@DI)</action>
+				<setFeatures/>
+			</module>
+			<module id="renametitleWOK" class="Action">
+				<target>documents.sections:TI</target>
+				<action>set:feat:sectionname("title")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamejournalWOK" class="Action">
+				<target>documents.sections:JI</target>
+				<action>set:feat:sectionname("journal")</action>
+				<setFeatures/>
+			</module>
+			<module id="renameyearWOK" class="Action">
+				<target>documents.sections:PY</target>
+				<action>set:feat:sectionname("year")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamedoiWOK" class="Action">
+				<target>documents.sections:DI</target>
+				<action>set:feat:sectionname("doi")</action>
+				<setFeatures/>
+			</module>
+			<module id="completionlwok" class="Action">
+				<target>documents[@source == "wok"]</target>
+				<action>set:feat:url(@url ^ @doi)</action>
+				<setFeatures/>
+			</module>
+			<module id="renameabstractWOK" class="Action">
+				<target>documents.sections:AB</target>
+				<action>set:feat:sectionname("abstract")</action>
+				<setFeatures/>
+			</module>
+
+		</sequence>
+<!-- *******  -->
+<!-- Html format corpus (i.e. Manual annotated corpus reading (full text, html format))-->
+<!-- *******  -->
+		<sequence id="HTMLread">
+	<!--Input for html corpus. Format XML exported from PubMed-->
+			<module id="readhtmlannotated" class="XMLReader">
+				<sourcePath>alvisir2_corpus/fulltext/html</sourcePath>
+				<xslTransform>configuration/html2alvisnlp.xslt</xslTransform>
+				<constantDocumentFeatures>source=html,url=https://www.ncbi.nlm.nih.gov/pubmed/</constantDocumentFeatures>
+			</module>
+
+	<!--Treatment for html corpus -->
+			<module id="completionoflhtml" class="Action">
+				<target>documents[@source == "html"]</target>
+				<action>set:feat:url(@url ^ @id)</action>
+				<setFeatures/>
+			</module>
+			<module id="renametitlehtml" class="Action">
+				<target>documents.sections:title</target>
+				<action>set:feat:sectionname("title")</action>
+				<setFeatures/>
+			</module>
+			<module id="renameabstracthtml" class="Action">
+				<target>documents.sections:abstract</target>
+				<action>set:feat:sectionname("abstract")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamecontenthtml" class="Action">
+				<target>documents.sections:alltext</target>
+				<action>set:feat:sectionname("alltext")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamedocumenthtml" class="Action">
+				<target>documents</target>
+				<action>set:feat:ID(@id)</action>
+				<setFeatures/>
+			</module>
+		</sequence>
+	</sequence>
+	<!--**************************************************************************************-->
+	<!-- Output File-->
+	<!--**************************************************************************************-->
+	<module id="sections" class="TabularExport">
+		<outDir>output/Bionlpst</outDir>
+		<files>$</files>
+		<fileName>"identifiant_of_documents.txt"</fileName>
+		<lines>documents</lines>
+		<columns>	
+			@identifiant, 
+			<!-- @sectionname,contents -->
+			str:diacritics(str:normalizeSpace(document.sections[@sectionname == "title"].contents)),
+			<!-- document.sections:abstract.contents,-->
+			document.@doi			
+		</columns>
+	</module>
+
+</sequence>
+
+  <write class="XMIExport">
+    <outDir>.</outDir>
+  </write>
+
+</alvisnlp-plan>
