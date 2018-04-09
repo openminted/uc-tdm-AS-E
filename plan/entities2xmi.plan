@@ -33,16 +33,6 @@ limitations under the License. -->
 <sequence id="read">
 	<sequence id ="Corpuschoice">
 
-<!--Corpus type choice 
-Decomment, and write the name of the module to treat only one kind of corpus -->
-	<select>BioNLPSTread</select>
-	
-<sequence id="BioNLPSTread">	
-	<module id="readBionlpt" class="TextFileReader">
-    <sourcePath filter=".txt$">../alvisir2_corpus/BioNLP-ST_Txt</sourcePath>
-    <baseNameId/>
-  </module> 
- </sequence>	  
 <!-- ******* -->
 <!--PubMed corpus reading-->
 <!-- *******  -->
