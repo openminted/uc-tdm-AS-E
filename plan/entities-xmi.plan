@@ -536,7 +536,7 @@
 		<targetLayerName>AllEntities</targetLayerName>
 	</module>
 
-<!-- Output File-->
+<!-- Output File
 	<sequence id="outputEntities">
 		<module id="entities_export" class="TabularExport">
 			<outDir>output/Bionlpst</outDir>
@@ -563,7 +563,7 @@
 		</headers>
 		</module>
 	</sequence>
-	
+-->
 
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
