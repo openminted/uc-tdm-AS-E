@@ -27,22 +27,6 @@ limitations under the License. -->
 
 
 	<!--**************************************************************************************-->
-	<!--  Stanford and TreeTagger Parameters  -->
-	<!--**************************************************************************************-->
-
-
-    <param name="stanfordClassifier_localization">
-        <alias module="stanford.stanford" param="classifierFile"/>
-    </param>
-    <param name="treetagger_executable">
-        <alias module="tt-pos-tag" param="treeTaggerExecutable"/>
-    </param>
-    <param name="treetagger_lib">
-        <alias module="tt-pos-tag" param="parFile"/>
-    </param>
-
-
-	<!--**************************************************************************************-->
 	<!--  Reading sequence -->
 	<!--**************************************************************************************-->
 
