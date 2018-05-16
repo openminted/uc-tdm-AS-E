@@ -1,0 +1,89 @@
+<!--
+Copyright 2017 Institut National de la Recherche Agronomique
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+<alvisnlp-plan id="entities">
+
+ <param name="readPubMed">
+        <alias module="read.Corpuschoice.PubMedread.readPubMedcorpus" param="sourcePath"/>
+    </param>
+    
+    <param name="exportDocument">
+        <alias module="read.sections" param="fileName"/>
+    </param>
+
+
+
+	<!--**************************************************************************************-->
+	<!--  Reading sequence -->
+	<!--**************************************************************************************-->
+
+<sequence id="read">
+	<sequence id ="Corpuschoice">
+
+<!-- ******* -->
+<!--PubMed corpus reading-->
+<!-- *******  -->
+		<sequence id="PubMedread">
+<!--Input for PubMed corpus. Format XML exported from PubMed-->
+			<module id="readPubMedcorpus" class="XMLReader">
+				<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
+				<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
+			</module>
+
+<!--Treatment for PubMed corpus. -->
+			<module id="renametitlehtmlPubMed" class="Action">
+				<target>documents.sections:title</target>
+				<action>set:feat:sectionname("title")</action>
+			<setFeatures/>
+			</module>
+			<module id="renameabstracthtmlPubMed" class="Action">
+				<target>documents.sections:abstract</target>
+				<action>set:feat:sectionname("abstract")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamecontenthtmlPubMed" class="Action">
+				<target>documents.sections:alltext</target>
+				<action>set:feat:sectionname("alltext")</action>
+				<setFeatures/>
+			</module>
+			<module id="renamedocumentPubmed" class="Action">
+				<target>documents</target>
+				<action>set:feat:identifiant(@id)</action>
+				<setFeatures/>
+			</module>
+		</sequence>	
+<!-- ******* -->
+
+
+	<!--**************************************************************************************-->
+	<!-- Output File-->
+	<!--**************************************************************************************-->
+	<module id="sections" class="TabularExport">
+		<outDir>output/Bionlpst</outDir>
+		<files>$</files>
+		<fileName>"identifiant_of_documents.txt"</fileName>
+		<lines>documents</lines>
+		<columns>	
+			@identifiant, 
+			<!-- @sectionname,contents -->
+			str:diacritics(str:normalizeSpace(document.sections[@sectionname == "title"].contents)),
+			<!-- document.sections:abstract.contents,-->
+			document.@doi			
+		</columns>
+	</module>
+
+</sequence>
+
+  <write class="XMIExport">
+    <outDir>.</outDir>
+  </write>
+
+</alvisnlp-plan>
