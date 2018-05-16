@@ -21,7 +21,7 @@ limitations under the License. -->
 
 <!--Input for PubMed corpus. Format XML exported from PubMed-->
 <module id="readPubMedcorpus" class="XMLReader">
-	<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
+	<sourcePath>/alvisnlp/data/corpus/pubmed_result-2.xml</sourcePath>
 	<xslTransform>/as-e/configuration/pubmed2alvisnlp.xslt</xslTransform>
 </module>
 
