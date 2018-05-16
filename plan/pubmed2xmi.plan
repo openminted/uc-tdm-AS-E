@@ -63,25 +63,6 @@ limitations under the License. -->
 <!-- ******* -->
 
 
-	<!--**************************************************************************************-->
-	<!-- Output File-->
-	<!--**************************************************************************************-->
-	<module id="sections" class="TabularExport">
-		<outDir>output/Bionlpst</outDir>
-		<files>$</files>
-		<fileName>"identifiant_of_documents.txt"</fileName>
-		<lines>documents</lines>
-		<columns>	
-			@identifiant, 
-			<!-- @sectionname,contents -->
-			str:diacritics(str:normalizeSpace(document.sections[@sectionname == "title"].contents)),
-			<!-- document.sections:abstract.contents,-->
-			document.@doi			
-		</columns>
-	</module>
-
-</sequence>
-
   <write class="XMIExport">
     <outDir>.</outDir>
   </write>
