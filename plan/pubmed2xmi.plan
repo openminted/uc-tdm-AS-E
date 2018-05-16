@@ -12,12 +12,9 @@ limitations under the License. -->
 <alvisnlp-plan id="entities">
 
  <param name="readPubMed">
-        <alias module="read.Corpuschoice.PubMedread.readPubMedcorpus" param="sourcePath"/>
+        <alias module="PubMedread.readPubMedcorpus" param="sourcePath"/>
     </param>
     
-    <param name="exportDocument">
-        <alias module="read.sections" param="fileName"/>
-    </param>
 
 
 <!-- ******* -->
