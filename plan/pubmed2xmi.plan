@@ -12,44 +12,41 @@ limitations under the License. -->
 <alvisnlp-plan id="entities">
 
  <param name="readPubMed">
-        <alias module="PubMedread.readPubMedcorpus" param="sourcePath"/>
-    </param>
+        <alias module="readPubMedcorpus" param="sourcePath"/>
+ </param>
     
 
-
-<!-- ******* -->
-<!--PubMed corpus reading-->
-<!-- *******  -->
-		<sequence id="PubMedread">
 <!--Input for PubMed corpus. Format XML exported from PubMed-->
-			<module id="readPubMedcorpus" class="XMLReader">
-				<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
-				<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
-			</module>
+<module id="readPubMedcorpus" class="XMLReader">
+	<sourcePath>alvisir2_corpus/pubmed_result-2.xml</sourcePath>
+	<xslTransform>configuration/pubmed2alvisnlp.xslt</xslTransform>
+</module>
 
 <!--Treatment for PubMed corpus. -->
-			<module id="renametitlehtmlPubMed" class="Action">
-				<target>documents.sections:title</target>
-				<action>set:feat:sectionname("title")</action>
-			<setFeatures/>
-			</module>
-			<module id="renameabstracthtmlPubMed" class="Action">
-				<target>documents.sections:abstract</target>
-				<action>set:feat:sectionname("abstract")</action>
-				<setFeatures/>
-			</module>
-			<module id="renamecontenthtmlPubMed" class="Action">
-				<target>documents.sections:alltext</target>
-				<action>set:feat:sectionname("alltext")</action>
-				<setFeatures/>
-			</module>
-			<module id="renamedocumentPubmed" class="Action">
-				<target>documents</target>
-				<action>set:feat:identifiant(@id)</action>
-				<setFeatures/>
-			</module>
-		</sequence>	
-<!-- ******* -->
+<module id="renametitlehtmlPubMed" class="Action">
+	<target>documents.sections:title</target>
+	<action>set:feat:sectionname("title")</action>
+	<setFeatures/>
+</module>
+
+<module id="renameabstracthtmlPubMed" class="Action">
+	<target>documents.sections:abstract</target>
+	<action>set:feat:sectionname("abstract")</action>
+	<setFeatures/>
+</module>
+
+<module id="renamecontenthtmlPubMed" class="Action">
+	<target>documents.sections:alltext</target>
+	<action>set:feat:sectionname("alltext")</action>
+	<setFeatures/>
+</module>
+
+<module id="renamedocumentPubmed" class="Action">
+	<target>documents</target>
+	<action>set:feat:identifiant(@id)</action>
+	<setFeatures/>
+</module>
+
 
 
   <write class="XMIExport">
