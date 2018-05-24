@@ -41,7 +41,7 @@
 	<!-- Projection of proteins and genes from the lexicon on the text -->
 	<!-- *******  -->
 		<module id="protein" class="TabularProjector">
-			<dictFile>resources/gene_aliases_20130831_TAIR_extended.txt</dictFile>
+			<dictFile>/as-e/resources/gene_aliases_20130831_TAIR_extended.txt</dictFile>
 			<targetLayerName>protein1</targetLayerName>
 			<valueFeatures>locus_name,symbol,full_name</valueFeatures>
 			<caseInsensitive>true</caseInsensitive>
@@ -80,7 +80,7 @@
 <!-- *******  -->
 
 		<module id="RNAmiRTarBase" class="TabularProjector">
-			<dictFile>resources/ath_MTI_extended.txt</dictFile>
+			<dictFile>/as-e/resources/ath_MTI_extended.txt</dictFile>
 			<targetLayerName>rna1</targetLayerName>
 			<valueFeatures>miRTarBaseID,miRNA,miRNAcut,Species(miRNA),TargetGene,TargetGene(EntrezID),Species(TargetGene),Experiments,SupportType,References(PMID)</valueFeatures>
 			<caseInsensitive>true</caseInsensitive>
@@ -103,7 +103,7 @@
 <!-- Projection of stop words from the lexicon on the text -->
 <!-- *******  -->
 		<module id="stopwordsprojector" class="TabularProjector">
-			<dictFile>resources/stopwords_EN.txt</dictFile>
+			<dictFile>/as-e/resources/stopwords_EN.txt</dictFile>
 			<targetLayerName>stopwords</targetLayerName>
 			<valueFeatures>stopwords</valueFeatures>
 			<constantAnnotationFeatures>ne-type=stopwords</constantAnnotationFeatures>
