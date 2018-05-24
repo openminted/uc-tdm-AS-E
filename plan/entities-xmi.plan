@@ -536,94 +536,12 @@
 		<targetLayerName>AllEntities</targetLayerName>
 	</module>
 
-<!-- Output File
-	<sequence id="outputEntities">
-		<module id="entities_export" class="TabularExport">
-			<outDir>output/Bionlpst</outDir>
-			<files>$</files>
-			<fileName>"entities.txt"</fileName>
-			<lines>documents.sections.layer:AllEntities</lines>
-			<columns separator=";">
-				<element>section.document.@identifiant</element>
-				<element>@ne-type</element>
-				<element>@form</element>
-				<element>@locus_name</element>
-				<element>start ^ "-" ^ end</element>
-				<element>section.@sectionname</element>
-				<element>"http://bibliome.jouy.inra.fr/demo/seedev/alvisir-devel/webapi/search?q="^@locus_name</element>
-			</columns>
-			<headers>
-			"DOCID",
-			"EntityType",
-			"Form",
-			"Normalisation",
-			"Offset",
-			"Section name",
-			"URL"
-		</headers>
-		</module>
-	</sequence>
--->
 
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
-	<!--**************************************************************************************-->
-	<sequence id="dependencies">
-		<module id="index-words" class="Action">
-			<target>documents.sections.layer:sentences[@name != "author"]</target>
-			<action>id:enumerate:word-index(inside:words)</action>
-			<setFeatures/>
-		</module>
-		<module id="index-sentences" class="Action">
-			<target>documents.sections[@name != "author"]</target>
-			<action>id:enumerate:sentence-index(layer:sentences)</action>
-			<setFeatures/>
-		</module>
-		<module id="index-threesentences" class="Action">
-			<target>documents.sections[@name != "author"]</target>
-			<action>id:enumerate:threesentence-index(layer:threesent)</action>
-			<setFeatures/>
-		</module>
-		<module id="dependencies" class="TabularExport">
-			<outDir>output/Bionlpst</outDir>
-			<files>$</files>
-			<fileName>"dependencies.txt"</fileName>
-			<lines>documents.sections[@name != "author"].relations:dependencies.tuples</lines>
-			<columns separator=";">
-	  relation.section.document.@id;
-	  relation.section.@name;
-	  args:sentence.@sentence-index;
-	  @label;
-	  args:head.@word-index;
-	  args:head.@form;
-	  args:head.@lemma;
-	  args:head.@pos;
-	  args:head.start ^ "-" ^ args:head.end;
-	  args:dependent.@word-index;
-	  args:dependent.@form;
-	  args:dependent.@lemma;
-	  args:dependent.@pos;
-	  args:dependent.start ^ "-" ^ args:dependent.end
-	</columns>
-			<headers>
-	  "DOCUMENT",
-	  "SECTION",
-	  "SENTENCE",
-	  "LABEL",
-	  "HEAD INDEX",
-	  "HEAD FORM",
-	  "HEAD LEMMA",
-	  "HEAD POS",
-	  "HEAD OFFSET",
-	  "DEPENDENT INDEX",
-	  "DEPENDENT FORM",
-	  "DEPENDENT LEMMA",
-	  "DEPENDENT POS",
-	  "DEPENDENT OFFSET"
-	</headers>
-		</module>
-	</sequence>
+	<!--********************************was here******************************************************-->
+
 	<!--**************************************************************************************-->
 	<!--**************************************************************************************-->
 	<!--***********************AlvisIRIndexer*************************************************-->
